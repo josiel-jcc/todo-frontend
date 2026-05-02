@@ -32,6 +32,11 @@ const TaskDetailPage = lazy(() =>
     default: module.TaskDetailPage,
   }))
 );
+const AssignedTasksPage = lazy(() =>
+  import('../modules/tasks/pages').then((module) => ({
+    default: module.AssignedTasksPage,
+  }))
+);
 const SearchPage = lazy(() =>
   import('../modules/tasks/pages').then((module) => ({
     default: module.SearchPage,
@@ -76,6 +81,20 @@ export function AppRoutes() {
                 <Suspense fallback={<Loading />}>
                   <PageTransition>
                     <TodayTasksPage />
+                  </PageTransition>
+                </Suspense>
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks/assigned"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <Suspense fallback={<Loading />}>
+                  <PageTransition>
+                    <AssignedTasksPage />
                   </PageTransition>
                 </Suspense>
               </AppLayout>

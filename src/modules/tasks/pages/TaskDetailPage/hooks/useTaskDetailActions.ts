@@ -19,7 +19,10 @@ export const useTaskDetailActions = ({ task, taskId }: UseTaskDetailActionsProps
   const [showDeleteCommentConfirm, setShowDeleteCommentConfirm] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<number | null>(null);
 
-  const { toggleTaskCompletion, isTogglingCompletion, deleteTask, isDeletingTask } = useTasks();
+  const { toggleTaskCompletion, isTogglingCompletion, deleteTask, isDeletingTask } = useTasks(
+    undefined,
+    { queryEnabled: false }
+  );
 
   const {
     comments,

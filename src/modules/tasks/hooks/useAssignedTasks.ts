@@ -1,24 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import type { components } from '@/api';
-import { getAssignedTasks } from '@/api/tasks';
+import { getAssignedTasks, type TaskListQueryParams } from '@/api/tasks';
 
 type PaginatedTasksResponse = components['schemas']['services.PaginatedTasksResponse'];
 
-/**
- * Query parameters for fetching assigned tasks
- */
-export type AssignedTasksQueryParams = {
-  page?: number;
-  limit?: number;
-  type?: 'casa' | 'trabalho' | 'lazer' | 'saude';
-  completed?: boolean;
-  search?: string;
-  due_date_from?: string;
-  due_date_to?: string;
-  period?: 'overdue' | 'today' | 'this_week' | 'this_month';
-  sort_by?: 'created_at' | 'due_date' | 'title';
-  order?: 'asc' | 'desc';
-};
+/** Query parameters for GET /tasks/assigned (same filters as the main task list). */
+export type AssignedTasksQueryParams = TaskListQueryParams;
 
 /**
  * Hook for managing tasks assigned by the authenticated user to other users
