@@ -11,13 +11,11 @@ type Task = components['schemas']['models.Task'];
 type CreateTaskRequest = components['schemas']['handlers.CreateTaskRequest'];
 type UpdateTaskRequest = components['schemas']['handlers.UpdateTaskRequest'];
 type PaginatedTasksResponse = components['schemas']['services.PaginatedTasksResponse'];
+type ShareTaskRequest = components['schemas']['handlers.ShareTaskRequest'];
+type Priority = components['schemas']['models.Priority'];
 
-/**
- * Get all tasks with pagination and filters
- * @param params - Query parameters
- * @returns Paginated tasks response
- */
-export const getTasks = async (params?: {
+/** Query params for GET /tasks and GET /tasks/assigned (matches server filters). */
+export type TaskListQueryParams = {
   page?: number;
   limit?: number;
   type?: 'casa' | 'trabalho' | 'lazer' | 'saude';
@@ -27,12 +25,34 @@ export const getTasks = async (params?: {
   due_date_to?: string;
   period?: 'overdue' | 'today' | 'this_week' | 'this_month';
   assigned_by?: number;
-  sort_by?: 'created_at' | 'due_date' | 'title';
+  priority?: Priority;
+  /** Sent as comma-separated IDs (`1,2`) as required by the API. */
+  tag_ids?: number[];
+  sort_by?: 'created_at' | 'due_date' | 'title' | 'priority';
   order?: 'asc' | 'desc';
-}): Promise<PaginatedTasksResponse> => {
+};
+
+function buildTaskListParams(params?: TaskListQueryParams): Record<string, unknown> | undefined {
+  if (!params) {
+    return undefined;
+  }
+  const { tag_ids, ...rest } = params;
+  const out: Record<string, unknown> = { ...rest };
+  if (tag_ids?.length) {
+    out.tag_ids = tag_ids.join(',');
+  }
+  return out;
+}
+
+/**
+ * Get all tasks with pagination and filters
+ * @param params - Query parameters
+ * @returns Paginated tasks response
+ */
+export const getTasks = async (params?: TaskListQueryParams): Promise<PaginatedTasksResponse> => {
   const response = await apiClient.get<
     paths['/tasks']['get']['responses']['200']['content']['application/json']
-  >('/tasks', { params });
+  >('/tasks', { params: buildTaskListParams(params) });
 
   return response.data;
 };
@@ -82,23 +102,30 @@ export const updateTask = async (id: number, taskData: UpdateTaskRequest): Promi
  * @param params - Query parameters
  * @returns Paginated tasks response
  */
-export const getAssignedTasks = async (params?: {
-  page?: number;
-  limit?: number;
-  type?: 'casa' | 'trabalho' | 'lazer' | 'saude';
-  completed?: boolean;
-  search?: string;
-  due_date_from?: string;
-  due_date_to?: string;
-  period?: 'overdue' | 'today' | 'this_week' | 'this_month';
-  sort_by?: 'created_at' | 'due_date' | 'title';
-  order?: 'asc' | 'desc';
-}): Promise<PaginatedTasksResponse> => {
+export const getAssignedTasks = async (
+  params?: TaskListQueryParams
+): Promise<PaginatedTasksResponse> => {
   const response = await apiClient.get<
     paths['/tasks/assigned']['get']['responses']['200']['content']['application/json']
-  >('/tasks/assigned', { params });
+  >('/tasks/assigned', { params: buildTaskListParams(params) });
 
   return response.data;
+};
+
+/**
+ * Share a task with additional users (task owner only).
+ */
+export const shareTask = async (taskId: number, body: ShareTaskRequest): Promise<void> => {
+  await apiClient.post<
+    paths['/tasks/{id}/share']['post']['responses']['200']['content']['application/json']
+  >(`/tasks/${taskId}/share`, body);
+};
+
+/**
+ * Remove a user from the task share list (task owner only).
+ */
+export const unshareTask = async (taskId: number, sharedUserId: number): Promise<void> => {
+  await apiClient.delete(`/tasks/${taskId}/share/${sharedUserId}`);
 };
 
 /**

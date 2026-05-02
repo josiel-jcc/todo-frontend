@@ -918,7 +918,11 @@ export interface paths {
           period?: string;
           /** @description Filter by user ID who assigned the task */
           assigned_by?: number;
-          /** @description Sort field (created_at, due_date, title) */
+          /** @description Filter by priority (baixa, media, alta, urgente) */
+          priority?: string;
+          /** @description Filter by tag IDs, comma-separated (e.g. 1,2,3) */
+          tag_ids?: string;
+          /** @description Sort field (created_at, due_date, title, priority) */
           sort_by?: string;
           /** @description Sort order (asc, desc) */
           order?: string;
@@ -1069,7 +1073,11 @@ export interface paths {
           due_date_to?: string;
           /** @description Filter by period (overdue, today, this_week, this_month) */
           period?: string;
-          /** @description Sort field (created_at, due_date, title) */
+          /** @description Filter by priority (baixa, media, alta, urgente) */
+          priority?: string;
+          /** @description Filter by tag IDs, comma-separated (e.g. 1,2,3) */
+          tag_ids?: string;
+          /** @description Sort field (created_at, due_date, title, priority) */
           sort_by?: string;
           /** @description Sort order (asc, desc) */
           order?: string;
@@ -1438,6 +1446,187 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/tasks/{id}/share': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Share a task with users
+     * @description Adds the given users to the task's shared list so they can view and update the task. Only the task owner can share. When a user creates a task for another, the task is already shared between the two.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Task ID */
+          id: number;
+        };
+        cookie?: never;
+      };
+      /** @description User IDs to share with */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['handlers.ShareTaskRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.SuccessResponse'];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Unauthorized */
+        401: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Forbidden */
+        403: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/tasks/{id}/share/{user_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Unshare a task with a user
+     * @description Removes the given user from the task's shared list. Only the task owner can unshare.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Task ID */
+          id: number;
+          /** @description User ID to remove from shared list */
+          user_id: number;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.SuccessResponse'];
+          };
+        };
+        /** @description Bad Request */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Unauthorized */
+        401: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Forbidden */
+        403: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+        /** @description Internal Server Error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['handlers.ErrorResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/users': {
     parameters: {
       query?: never;
@@ -1734,6 +1923,16 @@ export interface components {
       /** @example johndoe */
       username: string;
     };
+    'handlers.ShareTaskRequest': {
+      /**
+       * @example [
+       *       2,
+       *       3,
+       *       4
+       *     ]
+       */
+      user_ids: number[];
+    };
     'handlers.SuccessResponse': {
       data: unknown;
       message: string;
@@ -1822,13 +2021,15 @@ export interface components {
       id: number;
       /** @description Task priority */
       priority: components['schemas']['models.Priority'];
+      /** @description Users with whom the task is shared (no limit) */
+      shared_with: components['schemas']['models.User'][];
       /** @description Tags associated with the task */
       tags: components['schemas']['models.Tag'][];
       title: string;
       type: components['schemas']['models.TaskType'];
       updated_at: string;
       user: components['schemas']['models.User'];
-      /** @description ID of the user responsible for the task */
+      /** @description ID of the user responsible for the task (owner) */
       user_id: number;
     };
     /** @enum {string} */
