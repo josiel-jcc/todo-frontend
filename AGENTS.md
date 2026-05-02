@@ -25,7 +25,8 @@ This is a Todo App frontend built with:
 - `bun run format` - Format code with Biome
 
 ### API Types
-- `bun run generate:types` - Generate TypeScript types from OpenAPI specification
+- `bun run generate:types` - Generate TypeScript types from the deployed OpenAPI URL
+- `bun run generate:types:local` - Generate types from `../todo-go-backend/docs/openapi.json` (run `swag-openapi3` in the backend repo first when handlers change). Use this when the remote spec is unavailable or out of date.
 
 ### Storybook
 - `bun run storybook` - Start Storybook dev server

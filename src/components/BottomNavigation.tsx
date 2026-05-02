@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Home, Plus, Search, Settings } from 'lucide-react';
+import { Calendar, Home, Plus, Search, Send, Settings } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTaskForm } from '@/contexts/TaskFormContext';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { icon: Home, label: 'Home', path: '/tasks' },
   { icon: Search, label: 'Search', path: '/search' },
+  { icon: Send, label: 'Deleguei', path: '/tasks/assigned' },
   { icon: Calendar, label: 'Calendar', path: '/tasks/today' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
@@ -43,9 +44,7 @@ export const BottomNavigation = () => {
             <div className="flex items-center justify-between px-4 pb-4 pt-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive =
-                  location.pathname === item.path ||
-                  (item.path === '/tasks' && location.pathname === '/tasks');
+                const isActive = location.pathname === item.path;
 
                 return (
                   <button
@@ -53,7 +52,7 @@ export const BottomNavigation = () => {
                     key={item.path}
                     onClick={() => handleNavClick(item.path)}
                     className={cn(
-                      'flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-colors',
+                      'flex flex-col items-center gap-1 px-2 py-2 rounded-xl transition-colors',
                       isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                     )}
                   >

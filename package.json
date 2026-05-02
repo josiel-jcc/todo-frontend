@@ -6,14 +6,18 @@
   "scripts": {
     "build": "rsbuild build",
     "check": "biome check --write",
+    "check:ci": "biome check . --reporter=github",
     "check:file-size": "node scripts/check-file-size.js",
     "dev": "rsbuild dev --open",
     "format": "biome format --write",
+    "format:ci": "biome format .",
     "preview": "rsbuild preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate:types": "openapi-typescript https://api-todo.infoos.shop/swagger.json -o src/api/types.ts",
+    "generate:types:local": "openapi-typescript ../todo-go-backend/docs/openapi.json -o src/api/types.ts",
     "test": "vitest",
+    "test:ci": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "test:watch": "vitest --watch"

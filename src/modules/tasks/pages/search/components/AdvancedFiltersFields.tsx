@@ -2,6 +2,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { TasksQueryParams } from '../../../hooks/useTasks';
 import { useUsers } from '../../../hooks/useUsers';
+import { PriorityTagFilters } from './PriorityTagFilters';
 
 interface AdvancedFiltersFieldsProps {
   filters: TasksQueryParams;
@@ -83,6 +84,8 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         />
       </div>
 
+      <PriorityTagFilters filters={filters} onFilterChange={onFilterChange} />
+
       {/* Assigned By */}
       <div className="space-y-2">
         <Label htmlFor="assigned_by">Criado por</Label>
@@ -124,6 +127,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
           <option value="created_at">Data de Criação</option>
           <option value="due_date">Data de Vencimento</option>
           <option value="title">Título</option>
+          <option value="priority">Prioridade</option>
         </select>
       </div>
 

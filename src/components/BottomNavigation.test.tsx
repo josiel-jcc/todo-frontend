@@ -43,6 +43,7 @@ describe('BottomNavigation', () => {
 
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Search')).toBeInTheDocument();
+    expect(screen.getByText('Deleguei')).toBeInTheDocument();
     expect(screen.getByText('Calendar')).toBeInTheDocument();
     expect(screen.getByText('Settings')).toBeInTheDocument();
   });

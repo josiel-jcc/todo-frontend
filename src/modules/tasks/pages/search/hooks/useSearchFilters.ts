@@ -19,10 +19,19 @@ export const useSearchFilters = () => {
     setFilters({ order: 'desc', page: 1 });
   };
 
-  const hasActiveFilters = Object.keys(filters).some(
-    (key) =>
-      key !== 'order' && key !== 'page' && filters[key as keyof TasksQueryParams] !== undefined
-  );
+  const hasActiveFilters = Object.keys(filters).some((key) => {
+    if (key === 'order' || key === 'page') {
+      return false;
+    }
+    const value = filters[key as keyof TasksQueryParams];
+    if (value === undefined) {
+      return false;
+    }
+    if (key === 'tag_ids' && Array.isArray(value) && value.length === 0) {
+      return false;
+    }
+    return true;
+  });
 
   const handlePageChange = (newPage: number) => {
     setFilters((prev) => ({

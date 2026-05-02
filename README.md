@@ -74,6 +74,44 @@ Crie um arquivo `.env` na raiz do projeto:
 VITE_API_URL=https://api-todo.infoos.shop
 ```
 
+## 🐳 Docker Compose + Cloudflare Tunnel
+
+### Subir localmente (com acesso em `http://localhost:8080`)
+
+1. Copie o arquivo de exemplo:
+
+```bash
+cp .env.docker.example .env.docker
+```
+
+2. Ajuste `VITE_API_URL` e, se for usar Cloudflare Tunnel, preencha `CLOUDFLARE_TUNNEL_TOKEN`.
+
+3. Suba os containers:
+
+```bash
+docker compose --env-file ./.env.docker up -d --build
+```
+
+### Subir com Cloudflare (cloudflared)
+
+O serviço `cloudflared` roda sob o profile `cloudflare`. Para subir junto:
+
+```bash
+docker compose --env-file ./.env.docker --profile cloudflare up -d --build
+```
+
+> No Cloudflare Zero Trust, crie/gerencie o Tunnel e configure o Public Hostname para apontar para o serviço HTTP interno (ex.: `http://frontend:80`).
+
+## 🤖 CI/CD (GitHub Actions)
+
+- **Quality** (`.github/workflows/quality.yml`): roda `bun run test:ci` e `bun run check:ci` em PRs e push na `master`.
+- **Deploy (Raspberry Pi)** (`.github/workflows/deploy-raspberrypi.yml`): requer **runner self-hosted** no Raspberry Pi com Docker + Docker Compose v2.
+
+### Secrets necessários (repo → Settings → Secrets and variables → Actions)
+
+- `CLOUDFLARE_TUNNEL_TOKEN` (obrigatório para o profile `cloudflare`)
+- `VITE_API_URL` (opcional; se vazio usa o default `https://api-todo.infoos.shop`)
+
 ## 🛠️ Scripts Disponíveis
 
 ### Desenvolvimento
@@ -100,8 +138,14 @@ bun run preview
 # Lint e correção automática
 bun run check
 
+# CI (não modifica arquivos)
+bun run check:ci
+
 # Formatação do código
 bun run format
+
+# CI (não modifica arquivos)
+bun run format:ci
 
 # Verifica tamanho dos arquivos (máximo 175 linhas)
 bun run check:file-size
@@ -112,6 +156,9 @@ bun run check:file-size
 ```bash
 # Roda a suíte de testes
 bun run test
+
+# CI (run-only)
+bun run test:ci
 
 # Modo watch
 bun run test:watch
@@ -131,6 +178,8 @@ bun run generate:types
 ```
 
 Este comando baixa a especificação OpenAPI do backend e gera tipos TypeScript em `src/api/types.ts`.
+
+Se a URL estiver indisponível ou a spec publicada estiver defasada, use o OpenAPI gerado no repositório do backend (`swag-openapi3` em `todo-go-backend`) e rode `bun run generate:types:local` (espera `../todo-go-backend/docs/openapi.json`).
 
 **⚠️ Atenção:** Não edite manualmente o arquivo `src/api/types.ts`. Ele é gerado automaticamente.
 

@@ -19,21 +19,29 @@ export type TasksQueryParams = {
   due_date_to?: string;
   period?: 'overdue' | 'today' | 'this_week' | 'this_month';
   assigned_by?: number;
-  sort_by?: 'created_at' | 'due_date' | 'title';
+  priority?: components['schemas']['models.Priority'];
+  tag_ids?: number[];
+  sort_by?: 'created_at' | 'due_date' | 'title' | 'priority';
   order?: 'asc' | 'desc';
+};
+
+export type UseTasksOptions = {
+  /** When false, skips the list query (mutations-only usage). Default true. */
+  queryEnabled?: boolean;
 };
 
 /**
  * Hook for managing tasks
  * Provides queries and mutations for task CRUD operations
  */
-export const useTasks = (params?: TasksQueryParams) => {
+export const useTasks = (params?: TasksQueryParams, options?: UseTasksOptions) => {
   const queryClient = useQueryClient();
 
   // Query to get paginated tasks
   const tasksQuery = useQuery({
     queryKey: ['tasks', params],
     queryFn: () => getTasks(params),
+    enabled: options?.queryEnabled !== false,
   });
 
   // Create task mutation

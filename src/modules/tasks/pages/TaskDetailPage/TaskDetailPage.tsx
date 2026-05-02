@@ -3,16 +3,19 @@ import { ConfirmDialog, Loading } from '@/components';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { parseRouteId } from '@/utils/routeParams';
 import { useTask } from '../../hooks/useTask';
 import { useTaskDetailActions } from './hooks/useTaskDetailActions';
 import { TaskDetailComments } from './TaskDetailComments';
 import { TaskDetailCardHeader, TaskDetailHeader } from './TaskDetailHeader';
 import { TaskDetailInfo } from './TaskDetailInfo';
+import { TaskDetailShareSection } from './TaskDetailShareSection';
 
 export const TaskDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const taskId = parseRouteId(id) ?? 0;
 
   const { data: task, isLoading, error } = useTask(taskId);
@@ -77,6 +80,7 @@ export const TaskDetailPage = () => {
   }
 
   const isOverdue = !task.completed && new Date(task.due_date) < new Date();
+  const isTaskOwner = user?.id === task.user_id;
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
@@ -140,6 +144,8 @@ export const TaskDetailPage = () => {
           isDeleting={isDeletingTask}
         />
       </Card>
+
+      {isTaskOwner && <TaskDetailShareSection task={task} />}
 
       <TaskDetailComments
         taskId={task.id}
