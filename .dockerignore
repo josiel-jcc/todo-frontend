@@ -1,0 +1,16 @@
+.git
+.github
+.vscode
+.idea
+
+node_modules
+dist
+storybook-static
+
+*.log*
+*.local
+.DS_Store
+
+.env
+.env.*
+
