@@ -1,0 +1,36 @@
+name: todo-frontend
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Used at build-time by Rsbuild (VITE_*)
+        VITE_API_URL: ${VITE_API_URL:-https://api-todo.infoos.shop}
+    image: todo-frontend:local
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    networks:
+      - app
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["cloudflare"]
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+      - --token
+      - "${CLOUDFLARE_TUNNEL_TOKEN:-}"
+    restart: unless-stopped
+    depends_on:
+      - frontend
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+

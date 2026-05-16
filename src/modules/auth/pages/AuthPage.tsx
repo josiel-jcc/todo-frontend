@@ -7,7 +7,7 @@ import { RegisterForm } from '../components/RegisterForm/RegisterForm';
 
 export const AuthPage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-dvh items-center justify-center bg-background p-4">
       <motion.div
         className="w-full max-w-md"
         initial="hidden"

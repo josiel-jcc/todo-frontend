@@ -1,0 +1,41 @@
+name: Deploy (Raspberry Pi)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+concurrency:
+  group: deploy-raspberrypi
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write Docker env file
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}" ]; then
+            echo "Missing secret: CLOUDFLARE_TUNNEL_TOKEN"
+            exit 1
+          fi
+
+          cat > .env.docker <<'EOF'
+          VITE_API_URL=${{ secrets.VITE_API_URL }}
+          CLOUDFLARE_TUNNEL_TOKEN=${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
+          FRONTEND_PORT=8083
+          EOF
+
+      - name: Deploy with docker compose
+        shell: bash
+        run: |
+          docker compose --project-name todo-frontend --env-file ./.env.docker --profile cloudflare up -d --build --remove-orphans
