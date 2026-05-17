@@ -9,10 +9,7 @@ type UpdateNotificationsRequest =
 type UpdateTelegramRequest = components['schemas']['handlers.UpdateTelegramChatIDRequest'];
 type SuccessResponse = components['schemas']['handlers.SuccessResponse'];
 
-const syncUserToCache = (
-  queryClient: ReturnType<typeof useQueryClient>,
-  user: User
-): void => {
+const syncUserToCache = (queryClient: ReturnType<typeof useQueryClient>, user: User): void => {
   setStoredUser(user);
   queryClient.setQueryData(['auth', 'user'], user);
 };
