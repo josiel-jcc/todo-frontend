@@ -87,7 +87,7 @@ export const Modal = ({
                     size="icon"
                     onClick={onClose}
                     className="rounded-full"
-                    aria-label="Close"
+                    aria-label="Fechar"
                   >
                     <X className="h-5 w-5" />
                   </Button>

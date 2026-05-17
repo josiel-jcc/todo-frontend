@@ -46,7 +46,7 @@ export const Loading = ({
         repeat: Infinity,
         ease: 'linear',
       }}
-      aria-label="Loading"
+      aria-label="Carregando"
       role="img"
     >
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

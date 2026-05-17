@@ -13,11 +13,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { icon: Home, label: 'Home', path: '/tasks' },
-  { icon: Search, label: 'Search', path: '/search' },
+  { icon: Home, label: 'Início', path: '/tasks' },
+  { icon: Search, label: 'Buscar', path: '/search' },
   { icon: Send, label: 'Deleguei', path: '/tasks/assigned' },
-  { icon: Calendar, label: 'Calendar', path: '/tasks/today' },
-  { icon: Settings, label: 'Settings', path: '/settings' },
+  { icon: Calendar, label: 'Hoje', path: '/tasks/today' },
+  { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
 
 export const BottomNavigation = () => {
@@ -85,7 +85,7 @@ export const BottomNavigation = () => {
           size="icon"
           className="h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
           disabled={isOpen}
-          aria-label="Add Task"
+          aria-label="Adicionar tarefa"
         >
           <Plus className="h-6 w-6" />
         </Button>
@@ -102,7 +102,7 @@ export const BottomNavigation = () => {
               'p-2 rounded-2xl transition-colors hover:bg-accent',
               location.pathname.startsWith('/tasks') && 'bg-accent'
             )}
-            title="Home"
+            title="Início"
           >
             <Logo size={40} />
           </button>
@@ -137,8 +137,8 @@ export const BottomNavigation = () => {
               onClick={handleAddClick}
               size="icon"
               className="h-14 w-14 rounded-2xl bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
-              title="Add Task"
-              aria-label="Add Task"
+              title="Adicionar tarefa"
+              aria-label="Adicionar tarefa"
             >
               <Plus className="h-6 w-6" />
             </Button>

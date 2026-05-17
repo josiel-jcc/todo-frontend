@@ -28,7 +28,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Logo size={32} />
-            <h1 className="text-lg font-bold">Todo App</h1>
+            <h1 className="text-lg font-bold">App de Tarefas</h1>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -55,10 +55,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       >
         <div className="ml-20 flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold">Todo App</h1>
+            <h1 className="text-xl font-bold">App de Tarefas</h1>
             {user && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>Hello,</span>
+                <span>Olá,</span>
                 <span className="font-semibold text-foreground">{user.username}</span>
               </div>
             )}

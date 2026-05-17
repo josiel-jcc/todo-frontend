@@ -12,12 +12,12 @@ export const TodayTasksCard = ({ progress, totalTasks, completedTasks }: TodayTa
 
   return (
     <DashboardCard
-      title="Your Today's Tasks"
+      title="Suas tarefas de hoje"
       progress={progress}
       totalTasks={totalTasks}
       completedTasks={completedTasks}
       onViewTasks={() => navigate('/tasks/today')}
-      buttonText="View Tasks"
+      buttonText="Ver tarefas"
     />
   );
 };

@@ -32,26 +32,28 @@ describe('RegisterForm', () => {
   it('should render register form', () => {
     render(<RegisterForm />);
 
-    expect(screen.getByRole('heading', { name: 'Create Account' })).toBeInTheDocument();
-    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Criar conta' })).toBeInTheDocument();
+    expect(screen.getByLabelText(/nome de usuário/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^senha$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/confirmar senha/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /criar conta/i })).toBeInTheDocument();
   });
 
   it('should show validation errors for empty fields', async () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/username must be at least 3 characters/i)).toBeInTheDocument();
-      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
-      expect(screen.getByText(/password must be at least 6 characters/i)).toBeInTheDocument();
-      expect(screen.getByText(/please confirm your password/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/o nome de usuário deve ter pelo menos 3 caracteres/i)
+      ).toBeInTheDocument();
+      expect(screen.getByText(/informe um endereço de e-mail válido/i)).toBeInTheDocument();
+      expect(screen.getByText(/a senha deve ter pelo menos 6 caracteres/i)).toBeInTheDocument();
+      expect(screen.getByText(/confirme sua senha/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -61,14 +63,16 @@ describe('RegisterForm', () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const usernameInput = screen.getByLabelText(/username/i);
+    const usernameInput = screen.getByLabelText(/nome de usuário/i);
     await user.type(usernameInput, 'ab');
 
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/username must be at least 3 characters/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/o nome de usuário deve ter pelo menos 3 caracteres/i)
+      ).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -78,21 +82,21 @@ describe('RegisterForm', () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/^password$/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
+    const usernameInput = screen.getByLabelText(/nome de usuário/i);
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar senha/i);
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'invalid-email');
     await user.type(passwordInput, 'password123');
     await user.type(confirmPasswordInput, 'password123');
 
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+      expect(screen.getByText(/informe um endereço de e-mail válido/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -102,21 +106,21 @@ describe('RegisterForm', () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/^password$/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
+    const usernameInput = screen.getByLabelText(/nome de usuário/i);
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar senha/i);
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, '12345');
     await user.type(confirmPasswordInput, '12345');
 
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/password must be at least 6 characters/i)).toBeInTheDocument();
+      expect(screen.getByText(/a senha deve ter pelo menos 6 caracteres/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -126,21 +130,21 @@ describe('RegisterForm', () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/^password$/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
+    const usernameInput = screen.getByLabelText(/nome de usuário/i);
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar senha/i);
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123');
     await user.type(confirmPasswordInput, 'differentpassword');
 
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/passwords don't match/i)).toBeInTheDocument();
+      expect(screen.getByText(/as senhas não coincidem/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -150,11 +154,11 @@ describe('RegisterForm', () => {
     const user = userEvent.setup();
     render(<RegisterForm />);
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/^password$/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
-    const submitButton = screen.getByRole('button', { name: /create account/i });
+    const usernameInput = screen.getByLabelText(/nome de usuário/i);
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar senha/i);
+    const submitButton = screen.getByRole('button', { name: /criar conta/i });
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'test@example.com');
@@ -190,12 +194,12 @@ describe('RegisterForm', () => {
 
     render(<RegisterForm />);
 
-    expect(screen.getByRole('button', { name: /creating account/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /creating account/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /criando conta/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /criando conta/i })).toBeDisabled();
   });
 
   it('should show error message when registration fails', () => {
-    const mockError = new Error('User already exists');
+    const mockError = new Error('Usuário já existe');
     vi.mocked(useAuth).mockReturnValue({
       register: mockRegister,
       isRegistering: false,
@@ -214,6 +218,6 @@ describe('RegisterForm', () => {
 
     render(<RegisterForm />);
 
-    expect(screen.getByText('User already exists')).toBeInTheDocument();
+    expect(screen.getByText('Usuário já existe')).toBeInTheDocument();
   });
 });

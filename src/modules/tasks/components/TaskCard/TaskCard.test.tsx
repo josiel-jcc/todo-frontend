@@ -135,8 +135,8 @@ describe('TaskCard', () => {
     const toggleButton =
       toggleButtons.find(
         (btn) =>
-          btn.getAttribute('aria-label')?.includes('complete') ||
-          btn.getAttribute('aria-label')?.includes('toggle')
+          btn.getAttribute('aria-label')?.includes('concluída') ||
+          btn.getAttribute('aria-label')?.includes('pendente')
       ) || toggleButtons[0];
 
     await user.click(toggleButton);

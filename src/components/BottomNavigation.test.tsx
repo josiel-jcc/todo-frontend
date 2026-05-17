@@ -41,18 +41,18 @@ describe('BottomNavigation', () => {
   it('should render navigation items', () => {
     render(<BottomNavigation />);
 
-    expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Search')).toBeInTheDocument();
+    expect(screen.getByText('Início')).toBeInTheDocument();
+    expect(screen.getByText('Buscar')).toBeInTheDocument();
     expect(screen.getByText('Deleguei')).toBeInTheDocument();
-    expect(screen.getByText('Calendar')).toBeInTheDocument();
-    expect(screen.getByText('Settings')).toBeInTheDocument();
+    expect(screen.getByText('Hoje')).toBeInTheDocument();
+    expect(screen.getByText('Configurações')).toBeInTheDocument();
   });
 
   it('should navigate when navigation item is clicked', async () => {
     const user = userEvent.setup();
     render(<BottomNavigation />);
 
-    const searchButton = screen.getByText('Search');
+    const searchButton = screen.getByText('Buscar');
     await user.click(searchButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/search');
@@ -61,7 +61,7 @@ describe('BottomNavigation', () => {
   it('should show active indicator for current route', () => {
     render(<BottomNavigation />);
 
-    const homeButton = screen.getByText('Home').closest('button');
+    const homeButton = screen.getByText('Início').closest('button');
     expect(homeButton?.className).toContain('text-primary');
   });
 
@@ -75,7 +75,7 @@ describe('BottomNavigation', () => {
 
     render(<BottomNavigation />);
 
-    const addButtons = screen.getAllByRole('button', { name: /add task/i });
+    const addButtons = screen.getAllByRole('button', { name: /adicionar tarefa/i });
     const mobileAddButton =
       addButtons.find((b) => b.className.includes('rounded-full')) ?? addButtons[0];
 
@@ -95,7 +95,7 @@ describe('BottomNavigation', () => {
 
     render(<BottomNavigation />);
 
-    const addButtons = screen.getAllByRole('button', { name: /add task/i });
+    const addButtons = screen.getAllByRole('button', { name: /adicionar tarefa/i });
     const desktopAddButton =
       addButtons.find((b) => b.className.includes('h-14 w-14')) ?? addButtons[0];
 
@@ -110,7 +110,7 @@ describe('BottomNavigation', () => {
 
     render(<BottomNavigation />);
 
-    const addButtons = screen.getAllByRole('button', { name: /add task/i });
+    const addButtons = screen.getAllByRole('button', { name: /adicionar tarefa/i });
     const mobileAddButton =
       addButtons.find((b) => b.className.includes('rounded-full')) ?? addButtons[0];
 

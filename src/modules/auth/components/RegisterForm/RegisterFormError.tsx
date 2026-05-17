@@ -17,7 +17,7 @@ export const RegisterFormError = ({ error }: RegisterFormErrorProps) => {
         >
           <AlertCircle className="h-4 w-4" />
           <span>
-            {error instanceof Error ? error.message : 'Registration failed. Please try again.'}
+            {error instanceof Error ? error.message : 'Falha no cadastro. Tente novamente.'}
           </span>
         </motion.div>
       )}

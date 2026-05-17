@@ -37,7 +37,7 @@ export const ThemeToggle = () => {
                 {currentIcon}
               </motion.div>
             </AnimatePresence>
-            <span className="sr-only">Toggle theme</span>
+            <span className="sr-only">Alternar tema</span>
           </Button>
         </motion.div>
       </DropdownMenuTrigger>

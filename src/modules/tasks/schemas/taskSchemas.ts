@@ -14,14 +14,17 @@ export const taskPrioritySchema = z.enum(['baixa', 'media', 'alta', 'urgente']);
  * Create task form validation schema
  */
 export const createTaskSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(255, 'Title must be at most 255 characters'),
+  title: z
+    .string()
+    .min(1, 'O título é obrigatório')
+    .max(255, 'O título deve ter no máximo 255 caracteres'),
   description: z
     .string()
-    .min(1, 'Description is required')
-    .max(1000, 'Description must be at most 1000 characters'),
+    .min(1, 'A descrição é obrigatória')
+    .max(1000, 'A descrição deve ter no máximo 1000 caracteres'),
   type: taskTypeSchema,
   priority: taskPrioritySchema.optional(),
-  due_date: z.string().min(1, 'Due date is required'),
+  due_date: z.string().min(1, 'A data de vencimento é obrigatória'),
   tag_ids: z.array(z.number()).optional().default([]),
   user_id: z.number().optional(),
 });
@@ -32,14 +35,17 @@ export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
  * Update task form validation schema
  */
 export const updateTaskSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(255, 'Title must be at most 255 characters'),
+  title: z
+    .string()
+    .min(1, 'O título é obrigatório')
+    .max(255, 'O título deve ter no máximo 255 caracteres'),
   description: z
     .string()
-    .min(1, 'Description is required')
-    .max(1000, 'Description must be at most 1000 characters'),
+    .min(1, 'A descrição é obrigatória')
+    .max(1000, 'A descrição deve ter no máximo 1000 caracteres'),
   type: taskTypeSchema,
   priority: taskPrioritySchema,
-  due_date: z.string().min(1, 'Due date is required'),
+  due_date: z.string().min(1, 'A data de vencimento é obrigatória'),
   completed: z.boolean(),
   tag_ids: z.array(z.number()).optional().default([]),
 });

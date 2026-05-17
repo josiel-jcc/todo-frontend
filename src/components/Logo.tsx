@@ -16,7 +16,7 @@ export const Logo = ({ size = 100, className = '' }: LogoProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`drop-shadow-sm ${className}`}
-      aria-label="Todo App Logo"
+      aria-label="Logo do App de Tarefas"
       role="img"
     >
       <defs>

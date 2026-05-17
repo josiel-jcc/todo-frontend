@@ -16,6 +16,7 @@
     "build-storybook": "storybook build",
     "generate:types": "openapi-typescript https://api-todo.infoos.shop/swagger.json -o src/api/types.ts",
     "generate:types:local": "openapi-typescript ../todo-go-backend/docs/openapi.json -o src/api/types.ts",
+    "pre-pr": "npm run test:ci && npm run check:ci",
     "test": "vitest",
     "test:ci": "vitest run",
     "test:ui": "vitest --ui",

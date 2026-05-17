@@ -37,10 +37,10 @@ export const TodayTasksPage = () => {
   }, [tasks, filter]);
 
   const filters: { label: string; value: FilterType }[] = [
-    { label: 'All', value: 'all' },
-    { label: 'To-do', value: 'todo' },
-    { label: 'In Progress', value: 'in-progress' },
-    { label: 'Completed', value: 'completed' },
+    { label: 'Todas', value: 'all' },
+    { label: 'A fazer', value: 'todo' },
+    { label: 'Em andamento', value: 'in-progress' },
+    { label: 'Concluídas', value: 'completed' },
   ];
 
   const isLoading = isLoadingTasks || isTogglingCompletion;
@@ -59,7 +59,7 @@ export const TodayTasksPage = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold">Today's Tasks</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">Tarefas de hoje</h1>
             <p className="text-muted-foreground text-sm mt-1">
               {selectedDate.toLocaleDateString('pt-BR', {
                 weekday: 'long',
@@ -123,7 +123,7 @@ export const TodayTasksPage = () => {
         ) : filteredTasks.length === 0 ? (
           <Card className="rounded-3xl">
             <CardContent className="p-8 text-center">
-              <p className="text-muted-foreground">No tasks found for this date.</p>
+              <p className="text-muted-foreground">Nenhuma tarefa encontrada para esta data.</p>
             </CardContent>
           </Card>
         ) : (

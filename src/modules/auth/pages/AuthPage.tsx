@@ -16,12 +16,12 @@ export const AuthPage = () => {
       >
         <div className="flex flex-col items-center mb-8">
           <Logo size={80} />
-          <h1 className="text-2xl font-bold mt-4">Todo App</h1>
+          <h1 className="text-2xl font-bold mt-4">App de Tarefas</h1>
         </div>
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="register">Register</TabsTrigger>
+            <TabsTrigger value="login">Entrar</TabsTrigger>
+            <TabsTrigger value="register">Cadastrar</TabsTrigger>
           </TabsList>
           <TabsContent value="login" className="mt-6">
             <LoginForm />
