@@ -67,7 +67,7 @@ describe('TaskForm Integration', () => {
     await user.click(screen.getByRole('button', { name: /criar tarefa/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/title is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/o título é obrigatório/i)).toBeInTheDocument();
     });
 
     expect(mockOnSubmit).not.toHaveBeenCalled();

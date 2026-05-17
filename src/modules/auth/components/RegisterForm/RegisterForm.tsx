@@ -41,8 +41,8 @@ export const RegisterForm = () => {
       variants={getVariants(scaleIn)}
     >
       <CardHeader>
-        <CardTitle>Create Account</CardTitle>
-        <CardDescription>Enter your information to create a new account</CardDescription>
+        <CardTitle>Criar conta</CardTitle>
+        <CardDescription>Informe seus dados para criar uma nova conta</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
@@ -56,7 +56,7 @@ export const RegisterForm = () => {
             transition={{ delay: 0.5 }}
           >
             <Button type="submit" className="w-full" disabled={isRegistering}>
-              {isRegistering ? 'Creating account...' : 'Create Account'}
+              {isRegistering ? 'Criando conta...' : 'Criar conta'}
             </Button>
           </motion.div>
         </form>

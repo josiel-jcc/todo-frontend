@@ -22,7 +22,7 @@ export const InProgressSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">In Progress</h2>
+      <h2 className="text-xl font-semibold mb-4">Em andamento</h2>
       {/* Mobile: Horizontal scroll */}
       <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
         <div className="flex gap-4 items-stretch h-[140px]">

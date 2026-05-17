@@ -23,7 +23,7 @@ export const AllTasksSection = ({
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">All Tasks</h2>
+        <h2 className="text-xl font-semibold">Todas as tarefas</h2>
       </div>
       {isLoading ? (
         <div className="flex justify-center py-12">
@@ -32,7 +32,7 @@ export const AllTasksSection = ({
       ) : tasks.length === 0 ? (
         <Card className="rounded-3xl">
           <CardContent className="p-8 text-center">
-            <p className="text-muted-foreground">No tasks yet. Create your first task!</p>
+            <p className="text-muted-foreground">Nenhuma tarefa ainda. Crie sua primeira tarefa!</p>
           </CardContent>
         </Card>
       ) : (

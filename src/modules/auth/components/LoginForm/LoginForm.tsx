@@ -41,9 +41,9 @@ export const LoginForm = () => {
       <LoginFormOverlay isLoggingIn={isLoggingIn} />
 
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <CardTitle>Entrar</CardTitle>
         <CardDescription>
-          Enter your username or email and password to access your account
+          Informe seu nome de usuário ou e-mail e senha para acessar sua conta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -60,7 +60,7 @@ export const LoginForm = () => {
                 <span>
                   {loginError instanceof Error
                     ? loginError.message
-                    : 'Invalid credentials. Please try again.'}
+                    : 'Credenciais inválidas. Tente novamente.'}
                 </span>
               </motion.div>
             )}
@@ -74,7 +74,7 @@ export const LoginForm = () => {
             transition={{ delay: isLoggingIn ? 0 : 0.3 }}
           >
             <Button type="submit" className="w-full" disabled={isLoggingIn}>
-              {isLoggingIn ? 'Logging in...' : 'Login'}
+              {isLoggingIn ? 'Entrando...' : 'Entrar'}
             </Button>
           </motion.div>
         </form>

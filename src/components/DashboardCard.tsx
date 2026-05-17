@@ -19,7 +19,7 @@ export const DashboardCard = ({
   completedTasks,
   className,
   onViewTasks,
-  buttonText = 'View Tasks',
+  buttonText = 'Ver tarefas',
   ...props
 }: DashboardCardProps) => {
   return (
@@ -34,7 +34,7 @@ export const DashboardCard = ({
         <div className="flex-1">
           <h3 className="text-lg font-semibold mb-2">{title}</h3>
           <p className="text-sm opacity-90 mb-4">
-            {completedTasks} of {totalTasks} tasks completed
+            {completedTasks} de {totalTasks} tarefas concluídas
           </p>
           {onViewTasks && (
             <Button

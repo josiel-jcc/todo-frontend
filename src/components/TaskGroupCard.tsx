@@ -56,7 +56,9 @@ export const TaskGroupCard = ({
         />
       </div>
       <h4 className="font-semibold text-lg mb-1">{name}</h4>
-      <p className="text-sm text-muted-foreground">{taskCount} tasks</p>
+      <p className="text-sm text-muted-foreground">
+        {taskCount} {taskCount === 1 ? 'tarefa' : 'tarefas'}
+      </p>
     </div>
   );
 };

@@ -19,6 +19,13 @@ export const typeLabels = {
   saude: 'Saúde',
 };
 
+export const priorityLabels = {
+  baixa: 'Baixa',
+  media: 'Média',
+  alta: 'Alta',
+  urgente: 'Urgente',
+};
+
 export const typeBadgeColors = {
   casa: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 border-pink-200 dark:border-pink-800',
   trabalho:

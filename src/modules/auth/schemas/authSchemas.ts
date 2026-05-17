@@ -6,9 +6,9 @@ import { z } from 'zod';
 export const loginSchema = z.object({
   username: z
     .string()
-    .min(1, 'Username or email is required')
-    .max(255, 'Username or email is too long'),
-  password: z.string().min(1, 'Password is required'),
+    .min(1, 'Nome de usuário ou e-mail é obrigatório')
+    .max(255, 'Nome de usuário ou e-mail é muito longo'),
+  password: z.string().min(1, 'Senha é obrigatória'),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
@@ -20,17 +20,17 @@ export const registerSchema = z
   .object({
     username: z
       .string()
-      .min(3, 'Username must be at least 3 characters')
-      .max(50, 'Username must be at most 50 characters'),
-    email: z.string().email('Please enter a valid email address'),
+      .min(3, 'O nome de usuário deve ter pelo menos 3 caracteres')
+      .max(50, 'O nome de usuário deve ter no máximo 50 caracteres'),
+    email: z.string().email('Informe um endereço de e-mail válido'),
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters')
-      .max(255, 'Password is too long'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+      .min(6, 'A senha deve ter pelo menos 6 caracteres')
+      .max(255, 'A senha é muito longa'),
+    confirmPassword: z.string().min(1, 'Confirme sua senha'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: 'As senhas não coincidem',
     path: ['confirmPassword'],
   });
 

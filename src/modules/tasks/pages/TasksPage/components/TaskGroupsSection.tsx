@@ -1,4 +1,5 @@
 import { TaskGroupCard } from '@/components';
+import { typeLabels } from '../../../components/TaskCard/taskConstants';
 
 interface TaskGroup {
   type: string;
@@ -19,14 +20,14 @@ export const TaskGroupsSection = ({ taskGroups }: TaskGroupsSectionProps) => {
 
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">Task Groups</h2>
+      <h2 className="text-xl font-semibold mb-4">Grupos de tarefas</h2>
       {/* Mobile: Vertical list */}
       <div className="md:hidden grid grid-cols-1 gap-4">
         {taskGroups.map((group) => (
           <TaskGroupCard
             key={group.type}
             icon={group.icon}
-            name={group.type.charAt(0).toUpperCase() + group.type.slice(1)}
+            name={typeLabels[group.type as keyof typeof typeLabels] ?? group.type}
             taskCount={group.total}
             progress={group.progress}
             color={group.color}
@@ -39,7 +40,7 @@ export const TaskGroupsSection = ({ taskGroups }: TaskGroupsSectionProps) => {
           <TaskGroupCard
             key={group.type}
             icon={group.icon}
-            name={group.type.charAt(0).toUpperCase() + group.type.slice(1)}
+            name={typeLabels[group.type as keyof typeof typeLabels] ?? group.type}
             taskCount={group.total}
             progress={group.progress}
             color={group.color}

@@ -2,7 +2,7 @@ import { Calendar, User } from 'lucide-react';
 import type { components } from '@/api';
 import { CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { formatTaskDate, priorityColors } from './taskConstants';
+import { formatTaskDate, priorityColors, priorityLabels } from './taskConstants';
 
 type Task = components['schemas']['models.Task'];
 
@@ -31,7 +31,7 @@ export const TaskCardContent = ({ task, isOverdue }: TaskCardContentProps) => {
               priorityColors[task.priority]
             )}
           >
-            {task.priority}
+            {priorityLabels[task.priority]}
           </span>
         )}
         {task.assigned_by_user && (

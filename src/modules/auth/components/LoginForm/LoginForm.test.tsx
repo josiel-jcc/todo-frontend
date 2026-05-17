@@ -32,22 +32,22 @@ describe('LoginForm', () => {
   it('should render login form', () => {
     render(<LoginForm />);
 
-    expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
-    expect(screen.getByLabelText(/username or email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Entrar' })).toBeInTheDocument();
+    expect(screen.getByLabelText(/nome de usuário ou e-mail/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^senha$/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
   });
 
   it('should show validation errors for empty fields', async () => {
     const user = userEvent.setup();
     render(<LoginForm />);
 
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/username or email is required/i)).toBeInTheDocument();
-      expect(screen.getByText(/password is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/nome de usuário ou e-mail é obrigatório/i)).toBeInTheDocument();
+      expect(screen.getByText(/senha é obrigatória/i)).toBeInTheDocument();
     });
 
     expect(mockLogin).not.toHaveBeenCalled();
@@ -57,9 +57,9 @@ describe('LoginForm', () => {
     const user = userEvent.setup();
     render(<LoginForm />);
 
-    const usernameInput = screen.getByLabelText(/username or email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const usernameInput = screen.getByLabelText(/nome de usuário ou e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
 
     await user.type(usernameInput, 'testuser');
     await user.type(passwordInput, 'password123');
@@ -92,12 +92,12 @@ describe('LoginForm', () => {
 
     render(<LoginForm />);
 
-    expect(screen.getByRole('button', { name: /logging in/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /logging in/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /entrando/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /entrando/i })).toBeDisabled();
   });
 
   it('should show error message when login fails', () => {
-    const mockError = new Error('Invalid credentials');
+    const mockError = new Error('Credenciais inválidas');
     vi.mocked(useAuth).mockReturnValue({
       login: mockLogin,
       isLoggingIn: false,
@@ -116,7 +116,7 @@ describe('LoginForm', () => {
 
     render(<LoginForm />);
 
-    expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+    expect(screen.getByText('Credenciais inválidas')).toBeInTheDocument();
   });
 
   it('should disable form fields when logging in', () => {
@@ -138,8 +138,8 @@ describe('LoginForm', () => {
 
     render(<LoginForm />);
 
-    const usernameInput = screen.getByLabelText(/username or email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
+    const usernameInput = screen.getByLabelText(/nome de usuário ou e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
 
     expect(usernameInput).toBeDisabled();
     expect(passwordInput).toBeDisabled();
@@ -149,9 +149,9 @@ describe('LoginForm', () => {
     const user = userEvent.setup();
     render(<LoginForm />);
 
-    const usernameInput = screen.getByLabelText(/username or email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const usernameInput = screen.getByLabelText(/nome de usuário ou e-mail/i);
+    const passwordInput = screen.getByLabelText(/^senha$/i);
+    const submitButton = screen.getByRole('button', { name: /entrar/i });
 
     await user.type(usernameInput, 'test@example.com');
     await user.type(passwordInput, 'password123');

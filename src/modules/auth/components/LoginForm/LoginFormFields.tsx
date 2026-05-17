@@ -20,7 +20,7 @@ export const LoginFormFields = ({ register, errors, isLoggingIn }: LoginFormFiel
         animate={isLoggingIn ? { opacity: 0.5 } : { opacity: 1, x: 0 }}
         transition={{ delay: isLoggingIn ? 0 : 0.1 }}
       >
-        <Label htmlFor="username">Username or Email</Label>
+        <Label htmlFor="username">Nome de usuário ou e-mail</Label>
         <motion.div
           animate={isLoggingIn ? {} : errors.username ? 'visible' : 'hidden'}
           variants={getVariants(shake)}
@@ -28,7 +28,7 @@ export const LoginFormFields = ({ register, errors, isLoggingIn }: LoginFormFiel
           <Input
             id="username"
             type="text"
-            placeholder="johndoe or john@example.com"
+            placeholder="usuario ou email@exemplo.com"
             {...register('username')}
             aria-invalid={errors.username ? 'true' : 'false'}
             disabled={isLoggingIn}
@@ -52,7 +52,7 @@ export const LoginFormFields = ({ register, errors, isLoggingIn }: LoginFormFiel
         animate={isLoggingIn ? { opacity: 0.5 } : { opacity: 1, x: 0 }}
         transition={{ delay: isLoggingIn ? 0 : 0.2 }}
       >
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Senha</Label>
         <motion.div
           animate={isLoggingIn ? {} : errors.password ? 'visible' : 'hidden'}
           variants={getVariants(shake)}
@@ -60,7 +60,7 @@ export const LoginFormFields = ({ register, errors, isLoggingIn }: LoginFormFiel
           <Input
             id="password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Digite sua senha"
             {...register('password')}
             aria-invalid={errors.password ? 'true' : 'false'}
             disabled={isLoggingIn}

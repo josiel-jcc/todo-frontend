@@ -3,6 +3,7 @@ import type { components } from '@/api';
 import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { priorityLabels, typeLabels } from '../../components/TaskCard/taskConstants';
 
 type Task = components['schemas']['models.Task'];
 
@@ -11,13 +12,6 @@ const priorityColors = {
   media: 'bg-yellow-100 text-yellow-800 border-yellow-200',
   alta: 'bg-orange-100 text-orange-800 border-orange-200',
   urgente: 'bg-red-100 text-red-800 border-red-200',
-};
-
-const typeLabels = {
-  casa: 'Casa',
-  trabalho: 'Trabalho',
-  lazer: 'Lazer',
-  saude: 'Saúde',
 };
 
 interface TaskDetailInfoProps {
@@ -81,7 +75,7 @@ export const TaskDetailInfo = ({
                 priorityColors[task.priority]
               )}
             >
-              {task.priority}
+              {priorityLabels[task.priority]}
             </span>
           </div>
         )}

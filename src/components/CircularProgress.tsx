@@ -28,7 +28,7 @@ export const CircularProgress = ({
         width={size}
         height={size}
         className="transform -rotate-90"
-        aria-label={`Progress: ${Math.round(value)}%`}
+        aria-label={`Progresso: ${Math.round(value)}%`}
         role="img"
       >
         {/* Background circle */}
