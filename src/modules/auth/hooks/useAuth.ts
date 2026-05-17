@@ -31,7 +31,7 @@ export const useAuth = () => {
 
     // Listen for storage changes (for cross-tab sync)
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'auth_token' || e.key === 'auth_user') {
+      if (e.key === 'auth_user') {
         checkAuth();
       }
     };
@@ -97,10 +97,7 @@ export const useAuth = () => {
 
   // Logout mutation
   const logoutMutation = useMutation({
-    mutationFn: () => {
-      logout();
-      return Promise.resolve();
-    },
+    mutationFn: () => logout(),
     onSuccess: () => {
       // Update auth state
       setAuthState(false);

@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { LegalFooterLinks } from '@/modules/legal/components/LegalFooterLinks';
+import { PrivacySettingsCard } from '../components/PrivacySettingsCard';
 import { useSettings } from '../hooks/useSettings';
 
 export const SettingsPage = () => {
@@ -68,14 +70,21 @@ export const SettingsPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Notificações</CardTitle>
-          <CardDescription>Configure suas preferências de notificações</CardDescription>
+          <CardDescription>
+            As notificações são opcionais (opt-in). Ao ativar, podemos enviar lembretes por e-mail
+            (via provedor SMTP) e/ou Telegram (operador externo). Veja a{' '}
+            <a href="/privacidade" className="text-primary underline">
+              Política de Privacidade
+            </a>
+            .
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="notifications">Notificações Habilitadas</Label>
               <p className="text-sm text-muted-foreground">
-                Receber notificações sobre suas tarefas
+                Receber lembretes sobre tarefas com data de vencimento
               </p>
             </div>
             <button
@@ -105,7 +114,8 @@ export const SettingsPage = () => {
         <CardHeader>
           <CardTitle>Telegram</CardTitle>
           <CardDescription>
-            Configure o ID do chat do Telegram para receber notificações
+            Configure o ID do chat do Telegram para receber notificações. Os dados são processados
+            pela API do Telegram (possível transferência internacional).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -128,6 +138,9 @@ export const SettingsPage = () => {
           </Button>
         </CardContent>
       </Card>
+
+      <PrivacySettingsCard />
+      <LegalFooterLinks />
     </div>
   );
 };

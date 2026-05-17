@@ -12,9 +12,9 @@ export {
   getAuthToken,
   getStoredUser,
   removeAuthToken,
-  setAuthToken,
   setStoredUser,
 } from './apiClient';
+export { setAuthToken } from './storage';
 /**
  * API Services
  */

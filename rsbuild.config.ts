@@ -8,6 +8,19 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@docs': path.resolve(__dirname, './docs'),
+    },
+  },
+  tools: {
+    rspack: {
+      module: {
+        rules: [
+          {
+            test: /\.md$/,
+            type: 'asset/source',
+          },
+        ],
+      },
     },
   },
   html: {

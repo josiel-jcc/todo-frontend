@@ -46,7 +46,7 @@ describe('LoginForm', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/nome de usuário ou e-mail é obrigatório/i)).toBeInTheDocument();
+      expect(screen.getByText(/usuário ou e-mail é obrigatório/i)).toBeInTheDocument();
       expect(screen.getByText(/senha é obrigatória/i)).toBeInTheDocument();
     });
 
