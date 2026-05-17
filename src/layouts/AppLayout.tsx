@@ -80,7 +80,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       </motion.header>
 
       {/* Main content with padding for navigation */}
-      <main className="flex-1 pb-20 md:pb-0 md:ml-20 md:pt-0">{children}</main>
+      <main className="flex-1 pb-24 md:pb-0 md:ml-20 md:pt-0">{children}</main>
 
       {/* Global Task Form (mobile: bottom sheet, desktop: modal) */}
       <TaskFormOverlay />

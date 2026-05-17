@@ -20,6 +20,34 @@ const navItems: NavItem[] = [
   { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
 
+const leftNavItems = navItems.slice(0, 2);
+const rightNavItems = navItems.slice(2);
+
+function NavButton({
+  item,
+  isActive,
+  onClick,
+}: {
+  item: NavItem;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  const Icon = item.icon;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'flex min-w-0 flex-1 flex-col items-center gap-1 px-1 py-2 rounded-xl transition-colors',
+        isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+      )}
+    >
+      <Icon className="h-5 w-5 shrink-0" />
+      <span className="max-w-full truncate text-xs font-medium">{item.label}</span>
+    </button>
+  );
+}
+
 export const BottomNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,7 +58,6 @@ export const BottomNavigation = () => {
   };
 
   const handleAddClick = () => {
-    // Open task form modal (global)
     openForm();
   };
 
@@ -38,63 +65,65 @@ export const BottomNavigation = () => {
     <>
       {/* Mobile: Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-        <div className="relative">
-          {/* Navigation Bar */}
-          <div className="rounded-t-3xl border-t bg-card/95 backdrop-blur-sm shadow-lg">
-            <div className="flex items-center justify-between px-4 pb-4 pt-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
+        <motion.div className="relative">
+          {/* Center FAB — reserved slot, does not cover nav items */}
+          <motion.div
+            className={cn(
+              'absolute left-1/2 top-0 z-50 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300',
+              isOpen && 'pointer-events-none opacity-0'
+            )}
+            initial={false}
+            animate={{
+              scale: isOpen ? 0.8 : 1,
+              opacity: isOpen ? 0 : 1,
+            }}
+            whileHover={{ scale: isOpen ? 0.8 : 1.1 }}
+            whileTap={{ scale: isOpen ? 0.8 : 0.9 }}
+          >
+            <Button
+              onClick={handleAddClick}
+              size="icon"
+              className="h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
+              disabled={isOpen}
+              aria-label="Adicionar tarefa"
+            >
+              <Plus className="h-6 w-6" />
+            </Button>
+          </motion.div>
 
-                return (
-                  <button
-                    type="button"
+          <motion.div className="rounded-t-3xl border-t bg-card/95 backdrop-blur-sm shadow-lg">
+            <div className="flex items-end px-1 pb-4 pt-3">
+              <div className="flex flex-1 justify-around">
+                {leftNavItems.map((item) => (
+                  <NavButton
                     key={item.path}
+                    item={item}
+                    isActive={location.pathname === item.path}
                     onClick={() => handleNavClick(item.path)}
-                    className={cn(
-                      'flex flex-col items-center gap-1 px-2 py-2 rounded-xl transition-colors',
-                      isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                    )}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span className="text-xs font-medium">{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </nav>
+                  />
+                ))}
+              </div>
 
-      {/* Floating Add Button - Overlapping navigation */}
-      <motion.div
-        className={cn(
-          'fixed bottom-14 left-1/2 -translate-x-1/2 z-50 md:hidden transition-opacity duration-300',
-          isOpen && 'opacity-0 pointer-events-none'
-        )}
-        initial={false}
-        animate={{
-          scale: isOpen ? 0.8 : 1,
-          opacity: isOpen ? 0 : 1,
-        }}
-        whileHover={{ scale: isOpen ? 0.8 : 1.1 }}
-        whileTap={{ scale: isOpen ? 0.8 : 0.9 }}
-      >
-        <Button
-          onClick={handleAddClick}
-          size="icon"
-          className="h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
-          disabled={isOpen}
-          aria-label="Adicionar tarefa"
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
-      </motion.div>
+              <div className="w-14 shrink-0" aria-hidden="true" />
+
+              <div className="flex flex-1 justify-around">
+                {rightNavItems.map((item) => (
+                  <NavButton
+                    key={item.path}
+                    item={item}
+                    isActive={location.pathname === item.path}
+                    onClick={() => handleNavClick(item.path)}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </nav>
 
       {/* Desktop: Sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-20 flex-col items-center py-6 border-r bg-card z-40">
         <div className="flex flex-col items-center gap-6 w-full">
-          {/* Logo at top */}
           <button
             type="button"
             onClick={() => navigate('/tasks')}
@@ -107,7 +136,6 @@ export const BottomNavigation = () => {
             <Logo size={40} />
           </button>
 
-          {/* Navigation Items */}
           <div className="flex flex-col gap-2 w-full px-2">
             {navItems.slice(1).map((item) => {
               const Icon = item.icon;
@@ -131,7 +159,6 @@ export const BottomNavigation = () => {
             })}
           </div>
 
-          {/* Add Button */}
           <motion.div className="mt-auto" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
             <Button
               onClick={handleAddClick}
