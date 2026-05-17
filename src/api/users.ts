@@ -7,11 +7,25 @@ import type { components, paths } from './types';
  */
 
 // Type definitions
+type User = components['schemas']['models.User'];
 type UpdateNotificationsEnabledRequest =
   components['schemas']['handlers.UpdateNotificationsEnabledRequest'];
 type UpdateTelegramChatIDRequest = components['schemas']['handlers.UpdateTelegramChatIDRequest'];
 type SuccessResponse = components['schemas']['handlers.SuccessResponse'];
 type PaginatedUsersResponse = components['schemas']['handlers.PaginatedUsersResponse'];
+
+const normalizeUser = (user: User): User => ({
+  ...user,
+  telegram_chat_id: user.telegram_chat_id ?? '',
+});
+
+/**
+ * Get the authenticated user's profile
+ */
+export const getCurrentUser = async (): Promise<User> => {
+  const response = await apiClient.get<User>('/users/me');
+  return normalizeUser(response.data);
+};
 
 /**
  * Update notifications enabled setting for the authenticated user
