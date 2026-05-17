@@ -29,6 +29,49 @@ const quickOptions = [
   { label: 'Em 7 dias', getDate: () => startOfDay(addDays(new Date(), 7)) },
 ] as const;
 
+function DueDateQuickActions({ onSelect }: { onSelect: (getDate: () => Date) => void }) {
+  return (
+    <div className="flex flex-wrap gap-2 border-b p-3">
+      {quickOptions.map((option) => (
+        <Button
+          key={option.label}
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="rounded-xl"
+          onClick={() => onSelect(option.getDate)}
+        >
+          {option.label}
+        </Button>
+      ))}
+    </div>
+  );
+}
+
+function DueDateTimeInput({
+  time,
+  disabled,
+  onTimeChange,
+}: {
+  time: string;
+  disabled?: boolean;
+  onTimeChange: (time: string) => void;
+}) {
+  return (
+    <div className="relative sm:w-36">
+      <Clock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Input
+        type="time"
+        value={time}
+        disabled={disabled}
+        onChange={(e) => onTimeChange(e.target.value)}
+        className="rounded-2xl border-2 pl-10"
+        aria-label="Horário de vencimento"
+      />
+    </div>
+  );
+}
+
 export const TaskFormDueDateField = ({
   value,
   onChange,
@@ -77,20 +120,7 @@ export const TaskFormDueDateField = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <div className="flex flex-wrap gap-2 border-b p-3">
-              {quickOptions.map((option) => (
-                <Button
-                  key={option.label}
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="rounded-xl"
-                  onClick={() => applyQuickDate(option.getDate)}
-                >
-                  {option.label}
-                </Button>
-              ))}
-            </div>
+            <DueDateQuickActions onSelect={applyQuickDate} />
             <Calendar
               mode="single"
               selected={date}
@@ -101,17 +131,7 @@ export const TaskFormDueDateField = ({
           </PopoverContent>
         </Popover>
 
-        <div className="relative sm:w-36">
-          <Clock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="time"
-            value={time}
-            disabled={disabled}
-            onChange={(e) => updateTime(e.target.value)}
-            className="rounded-2xl border-2 pl-10"
-            aria-label="Horário de vencimento"
-          />
-        </div>
+        <DueDateTimeInput time={time} disabled={disabled} onTimeChange={updateTime} />
       </div>
 
       {date && (
