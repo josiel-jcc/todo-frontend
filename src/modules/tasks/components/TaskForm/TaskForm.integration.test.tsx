@@ -43,9 +43,7 @@ describe('TaskForm Integration', () => {
     await user.type(screen.getByLabelText(/título/i), 'New Task');
     await user.type(screen.getByLabelText(/descrição/i), 'Task Description');
 
-    // due_date is required (datetime-local)
-    await user.type(screen.getByLabelText(/data de vencimento/i), '2030-01-01T10:00');
-
+    // due_date is pre-filled with a sensible default by the date picker
     await user.click(screen.getByRole('button', { name: /criar tarefa/i }));
 
     await waitFor(() => {

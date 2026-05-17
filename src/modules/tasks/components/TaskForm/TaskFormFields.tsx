@@ -1,17 +1,19 @@
 import { motion } from 'framer-motion';
-import { CalendarIcon } from 'lucide-react';
-import type { FieldErrors, UseFormRegister } from 'react-hook-form';
+import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getVariants, shake } from '@/lib/animations';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
+import { TaskFormDueDateField } from './TaskFormDueDateField';
 
 interface TaskFormFieldsProps {
   register: UseFormRegister<CreateTaskFormData | UpdateTaskFormData>;
+  control: Control<CreateTaskFormData | UpdateTaskFormData>;
   errors: FieldErrors<CreateTaskFormData | UpdateTaskFormData>;
 }
 
-export const TaskFormFields = ({ register, errors }: TaskFormFieldsProps) => {
+export const TaskFormFields = ({ register, control, errors }: TaskFormFieldsProps) => {
   return (
     <>
       <div className="space-y-2">
@@ -101,23 +103,17 @@ export const TaskFormFields = ({ register, errors }: TaskFormFieldsProps) => {
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="due_date">Data de Vencimento *</Label>
-        <div className="relative">
-          <Input
-            id="due_date"
-            type="datetime-local"
-            {...register('due_date')}
-            aria-invalid={errors.due_date ? 'true' : 'false'}
+      <Controller
+        name="due_date"
+        control={control}
+        render={({ field }) => (
+          <TaskFormDueDateField
+            value={field.value}
+            onChange={field.onChange}
+            error={errors.due_date?.message}
           />
-          <CalendarIcon className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-        </div>
-        {errors.due_date && (
-          <p className="text-sm text-destructive" role="alert">
-            {errors.due_date.message}
-          </p>
         )}
-      </div>
+      />
     </>
   );
 };

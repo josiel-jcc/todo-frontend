@@ -28,6 +28,7 @@ export const TaskForm = ({
   const {
     isEditMode,
     register,
+    control,
     handleSubmit,
     errors,
     selectedTagIds,
@@ -54,7 +55,7 @@ export const TaskForm = ({
       )}
       <CardContent className={variant === 'bottom-sheet' ? 'p-0' : ''}>
         <form onSubmit={handleSubmit} className="space-y-2">
-          <TaskFormFields register={register} errors={errors} />
+          <TaskFormFields register={register} control={control} errors={errors} />
 
           <TaskFormTags
             selectedTagIds={selectedTagIds}
