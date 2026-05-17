@@ -38,14 +38,20 @@ describe('BottomNavigation', () => {
     });
   });
 
-  it('should render navigation items', () => {
+  it('should render mobile navigation items without settings', () => {
     render(<BottomNavigation />);
 
     expect(screen.getByText('Início')).toBeInTheDocument();
     expect(screen.getByText('Buscar')).toBeInTheDocument();
     expect(screen.getByText('Deleguei')).toBeInTheDocument();
     expect(screen.getByText('Hoje')).toBeInTheDocument();
-    expect(screen.getByText('Configurações')).toBeInTheDocument();
+    expect(screen.queryByText('Configurações')).not.toBeInTheDocument();
+  });
+
+  it('should render settings in desktop sidebar', () => {
+    render(<BottomNavigation />);
+
+    expect(screen.getByTitle('Configurações')).toBeInTheDocument();
   });
 
   it('should navigate when navigation item is clicked', async () => {

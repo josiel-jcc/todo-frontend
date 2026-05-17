@@ -20,8 +20,10 @@ const navItems: NavItem[] = [
   { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
 
-const leftNavItems = navItems.slice(0, 2);
-const rightNavItems = navItems.slice(2);
+// Mobile: settings via user menu in header — symmetric 2 | + | 2 layout
+const mobileNavItems = navItems.filter((item) => item.path !== '/settings');
+const leftNavItems = mobileNavItems.slice(0, 2);
+const rightNavItems = mobileNavItems.slice(2);
 
 function NavButton({
   item,
