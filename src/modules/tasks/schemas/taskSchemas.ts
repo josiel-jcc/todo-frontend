@@ -14,7 +14,10 @@ export const taskPrioritySchema = z.enum(['baixa', 'media', 'alta', 'urgente']);
  * Create task form validation schema
  */
 export const createTaskSchema = z.object({
-  title: z.string().min(1, 'O título é obrigatório').max(255, 'O título deve ter no máximo 255 caracteres'),
+  title: z
+    .string()
+    .min(1, 'O título é obrigatório')
+    .max(255, 'O título deve ter no máximo 255 caracteres'),
   description: z
     .string()
     .min(1, 'A descrição é obrigatória')
@@ -32,7 +35,10 @@ export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
  * Update task form validation schema
  */
 export const updateTaskSchema = z.object({
-  title: z.string().min(1, 'O título é obrigatório').max(255, 'O título deve ter no máximo 255 caracteres'),
+  title: z
+    .string()
+    .min(1, 'O título é obrigatório')
+    .max(255, 'O título deve ter no máximo 255 caracteres'),
   description: z
     .string()
     .min(1, 'A descrição é obrigatória')

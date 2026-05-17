@@ -1,0 +1,35 @@
+---
+description: Executar testes e Biome antes de abrir pull requests
+alwaysApply: true
+---
+
+# Qualidade antes do Pull Request
+
+Antes de **criar, atualizar ou solicitar** um pull request no `todo-frontend`, execute os mesmos checks do CI (`.github/workflows/quality.yml`):
+
+```bash
+npm run test:ci
+npm run check:ci
+```
+
+Atalho que replica o pipeline:
+
+```bash
+npm run pre-pr
+```
+
+## Se o Biome falhar
+
+Erros de **formatação** (`format`) devem ser corrigidos com:
+
+```bash
+npm run check
+```
+
+Depois confirme novamente com `npm run check:ci`.
+
+## Regras
+
+- Não abra o PR enquanto `test:ci` ou `check:ci` falharem localmente.
+- Warnings do Biome (ex.: `noExcessiveLinesPerFunction`) não bloqueiam o CI; **errors** sim.
+- Commite as correções de formatação no mesmo branch do PR antes do push.
