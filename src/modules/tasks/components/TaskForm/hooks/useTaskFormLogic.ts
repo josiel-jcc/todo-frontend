@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { buildDueDateValue, getDefaultDueDateValue, parseDueDateValue } from '@/lib/dueDateUtils';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { useUsers } from '@/modules/tasks/hooks/useUsers';
 import {
@@ -24,6 +25,7 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     watch,
@@ -34,7 +36,10 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
       ? {
           ...initialData,
           due_date: initialData.due_date
-            ? new Date(initialData.due_date).toISOString().slice(0, 16)
+            ? buildDueDateValue(
+                parseDueDateValue(initialData.due_date).date ?? new Date(initialData.due_date),
+                parseDueDateValue(initialData.due_date).time
+              )
             : '',
         }
       : {
@@ -42,7 +47,7 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
           description: '',
           type: 'casa',
           priority: 'media',
-          due_date: '',
+          due_date: getDefaultDueDateValue(),
           tag_ids: [],
         },
   });
@@ -69,6 +74,7 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
   return {
     isEditMode,
     register,
+    control,
     handleSubmit: handleSubmit(onSubmitForm),
     errors,
     selectedTagIds,

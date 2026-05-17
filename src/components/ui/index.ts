@@ -27,5 +27,7 @@ export {
 } from './dropdown-menu';
 export type { InputProps } from './input';
 export { Input } from './input';
+export { Calendar } from './calendar';
 export { Label } from './label';
+export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from './popover';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
