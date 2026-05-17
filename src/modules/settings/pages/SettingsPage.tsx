@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,17 +8,26 @@ import { useSettings } from '../hooks/useSettings';
 
 export const SettingsPage = () => {
   const { user } = useAuth();
-  const { updateNotifications, updateTelegramChatId, isUpdatingNotifications, isUpdatingTelegram } =
-    useSettings();
+  const {
+    updateNotifications,
+    updateTelegramChatId,
+    isUpdatingNotifications,
+    isUpdatingTelegram,
+    isLoadingProfile,
+  } = useSettings();
 
   const [telegramChatId, setTelegramChatId] = useState(user?.telegram_chat_id || '');
-  const [notificationsEnabled, setNotificationsEnabled] = useState(
-    user?.notifications_enabled ?? false
-  );
+
+  const notificationsEnabled = user?.notifications_enabled ?? false;
+
+  useEffect(() => {
+    if (user?.telegram_chat_id !== undefined) {
+      setTelegramChatId(user.telegram_chat_id || '');
+    }
+  }, [user?.telegram_chat_id]);
 
   const handleNotificationsToggle = () => {
     const newValue = !notificationsEnabled;
-    setNotificationsEnabled(newValue);
     updateNotifications({ notifications_enabled: newValue });
   };
 
@@ -72,10 +81,11 @@ export const SettingsPage = () => {
             <button
               type="button"
               onClick={handleNotificationsToggle}
-              disabled={isUpdatingNotifications}
+              disabled={isUpdatingNotifications || isLoadingProfile}
               className={`
                 relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
                 ${notificationsEnabled ? 'bg-primary' : 'bg-muted'}
+                ${isLoadingProfile ? 'opacity-50 cursor-not-allowed' : ''}
               `}
               role="switch"
               aria-checked={notificationsEnabled}
@@ -107,12 +117,13 @@ export const SettingsPage = () => {
               placeholder="123456789"
               value={telegramChatId}
               onChange={(e) => setTelegramChatId(e.target.value)}
+              disabled={isLoadingProfile}
             />
             <p className="text-sm text-muted-foreground">
               Envie uma mensagem para o bot do Telegram primeiro para obter seu chat ID
             </p>
           </div>
-          <Button onClick={handleTelegramSave} disabled={isUpdatingTelegram}>
+          <Button onClick={handleTelegramSave} disabled={isUpdatingTelegram || isLoadingProfile}>
             {isUpdatingTelegram ? 'Salvando...' : 'Salvar'}
           </Button>
         </CardContent>

@@ -68,7 +68,7 @@ describe('storage', () => {
         email: 'test@example.com',
       };
       setStoredUser(user);
-      expect(getStoredUser()).toEqual(user);
+      expect(getStoredUser()).toEqual({ ...user, telegram_chat_id: '' });
     });
 
     it('should return null when user does not exist', () => {
@@ -112,6 +112,18 @@ describe('storage', () => {
         updated_at: '2024-01-01T00:00:00Z',
       };
       setStoredUser(user);
+      expect(getStoredUser()).toEqual({ ...user, telegram_chat_id: '' });
+    });
+
+    it('should preserve notifications_enabled', () => {
+      const user = {
+        id: 1,
+        username: 'testuser',
+        email: 'test@example.com',
+        notifications_enabled: true,
+        telegram_chat_id: '12345',
+      };
+      setStoredUser(user);
       expect(getStoredUser()).toEqual(user);
     });
   });
@@ -124,7 +136,7 @@ describe('storage', () => {
         email: 'test@example.com',
       };
       setStoredUser(user);
-      expect(getStoredUser()).toEqual(user);
+      expect(getStoredUser()).toEqual({ ...user, telegram_chat_id: '' });
     });
 
     it('should overwrite existing user', () => {
@@ -140,7 +152,7 @@ describe('storage', () => {
       };
       setStoredUser(user1);
       setStoredUser(user2);
-      expect(getStoredUser()).toEqual(user2);
+      expect(getStoredUser()).toEqual({ ...user2, telegram_chat_id: '' });
     });
 
     it('should throw error for invalid user data', () => {

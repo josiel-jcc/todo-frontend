@@ -12,6 +12,8 @@ const storedUserSchema = z.object({
   email: z.string().email(),
   created_at: z.string().optional(),
   updated_at: z.string().optional(),
+  notifications_enabled: z.boolean().optional(),
+  telegram_chat_id: z.string().nullable().optional(),
 });
 
 /**
@@ -50,9 +52,9 @@ export const getStoredUser = (): User | null => {
  */
 export const setStoredUser = (user: User): void => {
   try {
-    // Validate before storing
-    storedUserSchema.parse(user);
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+    const normalized = normalizeStoredUser(user);
+    storedUserSchema.parse(normalized);
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(normalized));
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw new Error('Invalid user data format');
@@ -60,6 +62,25 @@ export const setStoredUser = (user: User): void => {
     throw error;
   }
 };
+
+/**
+ * Merge partial user fields into stored user data
+ */
+export const mergeStoredUser = (patch: Partial<User>): User | null => {
+  const current = getStoredUser();
+  if (!current) {
+    return null;
+  }
+
+  const updated = normalizeStoredUser({ ...current, ...patch });
+  setStoredUser(updated);
+  return updated;
+};
+
+const normalizeStoredUser = (user: User): User => ({
+  ...user,
+  telegram_chat_id: user.telegram_chat_id ?? '',
+});
 
 /**
  * Get authentication token from localStorage
