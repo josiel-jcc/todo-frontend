@@ -29,9 +29,9 @@ export const TagSelector = ({
 
   if (tags.length === 0) {
     return (
-      <div className="text-sm text-muted-foreground">
-        Nenhuma tag disponível. Crie tags para organizar suas tarefas.
-      </div>
+      <p className="text-sm text-muted-foreground">
+        Nenhuma tag ainda. Use &quot;Nova tag&quot; acima para criar e selecionar.
+      </p>
     );
   }
 
