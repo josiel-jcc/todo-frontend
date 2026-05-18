@@ -1,4 +1,4 @@
-import { apiClient, removeAuthToken, setStoredUser } from './apiClient';
+import { apiClient, getAuthToken, removeAuthToken, setAuthToken, setStoredUser } from './apiClient';
 import type { components, paths } from './types';
 
 type LoginRequest = components['schemas']['handlers.LoginRequest'];
@@ -11,6 +11,9 @@ export const login = async (credentials: LoginRequest): Promise<AuthResponse> =>
   >('/auth/login', credentials);
 
   const data = response.data;
+  if (data.token) {
+    setAuthToken(data.token);
+  }
   if (data.user) {
     setStoredUser(data.user);
   }
@@ -23,6 +26,9 @@ export const register = async (userData: RegisterRequest): Promise<AuthResponse>
   >('/auth/register', userData);
 
   const data = response.data;
+  if (data.token) {
+    setAuthToken(data.token);
+  }
   if (data.user) {
     setStoredUser(data.user);
   }
@@ -38,5 +44,5 @@ export const logout = async (): Promise<void> => {
 };
 
 export const isAuthenticated = (): boolean => {
-  return getStoredUser() !== null;
+  return getStoredUser() !== null || getAuthToken() !== null;
 };

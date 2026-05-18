@@ -10,10 +10,11 @@ const storedUserSchema = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string().email(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
+  created_at: z.union([z.string(), z.coerce.string()]).optional(),
+  updated_at: z.union([z.string(), z.coerce.string()]).optional(),
   notifications_enabled: z.boolean().optional(),
   telegram_chat_id: z.string().nullable().optional(),
+  terms_accepted_at: z.union([z.string(), z.null()]).optional(),
 });
 
 /**
