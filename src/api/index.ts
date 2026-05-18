@@ -14,12 +14,12 @@ export {
   removeAuthToken,
   setStoredUser,
 } from './apiClient';
-export { setAuthToken } from './storage';
 /**
  * API Services
  */
 export * from './auth';
 export * from './comments';
+export { setAuthToken } from './storage';
 export * from './tags';
 export * from './tasks';
 export type * from './types';

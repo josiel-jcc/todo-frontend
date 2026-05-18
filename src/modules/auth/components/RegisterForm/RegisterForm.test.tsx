@@ -54,9 +54,7 @@ describe('RegisterForm', () => {
       expect(screen.getByText(/informe um endereço de e-mail válido/i)).toBeInTheDocument();
       expect(screen.getByText(/a senha deve ter no mínimo 8 caracteres/i)).toBeInTheDocument();
       expect(screen.getByText(/confirme sua senha/i)).toBeInTheDocument();
-      expect(
-        screen.getByText(/você deve aceitar a política de privacidade/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/você deve aceitar a política de privacidade/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();

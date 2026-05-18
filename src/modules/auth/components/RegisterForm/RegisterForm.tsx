@@ -6,8 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getVariants, scaleIn } from '@/lib/animations';
 import { useAuth } from '../../hooks/useAuth';
 import { type RegisterFormData, registerSchema } from '../../schemas/authSchemas';
-import { RegisterFormError } from './RegisterFormError';
 import { RegisterFormConsent } from './RegisterFormConsent';
+import { RegisterFormError } from './RegisterFormError';
 import { RegisterFormFields } from './RegisterFormFields';
 
 export const RegisterForm = () => {

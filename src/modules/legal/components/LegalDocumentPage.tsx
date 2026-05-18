@@ -10,12 +10,14 @@ type LegalDocumentPageProps = {
 
 const renderInline = (text: string): ReactNode[] => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    }
-    return <span key={index}>{part}</span>;
-  });
+  return parts
+    .filter((part) => part.length > 0)
+    .map((part) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={`strong-${part}`}>{part.slice(2, -2)}</strong>;
+      }
+      return <span key={`text-${part}`}>{part}</span>;
+    });
 };
 
 const renderMarkdown = (markdown: string): ReactNode[] => {
@@ -47,7 +49,10 @@ const renderMarkdown = (markdown: string): ReactNode[] => {
           <thead>
             <tr>
               {tableRows[0].map((cell) => (
-                <th key={cell} className="border border-border px-2 py-1 text-left bg-muted font-medium">
+                <th
+                  key={cell}
+                  className="border border-border px-2 py-1 text-left bg-muted font-medium"
+                >
                   {renderInline(cell)}
                 </th>
               ))}

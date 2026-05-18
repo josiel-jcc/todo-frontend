@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Link } from 'react-router';
 import { Label } from '@/components/ui/label';
 import type { RegisterFormData } from '../../schemas/authSchemas';
 
@@ -17,7 +17,10 @@ export const RegisterFormConsent = ({ register, errors }: RegisterFormConsentPro
         className="mt-1 h-4 w-4 rounded border-border"
         {...register('acceptPrivacyPolicy')}
       />
-      <Label htmlFor="acceptPrivacyPolicy" className="text-sm font-normal leading-snug cursor-pointer">
+      <Label
+        htmlFor="acceptPrivacyPolicy"
+        className="text-sm font-normal leading-snug cursor-pointer"
+      >
         Li e aceito a{' '}
         <Link to="/privacidade" className="text-primary underline" target="_blank">
           Política de Privacidade
