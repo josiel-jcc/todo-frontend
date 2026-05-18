@@ -1,7 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { components } from '@/api';
 import { getStoredUser, mergeStoredUser, setStoredUser } from '@/api/storage';
-import { getCurrentUser, updateNotificationsEnabled, updateTelegramChatID } from '@/api/users';
+import {
+  deleteAccount,
+  exportAccountData,
+  getCurrentUser,
+  updateNotificationsEnabled,
+  updateTelegramChatID,
+} from '@/api/users';
 
 type User = components['schemas']['models.User'];
 type UpdateNotificationsRequest =
@@ -14,9 +20,6 @@ const syncUserToCache = (queryClient: ReturnType<typeof useQueryClient>, user: U
   queryClient.setQueryData(['auth', 'user'], user);
 };
 
-/**
- * Hook for managing user settings
- */
 export const useSettings = () => {
   const queryClient = useQueryClient();
 
@@ -80,25 +83,33 @@ export const useSettings = () => {
     },
   });
 
+  const exportDataMutation = useMutation({
+    mutationFn: exportAccountData,
+    onSuccess: (data) => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `meus-dados-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    },
+  });
+
+  const deleteAccountMutation = useMutation({
+    mutationFn: (password: string) => deleteAccount(password),
+  });
+
   return {
     isLoadingProfile,
-
-    // Notifications
     updateNotifications: updateNotificationsMutation.mutate,
-    updateNotificationsAsync: updateNotificationsMutation.mutateAsync,
     isUpdatingNotifications: updateNotificationsMutation.isPending,
-    updateNotificationsError: updateNotificationsMutation.error,
-
-    // Telegram
     updateTelegramChatId: (data: { telegram_chat_id: string }) =>
-      updateTelegramMutation.mutate({
-        telegram_chat_id: data.telegram_chat_id,
-      }),
-    updateTelegramChatIdAsync: (data: { telegram_chat_id: string }) =>
-      updateTelegramMutation.mutateAsync({
-        telegram_chat_id: data.telegram_chat_id,
-      }),
+      updateTelegramMutation.mutate({ telegram_chat_id: data.telegram_chat_id }),
     isUpdatingTelegram: updateTelegramMutation.isPending,
-    updateTelegramError: updateTelegramMutation.error,
+    exportData: exportDataMutation.mutate,
+    isExportingData: exportDataMutation.isPending,
+    deleteAccount: deleteAccountMutation.mutateAsync,
+    isDeletingAccount: deleteAccountMutation.isPending,
   };
 };

@@ -2,6 +2,10 @@
 
 Aplicação frontend moderna para gerenciamento de tarefas construída com React 19, TypeScript e tecnologias de ponta. Interface responsiva com suporte a dark mode, animações suaves e experiência de usuário otimizada.
 
+## Conformidade (LGPD)
+
+Documentação legal e de segurança: [`docs/compliance/`](docs/compliance/). No app: `/privacidade` e `/termos`.
+
 ## ✨ Features
 
 - 🔐 **Autenticação completa** - Login e registro de usuários

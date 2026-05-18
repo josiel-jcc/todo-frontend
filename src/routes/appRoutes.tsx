@@ -42,6 +42,16 @@ const SearchPage = lazy(() =>
     default: module.SearchPage,
   }))
 );
+const PrivacyPage = lazy(() =>
+  import('../modules/legal/pages').then((module) => ({
+    default: module.PrivacyPage,
+  }))
+);
+const TermsPage = lazy(() =>
+  import('../modules/legal/pages').then((module) => ({
+    default: module.TermsPage,
+  }))
+);
 
 export function AppRoutes() {
   const location = useLocation();
@@ -49,6 +59,26 @@ export function AppRoutes() {
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
+        <Route
+          path="/privacidade"
+          element={
+            <Suspense fallback={<Loading />}>
+              <PageTransition>
+                <PrivacyPage />
+              </PageTransition>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/termos"
+          element={
+            <Suspense fallback={<Loading />}>
+              <PageTransition>
+                <TermsPage />
+              </PageTransition>
+            </Suspense>
+          }
+        />
         <Route
           path="/login"
           element={

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getVariants, scaleIn } from '@/lib/animations';
 import { useAuth } from '../../hooks/useAuth';
 import { type RegisterFormData, registerSchema } from '../../schemas/authSchemas';
+import { RegisterFormConsent } from './RegisterFormConsent';
 import { RegisterFormError } from './RegisterFormError';
 import { RegisterFormFields } from './RegisterFormFields';
 
@@ -23,11 +24,16 @@ export const RegisterForm = () => {
       email: '',
       password: '',
       confirmPassword: '',
+      acceptPrivacyPolicy: false,
     },
   });
 
   const onSubmit = (data: RegisterFormData) => {
-    const { confirmPassword: _confirmPassword, ...registerData } = data;
+    const {
+      confirmPassword: _confirmPassword,
+      acceptPrivacyPolicy: _acceptPrivacyPolicy,
+      ...registerData
+    } = data;
     registerUser(registerData);
   };
 
@@ -49,6 +55,8 @@ export const RegisterForm = () => {
           <RegisterFormError error={registerError} />
 
           <RegisterFormFields register={register} errors={errors} />
+
+          <RegisterFormConsent register={register} errors={errors} />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

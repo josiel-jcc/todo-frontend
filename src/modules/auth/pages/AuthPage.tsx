@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Logo } from '@/components';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getVariants, scaleIn } from '@/lib/animations';
+import { LegalFooterLinks } from '@/modules/legal/components/LegalFooterLinks';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 import { RegisterForm } from '../components/RegisterForm/RegisterForm';
 
@@ -30,6 +31,7 @@ export const AuthPage = () => {
             <RegisterForm />
           </TabsContent>
         </Tabs>
+        <LegalFooterLinks />
       </motion.div>
     </div>
   );

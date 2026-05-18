@@ -1,74 +1,48 @@
 import { apiClient } from './apiClient';
-import type { components, paths } from './types';
+import type { components } from './types';
 
-/**
- * Users API Service
- * Handles user-related API calls
- */
-
-// Type definitions
 type User = components['schemas']['models.User'];
-type UpdateNotificationsEnabledRequest =
-  components['schemas']['handlers.UpdateNotificationsEnabledRequest'];
-type UpdateTelegramChatIDRequest = components['schemas']['handlers.UpdateTelegramChatIDRequest'];
-type SuccessResponse = components['schemas']['handlers.SuccessResponse'];
-type PaginatedUsersResponse = components['schemas']['handlers.PaginatedUsersResponse'];
 
-const normalizeUser = (user: User): User => ({
-  ...user,
-  telegram_chat_id: user.telegram_chat_id ?? '',
-});
-
-/**
- * Get the authenticated user's profile
- */
-export const getCurrentUser = async (): Promise<User> => {
-  const response = await apiClient.get<User>('/users/me');
-  return normalizeUser(response.data);
-};
-
-/**
- * Update notifications enabled setting for the authenticated user
- * @param data - Notifications enabled status
- * @returns Success response
- */
-export const updateNotificationsEnabled = async (
-  data: UpdateNotificationsEnabledRequest
-): Promise<SuccessResponse> => {
-  const response = await apiClient.put<
-    paths['/users/notifications-enabled']['put']['responses']['200']['content']['application/json']
-  >('/users/notifications-enabled', data);
-
-  return response.data;
-};
-
-/**
- * Update Telegram chat ID for the authenticated user
- * @param data - Telegram chat ID
- * @returns Success response
- */
-export const updateTelegramChatID = async (
-  data: UpdateTelegramChatIDRequest
-): Promise<SuccessResponse> => {
-  const response = await apiClient.put<
-    paths['/users/telegram-chat-id']['put']['responses']['200']['content']['application/json']
-  >('/users/telegram-chat-id', data);
-
-  return response.data;
-};
-
-/**
- * Get all users with pagination
- * @param params - Query parameters
- * @returns Paginated users response
- */
-export const getUsers = async (params?: {
+export type UsersQueryParams = {
   page?: number;
   limit?: number;
-}): Promise<PaginatedUsersResponse> => {
-  const response = await apiClient.get<
-    paths['/users']['get']['responses']['200']['content']['application/json']
-  >('/users', { params });
+};
 
+export type PaginatedUsersResponse = {
+  users: Array<Pick<User, 'id' | 'username' | 'created_at' | 'updated_at'>>;
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+};
+
+export const getUsers = async (params?: UsersQueryParams): Promise<PaginatedUsersResponse> => {
+  const response = await apiClient.get<PaginatedUsersResponse>('/users', { params });
   return response.data;
+};
+
+export const getCurrentUser = async (): Promise<User> => {
+  const response = await apiClient.get<User>('/users/me');
+  return response.data;
+};
+
+export const exportAccountData = async (): Promise<Record<string, unknown>> => {
+  const response = await apiClient.get<Record<string, unknown>>('/users/me/export');
+  return response.data;
+};
+
+export const deleteAccount = async (password: string): Promise<void> => {
+  await apiClient.delete('/users/me', { data: { password } });
+};
+
+export const updateTelegramChatID = async (data: {
+  telegram_chat_id?: string | null;
+}): Promise<void> => {
+  await apiClient.put('/users/telegram-chat-id', data);
+};
+
+export const updateNotificationsEnabled = async (data: {
+  notifications_enabled: boolean;
+}): Promise<void> => {
+  await apiClient.put('/users/notifications-enabled', data);
 };

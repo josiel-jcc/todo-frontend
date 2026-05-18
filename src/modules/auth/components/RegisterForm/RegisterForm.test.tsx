@@ -49,11 +49,12 @@ describe('RegisterForm', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(/o nome de usuário deve ter pelo menos 3 caracteres/i)
+        screen.getByText(/o nome de usuário deve ter no mínimo 3 caracteres/i)
       ).toBeInTheDocument();
       expect(screen.getByText(/informe um endereço de e-mail válido/i)).toBeInTheDocument();
-      expect(screen.getByText(/a senha deve ter pelo menos 6 caracteres/i)).toBeInTheDocument();
+      expect(screen.getByText(/a senha deve ter no mínimo 8 caracteres/i)).toBeInTheDocument();
       expect(screen.getByText(/confirme sua senha/i)).toBeInTheDocument();
+      expect(screen.getByText(/você deve aceitar a política de privacidade/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -71,7 +72,7 @@ describe('RegisterForm', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(/o nome de usuário deve ter pelo menos 3 caracteres/i)
+        screen.getByText(/o nome de usuário deve ter no mínimo 3 caracteres/i)
       ).toBeInTheDocument();
     });
 
@@ -120,7 +121,7 @@ describe('RegisterForm', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/a senha deve ter pelo menos 6 caracteres/i)).toBeInTheDocument();
+      expect(screen.getByText(/a senha deve ter no mínimo 8 caracteres/i)).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -164,6 +165,7 @@ describe('RegisterForm', () => {
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123');
     await user.type(confirmPasswordInput, 'password123');
+    await user.click(screen.getByRole('checkbox'));
     await user.click(submitButton);
 
     await waitFor(() => {

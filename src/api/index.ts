@@ -12,7 +12,6 @@ export {
   getAuthToken,
   getStoredUser,
   removeAuthToken,
-  setAuthToken,
   setStoredUser,
 } from './apiClient';
 /**
@@ -20,6 +19,7 @@ export {
  */
 export * from './auth';
 export * from './comments';
+export { setAuthToken } from './storage';
 export * from './tags';
 export * from './tasks';
 export type * from './types';
