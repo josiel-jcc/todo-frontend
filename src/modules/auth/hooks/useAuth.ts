@@ -31,7 +31,7 @@ export const useAuth = () => {
 
     // Listen for storage changes (for cross-tab sync)
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'auth_user') {
+      if (e.key === 'auth_user' || e.key === 'auth_token') {
         checkAuth();
       }
     };
@@ -57,16 +57,11 @@ export const useAuth = () => {
   const loginMutation = useMutation<AuthResponse, Error, LoginRequest>({
     mutationFn: (credentials: LoginRequest) => login(credentials),
     onSuccess: (data: AuthResponse) => {
-      // Update auth state
-      setAuthState(true);
-      // Update user query cache
       if (data.user) {
         queryClient.setQueryData(['auth', 'user'], data.user);
       }
-      // Refetch user to ensure consistency
-      queryClient.invalidateQueries({ queryKey: ['auth', 'user'] });
+      setAuthState(isAuthenticated());
       toast.success('Login realizado com sucesso!');
-      // Navigate to tasks page
       navigate('/tasks');
     },
     onError: (error) => {
@@ -78,16 +73,11 @@ export const useAuth = () => {
   const registerMutation = useMutation<AuthResponse, Error, RegisterRequest>({
     mutationFn: (userData: RegisterRequest) => register(userData),
     onSuccess: (data: AuthResponse) => {
-      // Update auth state
-      setAuthState(true);
-      // Update user query cache
       if (data.user) {
         queryClient.setQueryData(['auth', 'user'], data.user);
       }
-      // Refetch user to ensure consistency
-      queryClient.invalidateQueries({ queryKey: ['auth', 'user'] });
+      setAuthState(isAuthenticated());
       toast.success('Conta criada com sucesso!');
-      // Navigate to home page
       navigate('/tasks');
     },
     onError: (error) => {

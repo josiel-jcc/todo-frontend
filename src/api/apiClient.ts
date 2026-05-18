@@ -1,10 +1,16 @@
 import axios, { type AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 import { navigateTo } from '@/lib/navigation';
-import { getAuthToken, getStoredUser, removeAuthToken, setStoredUser } from './storage';
+import {
+  getAuthToken,
+  getStoredUser,
+  removeAuthToken,
+  setAuthToken,
+  setStoredUser,
+} from './storage';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api-todo.infoos.shop/api/v1';
 
-export { getAuthToken, getStoredUser, removeAuthToken, setStoredUser };
+export { getAuthToken, getStoredUser, removeAuthToken, setAuthToken, setStoredUser };
 
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
