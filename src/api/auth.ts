@@ -1,4 +1,11 @@
-import { apiClient, getAuthToken, removeAuthToken, setAuthToken, setStoredUser } from './apiClient';
+import {
+  apiClient,
+  getAuthToken,
+  getStoredUser,
+  removeAuthToken,
+  setAuthToken,
+  setStoredUser,
+} from './apiClient';
 import type { components, paths } from './types';
 
 type LoginRequest = components['schemas']['handlers.LoginRequest'];
