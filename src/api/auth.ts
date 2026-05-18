@@ -11,6 +11,23 @@ import type { components, paths } from './types';
 type LoginRequest = components['schemas']['handlers.LoginRequest'];
 type RegisterRequest = components['schemas']['handlers.RegisterRequest'];
 type AuthResponse = components['schemas']['handlers.AuthResponse'];
+type User = components['schemas']['models.User'];
+
+function isUser(value: unknown): value is User {
+  if (typeof value !== 'object' || value === null) return false;
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate.id === 'number' &&
+    typeof candidate.username === 'string' &&
+    typeof candidate.email === 'string'
+  );
+}
+
+function persistAuthUser(user: AuthResponse['user']): void {
+  if (isUser(user)) {
+    setStoredUser(user);
+  }
+}
 
 export const login = async (credentials: LoginRequest): Promise<AuthResponse> => {
   const response = await apiClient.post<
@@ -21,9 +38,7 @@ export const login = async (credentials: LoginRequest): Promise<AuthResponse> =>
   if (data.token) {
     setAuthToken(data.token);
   }
-  if (data.user) {
-    setStoredUser(data.user);
-  }
+  persistAuthUser(data.user);
   return data;
 };
 
@@ -36,9 +51,7 @@ export const register = async (userData: RegisterRequest): Promise<AuthResponse>
   if (data.token) {
     setAuthToken(data.token);
   }
-  if (data.user) {
-    setStoredUser(data.user);
-  }
+  persistAuthUser(data.user);
   return data;
 };
 
