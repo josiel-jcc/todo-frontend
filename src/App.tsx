@@ -1,6 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { PwaInstallBanner } from './components/PwaInstallBanner';
 import { Toaster } from './components/Toaster';
 import { TaskFormProvider } from './contexts/TaskFormContext';
 import { setNavigate } from './lib/navigation';
@@ -18,6 +19,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TaskFormProvider>
         <AppRoutes />
+        <PwaInstallBanner />
         <Toaster />
       </TaskFormProvider>
     </QueryClientProvider>
