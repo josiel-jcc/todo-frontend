@@ -17,6 +17,7 @@ export { Logo } from './Logo';
 export { Modal } from './Modal';
 export { PageTransition } from './PageTransition';
 export { ProtectedRoute } from './ProtectedRoute';
+export { PwaInstallBanner } from './PwaInstallBanner';
 export { TaskGroupCard } from './TaskGroupCard';
 export { ThemeToggle } from './ThemeToggle';
 export { Toaster } from './Toaster';
