@@ -32,7 +32,8 @@
     }
   },
   "files": {
-    "ignoreUnknown": true
+    "ignoreUnknown": true,
+    "ignore": ["public/mockServiceWorker.js"]
   },
   "linter": {
     "enabled": true,

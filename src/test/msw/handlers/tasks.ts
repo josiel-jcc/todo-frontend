@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 import type { MockTask } from '../store';
 import { getE2eUser, getStore } from '../store';
 
@@ -60,7 +60,9 @@ export const taskHandlers = [
     const url = new URL(request.url);
     const store = getStore();
     const e2eUser = getE2eUser();
-    const assigned = store.tasks.filter((t) => t.assigned_by === e2eUser.id && t.user_id !== e2eUser.id);
+    const assigned = store.tasks.filter(
+      (t) => t.assigned_by === e2eUser.id && t.user_id !== e2eUser.id
+    );
     const filtered = filterTasks(assigned, url);
     return HttpResponse.json(paginate(filtered, url));
   }),

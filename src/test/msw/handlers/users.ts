@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { getE2eUser, getStore } from '../store';
 
 const api = '/api/v1';

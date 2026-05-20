@@ -9,54 +9,54 @@ const isE2E =
   (envModeArgIndex !== -1 && process.argv[envModeArgIndex + 1] === 'e2e');
 
 const pwaPlugin = pluginPWA({
-      webAppManifest: {
-        content: {
-          name: 'App de Tarefas',
-          short_name: 'Tarefas',
-          description: 'Gerencie suas tarefas do dia a dia',
-          theme_color: '#0033ad',
-          background_color: '#ffffff',
-          display: 'standalone',
-          orientation: 'portrait',
-          start_url: '/',
-          scope: '/',
-          icons: [
-            {
-              src: 'icons/icon-192.png',
-              sizes: '192x192',
-              type: 'image/png',
-            },
-            {
-              src: 'icons/icon-512.png',
-              sizes: '512x512',
-              type: 'image/png',
-            },
-            {
-              src: 'icons/icon-maskable-512.png',
-              sizes: '512x512',
-              type: 'image/png',
-              purpose: 'maskable',
-            },
-          ],
+  webAppManifest: {
+    content: {
+      name: 'App de Tarefas',
+      short_name: 'Tarefas',
+      description: 'Gerencie suas tarefas do dia a dia',
+      theme_color: '#0033ad',
+      background_color: '#ffffff',
+      display: 'standalone',
+      orientation: 'portrait',
+      start_url: '/',
+      scope: '/',
+      icons: [
+        {
+          src: 'icons/icon-192.png',
+          sizes: '192x192',
+          type: 'image/png',
         },
-      },
-      htmlTags: {
-        themeColor: true,
-        appleTouchIcon: {
-          href: '/icons/apple-touch-icon.png',
-          sizes: '180x180',
+        {
+          src: 'icons/icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
         },
-      },
-      registerSw: {
-        type: 'script',
-        autoSkipWaiting: true,
-        autoReloadPage: true,
-      },
-      sw: {
-        mode: 'generateSw',
-        includeWebAppManifestIcons: true,
-      },
-    });
+        {
+          src: 'icons/icon-maskable-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    },
+  },
+  htmlTags: {
+    themeColor: true,
+    appleTouchIcon: {
+      href: '/icons/apple-touch-icon.png',
+      sizes: '180x180',
+    },
+  },
+  registerSw: {
+    type: 'script',
+    autoSkipWaiting: true,
+    autoReloadPage: true,
+  },
+  sw: {
+    mode: 'generateSw',
+    includeWebAppManifestIcons: true,
+  },
+});
 
 // Docs: https://rsbuild.rs/config/
 export default defineConfig({

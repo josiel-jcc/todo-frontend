@@ -1,4 +1,4 @@
-import { seedAuthenticatedSession, expect, test } from '../fixtures/auth';
+import { expect, seedAuthenticatedSession, test } from '../fixtures/auth';
 import { taskTitle } from '../helpers/tasks';
 
 test.describe('Autenticação', () => {
