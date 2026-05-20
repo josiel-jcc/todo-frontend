@@ -23,8 +23,12 @@ const initializeTheme = () => {
 
 initializeTheme();
 
-const rootEl = document.getElementById('root');
-if (rootEl) {
+async function bootstrap() {
+  const rootEl = document.getElementById('root');
+  if (!rootEl) {
+    return;
+  }
+
   const root = ReactDOM.createRoot(rootEl);
   root.render(
     <React.StrictMode>
@@ -34,3 +38,5 @@ if (rootEl) {
     </React.StrictMode>
   );
 }
+
+void bootstrap();

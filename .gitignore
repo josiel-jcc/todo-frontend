@@ -7,6 +7,7 @@
 .env
 .env.*
 !.env.docker.example
+!.env.e2e
 
 # Dist
 node_modules
@@ -22,6 +23,12 @@ dist/
 
 *storybook.log
 storybook-static
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # Generated/Downloaded files
 swagger.yaml
