@@ -1,2 +1,2 @@
 * text=auto eol=lf
-*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{js,ts,tsx,json,md,yml,yaml} text eol=lf
