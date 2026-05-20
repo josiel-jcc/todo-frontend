@@ -3,11 +3,12 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginPWA } from 'rsbuild-plugin-pwa';
 
-// Docs: https://rsbuild.rs/config/
-export default defineConfig({
-  plugins: [
-    pluginReact(),
-    pluginPWA({
+const envModeArgIndex = process.argv.indexOf('--env-mode');
+const isE2E =
+  process.env.VITE_E2E === 'true' ||
+  (envModeArgIndex !== -1 && process.argv[envModeArgIndex + 1] === 'e2e');
+
+const pwaPlugin = pluginPWA({
       webAppManifest: {
         content: {
           name: 'App de Tarefas',
@@ -55,8 +56,14 @@ export default defineConfig({
         mode: 'generateSw',
         includeWebAppManifestIcons: true,
       },
-    }),
-  ],
+    });
+
+// Docs: https://rsbuild.rs/config/
+export default defineConfig({
+  plugins: [pluginReact(), ...(isE2E ? [] : [pwaPlugin])],
+  server: {
+    port: isE2E ? 3100 : undefined,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
