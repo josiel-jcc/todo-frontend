@@ -21,10 +21,18 @@ const navItems: NavItem[] = [
   { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
 
-// Mobile: settings via user menu in header — symmetric 2 | + | 2 layout
-const mobileNavItems = navItems.filter((item) => item.path !== '/settings');
-const leftNavItems = mobileNavItems.slice(0, 2);
-const rightNavItems = mobileNavItems.slice(2);
+// Mobile: symmetric 3 | + | 3 layout
+const leftNavItems: NavItem[] = [
+  { icon: Home, label: 'Início', path: '/tasks' },
+  { icon: Search, label: 'Buscar', path: '/search' },
+  { icon: Calendar, label: 'Hoje', path: '/tasks/today' },
+];
+
+const rightNavItems: NavItem[] = [
+  { icon: Send, label: 'Deleguei', path: '/tasks/assigned' },
+  { icon: Users, label: 'Grupos', path: '/groups' },
+  { icon: Settings, label: 'Configurações', path: '/settings' },
+];
 
 function isNavActive(pathname: string, itemPath: string): boolean {
   if (itemPath === '/groups') {
