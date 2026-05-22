@@ -11,7 +11,9 @@ Documentação legal e de segurança: [`docs/compliance/`](docs/compliance/). No
 - 🔐 **Autenticação completa** - Login e registro de usuários
 - 📋 **Gerenciamento de tarefas** - Criar, editar, excluir e completar tarefas
 - 🏷️ **Sistema de tags** - Organize tarefas com tags coloridas
-- 👥 **Atribuição de usuários** - Atribua tarefas a outros usuários
+- 👥 **Atribuição de usuários** - Atribua tarefas a outros usuários do mesmo grupo
+- 🏠 **Grupos e convites** - Crie grupos, convide membros (aceite obrigatório) e colabore com segurança
+- 🔔 **Notificações in-app** - Sino no header para convites de grupo (aceitar/recusar)
 - 💬 **Comentários** - Adicione comentários às tarefas
 - 🔍 **Busca avançada** - Filtros por tipo, prioridade, data, status e mais
 - 📊 **Dashboard** - Visualize estatísticas e tarefas em progresso

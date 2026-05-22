@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserMinus, UserPlus } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router';
 import { toast } from 'sonner';
 import type { components } from '@/api';
 import { shareTask, unshareTask } from '@/api/tasks';
@@ -35,8 +36,9 @@ export const TaskDetailShareSection = ({ task }: TaskDetailShareSectionProps) =>
       void queryClient.invalidateQueries({ queryKey: ['tasks', task.id] });
       void queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-    onError: () => {
-      toast.error('Não foi possível compartilhar a tarefa');
+    onError: (err: Error & { response?: { data?: { message?: string } } }) => {
+      const msg = err.response?.data?.message ?? 'Não foi possível compartilhar a tarefa';
+      toast.error(msg);
     },
   });
 
@@ -105,7 +107,10 @@ export const TaskDetailShareSection = ({ task }: TaskDetailShareSectionProps) =>
             <p className="text-sm text-muted-foreground">Carregando usuários…</p>
           ) : eligibleUserIds.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              Não há outros usuários disponíveis para compartilhar.
+              Para compartilhar tarefas, participe de um grupo com outros usuários.{' '}
+              <Link to="/groups" className="text-primary underline">
+                Gerenciar grupos
+              </Link>
             </p>
           ) : (
             <div className="flex flex-wrap gap-2 rounded-2xl border p-3">

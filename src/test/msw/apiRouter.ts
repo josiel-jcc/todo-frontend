@@ -183,6 +183,125 @@ export function resolveApiRequest(
     return { status: 200, body: comments };
   }
 
+  if (method === 'GET' && pathname === '/api/v1/groups') {
+    return { status: 200, body: store.groups ?? [] };
+  }
+
+  const groupMatch = pathname.match(/^\/api\/v1\/groups\/(\d+)$/);
+  if (method === 'GET' && groupMatch) {
+    const id = Number(groupMatch[1]);
+    const group = store.groups?.find((g) => g.id === id);
+    if (!group) {
+      return { status: 404, body: { message: 'not found' } };
+    }
+    return {
+      status: 200,
+      body: {
+        ...group,
+        members: store.users.filter((u) => u.id === e2eUser.id || u.id === 2),
+        pending_invitations: (store.groupInvitations ?? []).filter((i) => i.group_id === id),
+      },
+    };
+  }
+
+  if (method === 'POST' && pathname === '/api/v1/groups') {
+    const name = String(body?.name ?? 'Novo grupo');
+    const newGroup = {
+      id: (store.groups?.length ?? 0) + 10,
+      name,
+      is_default: false,
+      member_count: 1,
+      created_by: e2eUser.id,
+    };
+    store.groups = [...(store.groups ?? []), newGroup];
+    return { status: 201, body: { id: newGroup.id, name: newGroup.name } };
+  }
+
+  const groupInviteMatch = pathname.match(/^\/api\/v1\/groups\/(\d+)\/invitations$/);
+  if (method === 'POST' && groupInviteMatch) {
+    const groupId = Number(groupInviteMatch[1]);
+    const invitedUserId = Number(body?.user_id ?? 2);
+    const inv = {
+      id: store.nextInvitationId++,
+      group_id: groupId,
+      invited_user_id: invitedUserId,
+      invited_by_user_id: e2eUser.id,
+      status: 'pending',
+      group: store.groups?.find((g) => g.id === groupId),
+    };
+    store.groupInvitations = [...(store.groupInvitations ?? []), inv];
+    return { status: 201, body: inv };
+  }
+
+  if (method === 'GET' && pathname === '/api/v1/group-invitations') {
+    return {
+      status: 200,
+      body: (store.groupInvitations ?? []).filter((i) => i.invited_user_id === e2eUser.id),
+    };
+  }
+
+  const acceptMatch = pathname.match(/^\/api\/v1\/group-invitations\/(\d+)\/accept$/);
+  if (method === 'POST' && acceptMatch) {
+    const id = Number(acceptMatch[1]);
+    store.groupInvitations = (store.groupInvitations ?? []).filter((i) => i.id !== id);
+    return { status: 200, body: { message: 'Invitation accepted' } };
+  }
+
+  const declineMatch = pathname.match(/^\/api\/v1\/group-invitations\/(\d+)\/decline$/);
+  if (method === 'POST' && declineMatch) {
+    const id = Number(declineMatch[1]);
+    store.groupInvitations = (store.groupInvitations ?? []).filter((i) => i.id !== id);
+    return { status: 200, body: { message: 'Invitation declined' } };
+  }
+
+  if (method === 'GET' && pathname === '/api/v1/notifications/in-app/unread-count') {
+    const count = (store.groupInvitations ?? []).filter(
+      (i) => i.invited_user_id === e2eUser.id
+    ).length;
+    return { status: 200, body: { count } };
+  }
+
+  if (method === 'GET' && pathname === '/api/v1/notifications/in-app') {
+    const notifications = (store.groupInvitations ?? [])
+      .filter((i) => i.invited_user_id === e2eUser.id)
+      .map((i) => ({
+        id: i.id,
+        user_id: e2eUser.id,
+        type: 'group_invite',
+        payload: JSON.stringify({
+          invitation_id: i.id,
+          group_id: i.group_id,
+          group_name: i.group?.name ?? 'Grupo',
+          invited_by_username: 'e2euser',
+        }),
+        read: false,
+        created_at: new Date().toISOString(),
+      }));
+    return {
+      status: 200,
+      body: {
+        notifications,
+        total: notifications.length,
+        page: 1,
+        limit: 50,
+        total_pages: 1,
+      },
+    };
+  }
+
+  const shareMatch = pathname.match(/^\/api\/v1\/tasks\/(\d+)\/share$/);
+  if (method === 'POST' && shareMatch) {
+    const taskId = Number(shareMatch[1]);
+    const task = store.tasks.find((t) => t.id === taskId);
+    if (!task) {
+      return { status: 404, body: { error: 'not found' } };
+    }
+    const userIds = (body?.user_ids as number[]) ?? [];
+    const sharedUsers = store.users.filter((u) => userIds.includes(u.id));
+    task.shared_with = sharedUsers as typeof task.shared_with;
+    return { status: 200, body: { message: 'Task shared successfully' } };
+  }
+
   if (method === 'POST' && pathname === '/api/v1/comments') {
     const now = new Date().toISOString();
     const taskId = Number(body?.task_id);

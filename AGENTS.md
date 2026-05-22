@@ -32,12 +32,22 @@ This is a Todo App frontend built with:
 - `bun run storybook` - Start Storybook dev server
 - `bun run build-storybook` - Build Storybook for production
 
+## Groups and notifications
+
+- **`src/modules/groups/`** — list/create groups, group detail, send/cancel invitations
+- **`src/modules/notifications/`** — `NotificationBell` in `AppLayout`; in-app API at `/notifications/in-app`
+- **`useUsers()`** — default lists co-group members; pass `{ scope: 'invite', group_id }` when inviting to a group
+- Routes: `/groups`, `/groups/:id`
+
 ## Project Structure
 
 ```
 src/
 ├── api/                # API client and generated types
 │   ├── types.ts        # Auto-generated types (DO NOT EDIT)
+│   ├── groups.ts       # Groups API (hand-maintained until OpenAPI regen)
+│   ├── groupInvitations.ts
+│   ├── inAppNotifications.ts
 │   └── index.ts        # Type exports
 ├── components/         # Global reusable components
 ├── modules/            # Feature modules

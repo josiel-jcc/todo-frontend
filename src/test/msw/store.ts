@@ -5,14 +5,34 @@ export type MockTask = components['schemas']['models.Task'];
 export type MockTag = components['schemas']['models.Tag'];
 export type MockComment = components['schemas']['models.Comment'];
 
+export type MockGroup = {
+  id: number;
+  name: string;
+  is_default: boolean;
+  member_count: number;
+  created_by: number;
+};
+
+export type MockGroupInvitation = {
+  id: number;
+  group_id: number;
+  invited_user_id: number;
+  invited_by_user_id: number;
+  status: string;
+  group?: { id: number; name: string };
+};
+
 export type MockStore = {
   users: MockUser[];
   tasks: MockTask[];
   tags: MockTag[];
   comments: MockComment[];
+  groups: MockGroup[];
+  groupInvitations: MockGroupInvitation[];
   nextTaskId: number;
   nextTagId: number;
   nextCommentId: number;
+  nextInvitationId: number;
 };
 
 const now = new Date().toISOString();
@@ -91,14 +111,25 @@ const initialTasks: MockTask[] = [
   }),
 ];
 
+const defaultGroup: MockGroup = {
+  id: 1,
+  name: 'Os de casa',
+  is_default: true,
+  member_count: 2,
+  created_by: e2eUser.id,
+};
+
 let store: MockStore = {
   users: [e2eUser, otherUser],
   tasks: [...initialTasks],
   tags: [],
   comments: [],
+  groups: [defaultGroup],
+  groupInvitations: [],
   nextTaskId: 5,
   nextTagId: 1,
   nextCommentId: 1,
+  nextInvitationId: 1,
 };
 
 export const getStore = (): MockStore => store;
@@ -109,9 +140,12 @@ export const resetStore = (): void => {
     tasks: initialTasks.map((t) => ({ ...t })),
     tags: [],
     comments: [],
+    groups: [{ ...defaultGroup }],
+    groupInvitations: [],
     nextTaskId: 5,
     nextTagId: 1,
     nextCommentId: 1,
+    nextInvitationId: 1,
   };
 };
 

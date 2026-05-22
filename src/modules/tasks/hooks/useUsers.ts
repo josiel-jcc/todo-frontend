@@ -8,7 +8,12 @@ type PaginatedUsersResponse = components['schemas']['handlers.PaginatedUsersResp
  * Hook for fetching users list
  * Provides query for getting paginated list of users
  */
-export const useUsers = (params?: { page?: number; limit?: number }) => {
+export const useUsers = (params?: {
+  page?: number;
+  limit?: number;
+  scope?: 'invite';
+  group_id?: number;
+}) => {
   const usersQuery = useQuery<PaginatedUsersResponse, Error>({
     queryKey: ['users', params],
     queryFn: () => getUsers(params),

@@ -52,6 +52,16 @@ const TermsPage = lazy(() =>
     default: module.TermsPage,
   }))
 );
+const GroupsPage = lazy(() =>
+  import('../modules/groups/pages').then((module) => ({
+    default: module.GroupsPage,
+  }))
+);
+const GroupDetailPage = lazy(() =>
+  import('../modules/groups/pages').then((module) => ({
+    default: module.GroupDetailPage,
+  }))
+);
 
 export function AppRoutes() {
   const location = useLocation();
@@ -153,6 +163,34 @@ export function AppRoutes() {
                 <Suspense fallback={<Loading />}>
                   <PageTransition>
                     <SearchPage />
+                  </PageTransition>
+                </Suspense>
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <Suspense fallback={<Loading />}>
+                  <PageTransition>
+                    <GroupsPage />
+                  </PageTransition>
+                </Suspense>
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups/:id"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <Suspense fallback={<Loading />}>
+                  <PageTransition>
+                    <GroupDetailPage />
                   </PageTransition>
                 </Suspense>
               </AppLayout>

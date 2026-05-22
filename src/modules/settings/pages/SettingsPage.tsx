@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -43,6 +44,20 @@ export const SettingsPage = () => {
         <h1 className="text-3xl font-bold">Configurações</h1>
         <p className="text-muted-foreground">Gerencie suas preferências e configurações de conta</p>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Grupos</CardTitle>
+          <CardDescription>
+            Crie grupos e convide pessoas para compartilhar e atribuir tarefas entre vocês.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button asChild variant="outline" className="rounded-xl">
+            <Link to="/groups">Gerenciar grupos</Link>
+          </Button>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

@@ -19,7 +19,8 @@ Ao adicionar features, regressões em fluxos integrados (roteamento + estado + A
 | P0 | Cadastro, login, logout, guarda de rota | `/login`, `ProtectedRoute` |
 | P0 | Listar, criar, concluir tarefa | `/tasks`, `TaskFormOverlay` |
 | P1 | Editar, excluir, navegação, busca, detalhe | `/tasks`, `/search`, `/tasks/:id`, `BottomNavigation` |
-| P2 | Hoje, delegadas, comentários, share, settings | `/tasks/today`, `/tasks/assigned`, `/settings` |
+| P1 | Share (mesmo grupo), aceitar convite de grupo | `/tasks/:id`, notificações |
+| P2 | Hoje, delegadas, comentários, grupos CRUD, settings | `/tasks/today`, `/tasks/assigned`, `/groups`, `/settings` |
 
 ## Opções consideradas
 
