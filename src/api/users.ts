@@ -6,6 +6,8 @@ type User = components['schemas']['models.User'];
 export type UsersQueryParams = {
   page?: number;
   limit?: number;
+  scope?: 'invite';
+  group_id?: number;
 };
 
 export type PaginatedUsersResponse = {

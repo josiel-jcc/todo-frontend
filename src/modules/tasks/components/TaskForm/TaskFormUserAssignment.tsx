@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import type { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { Link } from 'react-router';
 import type { components } from '@/api';
 import { Label } from '@/components/ui/label';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
@@ -70,6 +71,13 @@ export const TaskFormUserAssignment = ({
             <Label htmlFor="user_id">Usuário *</Label>
             {isLoadingUsers ? (
               <div className="text-sm text-muted-foreground">Carregando usuários...</div>
+            ) : availableUsers.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                Atribua tarefas apenas a membros dos seus grupos.{' '}
+                <Link to="/groups" className="text-primary underline">
+                  Ver grupos
+                </Link>
+              </p>
             ) : (
               <select
                 id="user_id"

@@ -5,6 +5,7 @@ import { Logo } from '@/components/Logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { UserMenu } from '@/components/UserMenu';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { NotificationBell } from '@/modules/notifications/components/NotificationBell';
 import { TaskFormOverlay } from '@/modules/tasks/components/TaskFormOverlay';
 
 interface AppLayoutProps {
@@ -32,6 +33,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            {user && <NotificationBell />}
             {user && (
               <UserMenu
                 user={user}
@@ -65,6 +67,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            {user && <NotificationBell />}
             {user && (
               <UserMenu
                 user={user}

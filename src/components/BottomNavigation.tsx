@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Home, Plus, Search, Send, Settings } from 'lucide-react';
+import { Calendar, Home, Plus, Search, Send, Settings, Users } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTaskForm } from '@/contexts/TaskFormContext';
 import { cn } from '@/lib/utils';
@@ -16,6 +16,7 @@ const navItems: NavItem[] = [
   { icon: Home, label: 'Início', path: '/tasks' },
   { icon: Search, label: 'Buscar', path: '/search' },
   { icon: Send, label: 'Deleguei', path: '/tasks/assigned' },
+  { icon: Users, label: 'Grupos', path: '/groups' },
   { icon: Calendar, label: 'Hoje', path: '/tasks/today' },
   { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
@@ -24,6 +25,13 @@ const navItems: NavItem[] = [
 const mobileNavItems = navItems.filter((item) => item.path !== '/settings');
 const leftNavItems = mobileNavItems.slice(0, 2);
 const rightNavItems = mobileNavItems.slice(2);
+
+function isNavActive(pathname: string, itemPath: string): boolean {
+  if (itemPath === '/groups') {
+    return pathname.startsWith('/groups');
+  }
+  return pathname === itemPath;
+}
 
 function NavButton({
   item,
@@ -100,7 +108,7 @@ export const BottomNavigation = () => {
                   <NavButton
                     key={item.path}
                     item={item}
-                    isActive={location.pathname === item.path}
+                    isActive={isNavActive(location.pathname, item.path)}
                     onClick={() => handleNavClick(item.path)}
                   />
                 ))}
@@ -113,7 +121,7 @@ export const BottomNavigation = () => {
                   <NavButton
                     key={item.path}
                     item={item}
-                    isActive={location.pathname === item.path}
+                    isActive={isNavActive(location.pathname, item.path)}
                     onClick={() => handleNavClick(item.path)}
                   />
                 ))}
@@ -141,7 +149,7 @@ export const BottomNavigation = () => {
           <div className="flex flex-col gap-2 w-full px-2">
             {navItems.slice(1).map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = isNavActive(location.pathname, item.path);
 
               return (
                 <Button
