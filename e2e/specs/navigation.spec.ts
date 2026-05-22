@@ -23,9 +23,8 @@ test.describe('Navegação principal', () => {
     await expect(page).toHaveURL(/\/tasks\/today$/);
   });
 
-  test('navega para Configurações via menu do usuário', async ({ authenticatedPage: page }) => {
-    await page.locator('header').getByRole('button').last().click();
-    await page.getByRole('menuitem', { name: 'Configurações' }).click();
+  test('navega para Configurações', async ({ authenticatedPage: page }) => {
+    await page.getByRole('button', { name: 'Configurações' }).click();
     await expect(page).toHaveURL(/\/settings$/);
     await expect(page.getByRole('heading', { name: 'Configurações' })).toBeVisible();
   });

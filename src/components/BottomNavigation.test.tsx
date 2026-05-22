@@ -38,14 +38,15 @@ describe('BottomNavigation', () => {
     });
   });
 
-  it('should render mobile navigation items without settings', () => {
+  it('should render mobile navigation items in symmetric 3 | + | 3 layout', () => {
     render(<BottomNavigation />);
 
     expect(screen.getByText('Início')).toBeInTheDocument();
     expect(screen.getByText('Buscar')).toBeInTheDocument();
-    expect(screen.getByText('Deleguei')).toBeInTheDocument();
     expect(screen.getByText('Hoje')).toBeInTheDocument();
-    expect(screen.queryByText('Configurações')).not.toBeInTheDocument();
+    expect(screen.getByText('Deleguei')).toBeInTheDocument();
+    expect(screen.getByText('Grupos')).toBeInTheDocument();
+    expect(screen.getByText('Configurações')).toBeInTheDocument();
   });
 
   it('should render settings in desktop sidebar', () => {
