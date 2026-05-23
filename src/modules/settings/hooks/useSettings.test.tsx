@@ -58,9 +58,11 @@ describe('useSettings', () => {
 
     result.current.updateReminderMinutes(30);
 
-    await waitFor(() => expect(usersApi.updateReminderSettings).toHaveBeenCalledWith({
-      reminder_minutes_before: 30,
-    }));
+    await waitFor(() =>
+      expect(usersApi.updateReminderSettings).toHaveBeenCalledWith({
+        reminder_minutes_before: 30,
+      })
+    );
 
     await waitFor(() => {
       const user = queryClient.getQueryData<{ reminder_minutes_before: number }>(['auth', 'user']);

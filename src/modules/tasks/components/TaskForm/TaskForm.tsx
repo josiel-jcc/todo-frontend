@@ -6,9 +6,9 @@ import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskS
 import { useTaskFormLogic } from './hooks/useTaskFormLogic';
 import { TaskFormActions } from './TaskFormActions';
 import { TaskFormFields } from './TaskFormFields';
-import { TaskReminderField } from './TaskReminderField';
 import { TaskFormTags } from './TaskFormTags';
 import { TaskFormUserAssignment } from './TaskFormUserAssignment';
+import { TaskReminderField } from './TaskReminderField';
 
 interface TaskFormProps {
   onSubmit: (data: CreateTaskFormData | UpdateTaskFormData) => void;

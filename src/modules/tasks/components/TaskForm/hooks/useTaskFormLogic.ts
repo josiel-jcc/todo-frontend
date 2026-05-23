@@ -64,8 +64,9 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
     if (customReminderEnabled && reminder_minutes_before != null) {
       (formattedData as CreateTaskFormData).reminder_minutes_before = reminder_minutes_before;
     } else if (isEditMode) {
-      (formattedData as UpdateTaskFormData & { reminder_minutes_before?: number | null })
-        .reminder_minutes_before = null;
+      (
+        formattedData as UpdateTaskFormData & { reminder_minutes_before?: number | null }
+      ).reminder_minutes_before = null;
     }
 
     onSubmit(formattedData);

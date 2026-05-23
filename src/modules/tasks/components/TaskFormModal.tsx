@@ -10,8 +10,6 @@ export const TaskFormModal = () => {
   const { handleError } = useErrorHandler();
   const { createTask, updateTask, isCreatingTask, isUpdatingTask } = useTaskMutations();
 
-  const title = editingTask ? 'Editar Tarefa' : 'Nova Tarefa';
-
   const isLoading = isCreatingTask || isUpdatingTask;
 
   const initialData: UpdateTaskFormData | undefined = editingTask

@@ -120,9 +120,7 @@ export function resolveApiRequest(
       completed: false,
       due_date: String(body?.due_date ?? now),
       reminder_minutes_before:
-        body?.reminder_minutes_before !== undefined
-          ? Number(body.reminder_minutes_before)
-          : null,
+        body?.reminder_minutes_before !== undefined ? Number(body.reminder_minutes_before) : null,
       user_id: Number(body?.user_id ?? e2eUser.id),
       assigned_by: body?.user_id && body.user_id !== e2eUser.id ? e2eUser.id : 0,
       assigned_by_user: e2eUser,

@@ -1,5 +1,5 @@
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { render as renderWithProviders } from '@/test/utils';
 import { NotificationBell } from './NotificationBell';

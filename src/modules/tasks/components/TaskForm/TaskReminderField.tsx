@@ -5,7 +5,6 @@ import {
   formatReminderMinutesLabel,
   isReminderMinutes,
   REMINDER_MINUTES_OPTIONS,
-  type ReminderMinutes,
 } from '@/lib/reminderConstants';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 

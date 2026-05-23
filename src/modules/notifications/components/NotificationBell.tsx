@@ -7,13 +7,13 @@ import {
   parseTaskReminderPayload,
   type UserNotification,
 } from '@/api/inAppNotifications';
-import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
 import { useGroupInvitationMutations } from '@/modules/groups/hooks/useGroupInvitations';
 import { useInAppNotifications, useUnreadNotificationCount } from '../hooks/useInAppNotifications';
 

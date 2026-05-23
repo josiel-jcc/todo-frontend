@@ -1,8 +1,4 @@
-import {
-  getVapidPublicKey,
-  subscribePush,
-  unsubscribePush,
-} from '@/api/pushNotifications';
+import { getVapidPublicKey, subscribePush, unsubscribePush } from '@/api/pushNotifications';
 
 export type PushPermissionState = NotificationPermission | 'unsupported';
 

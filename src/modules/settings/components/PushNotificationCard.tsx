@@ -92,7 +92,8 @@ export const PushNotificationCard = ({ disabled }: PushNotificationCardProps) =>
           Receba lembretes nativos no celular ou computador quando o app estiver instalado como PWA.
           {isIosDevice() && !isStandaloneApp() ? (
             <span className="mt-2 block text-amber-600 dark:text-amber-400">
-              No iPhone/iPad, adicione o app à Tela de Início para ativar notificações push (iOS 16.4+).
+              No iPhone/iPad, adicione o app à Tela de Início para ativar notificações push (iOS
+              16.4+).
             </span>
           ) : null}
         </CardDescription>
