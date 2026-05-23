@@ -48,3 +48,9 @@ export const updateNotificationsEnabled = async (data: {
 }): Promise<void> => {
   await apiClient.put('/users/notifications-enabled', data);
 };
+
+export const updateReminderSettings = async (data: {
+  reminder_minutes_before: number;
+}): Promise<void> => {
+  await apiClient.put('/users/reminder-settings', data);
+};

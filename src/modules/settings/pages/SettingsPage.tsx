@@ -7,14 +7,18 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { LegalFooterLinks } from '@/modules/legal/components/LegalFooterLinks';
 import { PrivacySettingsCard } from '../components/PrivacySettingsCard';
+import { PushNotificationCard } from '../components/PushNotificationCard';
+import { ReminderMinutesSelect } from '../components/ReminderMinutesSelect';
 import { useSettings } from '../hooks/useSettings';
 
 export const SettingsPage = () => {
   const { user } = useAuth();
   const {
     updateNotifications,
+    updateReminderMinutes,
     updateTelegramChatId,
     isUpdatingNotifications,
+    isUpdatingReminder,
     isUpdatingTelegram,
     isLoadingProfile,
   } = useSettings();
@@ -22,6 +26,7 @@ export const SettingsPage = () => {
   const [telegramChatId, setTelegramChatId] = useState(user?.telegram_chat_id || '');
 
   const notificationsEnabled = user?.notifications_enabled ?? false;
+  const reminderMinutes = user?.reminder_minutes_before ?? 10;
 
   useEffect(() => {
     if (user?.telegram_chat_id !== undefined) {
@@ -122,8 +127,17 @@ export const SettingsPage = () => {
               />
             </button>
           </div>
+
+          <ReminderMinutesSelect
+            value={reminderMinutes}
+            onChange={(minutes) => updateReminderMinutes(minutes)}
+            disabled={isUpdatingReminder || isLoadingProfile}
+            description="Quanto tempo antes do vencimento você deseja ser lembrado (padrão para novas tarefas)."
+          />
         </CardContent>
       </Card>
+
+      <PushNotificationCard disabled={isLoadingProfile} />
 
       <Card>
         <CardHeader>

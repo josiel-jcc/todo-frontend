@@ -10,8 +10,6 @@ export const TaskFormModal = () => {
   const { handleError } = useErrorHandler();
   const { createTask, updateTask, isCreatingTask, isUpdatingTask } = useTaskMutations();
 
-  const title = editingTask ? 'Editar Tarefa' : 'Nova Tarefa';
-
   const isLoading = isCreatingTask || isUpdatingTask;
 
   const initialData: UpdateTaskFormData | undefined = editingTask
@@ -23,6 +21,10 @@ export const TaskFormModal = () => {
         due_date: editingTask.due_date,
         completed: editingTask.completed,
         tag_ids: editingTask.tags?.map((tag) => tag.id) ?? [],
+        customReminderEnabled:
+          editingTask.reminder_minutes_before != null &&
+          editingTask.reminder_minutes_before !== undefined,
+        reminder_minutes_before: editingTask.reminder_minutes_before ?? undefined,
       }
     : undefined;
 

@@ -2745,6 +2745,130 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/users/reminder-settings': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['handlers.UpdateReminderSettingsRequest'];
+        };
+      };
+      responses: {
+        200: {
+          headers: { [name: string]: unknown };
+          content: {
+            'application/json': components['schemas']['handlers.SuccessResponse'];
+          };
+        };
+      };
+    };
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/notifications/push/vapid-public-key': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        200: {
+          headers: { [name: string]: unknown };
+          content: {
+            'application/json': components['schemas']['handlers.VAPIDPublicKeyResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/notifications/push/subscribe': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['handlers.PushSubscribeRequest'];
+        };
+      };
+      responses: {
+        200: {
+          headers: { [name: string]: unknown };
+          content: {
+            'application/json': components['schemas']['handlers.SuccessResponse'];
+          };
+        };
+      };
+    };
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['handlers.PushUnsubscribeRequest'];
+        };
+      };
+      responses: {
+        200: {
+          headers: { [name: string]: unknown };
+          content: {
+            'application/json': components['schemas']['handlers.SuccessResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2782,6 +2906,11 @@ export interface components {
        * @enum {string}
        */
       priority: 'baixa' | 'media' | 'alta' | 'urgente';
+      /**
+       * @description Optional: minutes before due_date (5,10,15,30,60); omit to use user default
+       * @example 10
+       */
+      reminder_minutes_before?: number;
       /** @description Optional: IDs of tags to associate */
       tag_ids: number[];
       /** @example Clean the house */
@@ -2894,6 +3023,11 @@ export interface components {
        * @enum {string}
        */
       priority: 'baixa' | 'media' | 'alta' | 'urgente';
+      /**
+       * @description Optional: 5,10,15,30,60; null clears override
+       * @example 15
+       */
+      reminder_minutes_before?: number | null;
       /** @description Optional: nil = no change, [] = remove all, [1,2] = set tags */
       tag_ids: number[];
       /** @example Updated title */
@@ -2903,6 +3037,24 @@ export interface components {
        * @enum {unknown}
        */
       type: 'casa' | 'trabalho' | 'lazer' | 'saude';
+    };
+    'handlers.UpdateReminderSettingsRequest': {
+      /** @example 10 */
+      reminder_minutes_before: number;
+    };
+    'handlers.VAPIDPublicKeyResponse': {
+      public_key: string;
+    };
+    'handlers.PushSubscribeRequest': {
+      endpoint: string;
+      keys: {
+        p256dh: string;
+        auth: string;
+      };
+      user_agent?: string;
+    };
+    'handlers.PushUnsubscribeRequest': {
+      endpoint: string;
     };
     'handlers.UpdateTelegramChatIDRequest': {
       /**
@@ -2977,6 +3129,11 @@ export interface components {
       id: number;
       /** @description Task priority */
       priority: components['schemas']['models.Priority'];
+      /**
+       * @description Minutes before due_date for reminder; null = inherit user default
+       * @example 10
+       */
+      reminder_minutes_before?: number | null;
       /** @description Users with whom the task is shared (no limit) */
       shared_with: components['schemas']['models.User'][];
       /** @description Tags associated with the task */
@@ -2996,6 +3153,11 @@ export interface components {
       id: number;
       /** @description Opt-in notifications */
       notifications_enabled: boolean;
+      /**
+       * @description Default minutes before due_date to send reminder
+       * @example 10
+       */
+      reminder_minutes_before: number;
       /** @description Telegram chat ID for notifications */
       telegram_chat_id: string;
       terms_accepted_at: string;
@@ -3012,7 +3174,7 @@ export interface components {
       user_id: number;
     };
     /** @enum {string} */
-    'models.UserNotificationType': 'group_invite';
+    'models.UserNotificationType': 'group_invite' | 'task_reminder';
     'models.UserPublic': {
       created_at: string;
       id: number;

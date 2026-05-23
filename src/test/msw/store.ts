@@ -29,6 +29,7 @@ export type MockStore = {
   comments: MockComment[];
   groups: MockGroup[];
   groupInvitations: MockGroupInvitation[];
+  pushSubscribed: boolean;
   nextTaskId: number;
   nextTagId: number;
   nextCommentId: number;
@@ -43,6 +44,7 @@ const e2eUser: MockUser = {
   username: 'e2euser',
   email: 'e2e@test.com',
   notifications_enabled: false,
+  reminder_minutes_before: 10,
   telegram_chat_id: '',
   created_at: now,
   updated_at: now,
@@ -53,6 +55,7 @@ const otherUser: MockUser = {
   username: 'outrouser',
   email: 'outro@test.com',
   notifications_enabled: false,
+  reminder_minutes_before: 10,
   telegram_chat_id: '',
   created_at: now,
   updated_at: now,
@@ -126,6 +129,7 @@ let store: MockStore = {
   comments: [],
   groups: [defaultGroup],
   groupInvitations: [],
+  pushSubscribed: false,
   nextTaskId: 5,
   nextTagId: 1,
   nextCommentId: 1,
@@ -142,6 +146,7 @@ export const resetStore = (): void => {
     comments: [],
     groups: [{ ...defaultGroup }],
     groupInvitations: [],
+    pushSubscribed: false,
     nextTaskId: 5,
     nextTagId: 1,
     nextCommentId: 1,

@@ -6,8 +6,10 @@ import {
   exportAccountData,
   getCurrentUser,
   updateNotificationsEnabled,
+  updateReminderSettings,
   updateTelegramChatID,
 } from '@/api/users';
+import { DEFAULT_REMINDER_MINUTES } from '@/lib/reminderConstants';
 
 type User = components['schemas']['models.User'];
 type UpdateNotificationsRequest =
@@ -72,6 +74,42 @@ export const useSettings = () => {
     },
   });
 
+  const updateReminderMutation = useMutation<
+    SuccessResponse,
+    Error,
+    { reminder_minutes_before: number },
+    { previous: User | null | undefined }
+  >({
+    mutationFn: (data) => updateReminderSettings(data),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ['auth', 'user'] });
+      const previous = queryClient.getQueryData<User | null>(['auth', 'user']);
+
+      if (previous) {
+        const updated = {
+          ...previous,
+          reminder_minutes_before: data.reminder_minutes_before,
+        };
+        syncUserToCache(queryClient, updated);
+      }
+
+      return { previous };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) {
+        syncUserToCache(queryClient, context.previous);
+      }
+    },
+    onSuccess: (_data, variables) => {
+      mergeStoredUser({ reminder_minutes_before: variables.reminder_minutes_before });
+      queryClient.setQueryData<User | null>(['auth', 'user'], (current) =>
+        current
+          ? { ...current, reminder_minutes_before: variables.reminder_minutes_before }
+          : current
+      );
+    },
+  });
+
   const updateTelegramMutation = useMutation<SuccessResponse, Error, UpdateTelegramRequest>({
     mutationFn: (data) => updateTelegramChatID(data),
     onSuccess: (_data, variables) => {
@@ -104,6 +142,12 @@ export const useSettings = () => {
     isLoadingProfile,
     updateNotifications: updateNotificationsMutation.mutate,
     isUpdatingNotifications: updateNotificationsMutation.isPending,
+    updateReminderMinutes: (minutes: number) =>
+      updateReminderMutation.mutate({ reminder_minutes_before: minutes }),
+    isUpdatingReminder: updateReminderMutation.isPending,
+    defaultReminderMinutes:
+      queryClient.getQueryData<User | null>(['auth', 'user'])?.reminder_minutes_before ??
+      DEFAULT_REMINDER_MINUTES,
     updateTelegramChatId: (data: { telegram_chat_id: string }) =>
       updateTelegramMutation.mutate({ telegram_chat_id: data.telegram_chat_id }),
     isUpdatingTelegram: updateTelegramMutation.isPending,

@@ -1,12 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getVariants, slideDown } from '@/lib/animations';
+import { useAuth } from '@/modules/auth/hooks/useAuth';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 import { useTaskFormLogic } from './hooks/useTaskFormLogic';
 import { TaskFormActions } from './TaskFormActions';
 import { TaskFormFields } from './TaskFormFields';
 import { TaskFormTags } from './TaskFormTags';
 import { TaskFormUserAssignment } from './TaskFormUserAssignment';
+import { TaskReminderField } from './TaskReminderField';
 
 interface TaskFormProps {
   onSubmit: (data: CreateTaskFormData | UpdateTaskFormData) => void;
@@ -25,6 +27,7 @@ export const TaskForm = ({
   submitLabel = 'Criar Tarefa',
   variant = 'default',
 }: TaskFormProps) => {
+  const { user } = useAuth();
   const {
     isEditMode,
     register,
@@ -33,6 +36,7 @@ export const TaskForm = ({
     errors,
     selectedTagIds,
     setValue,
+    watch,
     isForAnotherUser,
     availableUsers,
     isLoadingUsers,
@@ -56,6 +60,14 @@ export const TaskForm = ({
       <CardContent className={variant === 'bottom-sheet' ? 'p-0' : ''}>
         <form onSubmit={handleSubmit} className="space-y-2">
           <TaskFormFields register={register} control={control} errors={errors} />
+
+          <TaskReminderField
+            register={register}
+            watch={watch}
+            setValue={setValue}
+            errors={errors}
+            userDefaultMinutes={user?.reminder_minutes_before}
+          />
 
           <TaskFormTags
             selectedTagIds={selectedTagIds}

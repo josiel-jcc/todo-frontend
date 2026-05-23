@@ -31,6 +31,7 @@ export const authHandlers = [
       username: body.username ?? 'newuser',
       email: body.email ?? 'new@test.com',
       notifications_enabled: false,
+      reminder_minutes_before: 10,
       telegram_chat_id: '',
       created_at: now,
       updated_at: now,

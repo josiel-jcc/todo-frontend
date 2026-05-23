@@ -22,6 +22,7 @@ export * from './comments';
 export * from './groupInvitations';
 export * from './groups';
 export * from './inAppNotifications';
+export * from './pushNotifications';
 export { setAuthToken } from './storage';
 export * from './tags';
 export * from './tasks';
