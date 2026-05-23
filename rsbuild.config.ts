@@ -55,6 +55,9 @@ const pwaPlugin = pluginPWA({
   sw: {
     mode: 'generateSw',
     includeWebAppManifestIcons: true,
+    workboxOptions: {
+      importScripts: ['/push-sw.js'],
+    },
   },
 });
 

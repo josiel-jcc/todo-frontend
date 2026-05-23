@@ -73,6 +73,7 @@ export function resolveApiRequest(
       username: String(body?.username ?? 'newuser'),
       email: String(body?.email ?? 'new@test.com'),
       notifications_enabled: false,
+      reminder_minutes_before: 10,
       telegram_chat_id: '',
       created_at: now,
       updated_at: now,
@@ -118,6 +119,10 @@ export function resolveApiRequest(
       priority: (body?.priority as MockTask['priority']) ?? 'media',
       completed: false,
       due_date: String(body?.due_date ?? now),
+      reminder_minutes_before:
+        body?.reminder_minutes_before !== undefined
+          ? Number(body.reminder_minutes_before)
+          : null,
       user_id: Number(body?.user_id ?? e2eUser.id),
       assigned_by: body?.user_id && body.user_id !== e2eUser.id ? e2eUser.id : 0,
       assigned_by_user: e2eUser,
@@ -147,6 +152,12 @@ export function resolveApiRequest(
       priority: (body?.priority as MockTask['priority']) ?? existing.priority,
       completed: Boolean(body?.completed ?? existing.completed),
       due_date: String(body?.due_date ?? existing.due_date),
+      reminder_minutes_before:
+        body?.reminder_minutes_before !== undefined
+          ? body.reminder_minutes_before === null
+            ? null
+            : Number(body.reminder_minutes_before)
+          : existing.reminder_minutes_before,
       updated_at: new Date().toISOString(),
     };
     store.tasks[index] = updated;
@@ -174,6 +185,28 @@ export function resolveApiRequest(
 
   if (method === 'GET' && pathname === '/api/v1/users/me') {
     return { status: 200, body: e2eUser };
+  }
+
+  if (method === 'PUT' && pathname === '/api/v1/users/reminder-settings') {
+    const minutes = Number(body?.reminder_minutes_before);
+    if ([5, 10, 15, 30, 60].includes(minutes)) {
+      e2eUser.reminder_minutes_before = minutes;
+    }
+    return { status: 200, body: { message: 'ok' } };
+  }
+
+  if (method === 'GET' && pathname === '/api/v1/notifications/push/vapid-public-key') {
+    return { status: 200, body: { public_key: 'mock-vapid-public-key' } };
+  }
+
+  if (method === 'POST' && pathname === '/api/v1/notifications/push/subscribe') {
+    store.pushSubscribed = true;
+    return { status: 200, body: { message: 'Push subscription saved' } };
+  }
+
+  if (method === 'DELETE' && pathname === '/api/v1/notifications/push/subscribe') {
+    store.pushSubscribed = false;
+    return { status: 200, body: { message: 'Push subscription removed' } };
   }
 
   const commentsMatch = pathname.match(/^\/api\/v1\/tasks\/(\d+)\/comments$/);

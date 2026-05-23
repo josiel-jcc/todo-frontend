@@ -1,7 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { Bell } from 'lucide-react';
+import { Link } from 'react-router';
 import { toast } from 'sonner';
-import { parseGroupInvitePayload, type UserNotification } from '@/api/inAppNotifications';
+import {
+  parseGroupInvitePayload,
+  parseTaskReminderPayload,
+  type UserNotification,
+} from '@/api/inAppNotifications';
+import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,9 +17,32 @@ import {
 import { useGroupInvitationMutations } from '@/modules/groups/hooks/useGroupInvitations';
 import { useInAppNotifications, useUnreadNotificationCount } from '../hooks/useInAppNotifications';
 
+function TaskReminderNotificationItem({ notification }: { notification: UserNotification }) {
+  const data = parseTaskReminderPayload(notification.payload);
+  if (!data) return null;
+
+  const minutesLabel = formatReminderMinutesLabel(data.minutes_before);
+
+  return (
+    <Link
+      to={`/tasks/${data.task_id}`}
+      className="block border-b px-3 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors"
+    >
+      <p className="font-medium">Lembrete de tarefa</p>
+      <p className="mt-1 text-muted-foreground">
+        <span className="text-foreground">{data.title}</span> vence em {minutesLabel}
+      </p>
+    </Link>
+  );
+}
+
 function NotificationItem({ notification }: { notification: UserNotification }) {
   const queryClient = useQueryClient();
   const { acceptMutation, declineMutation } = useGroupInvitationMutations();
+
+  if (notification.type === 'task_reminder') {
+    return <TaskReminderNotificationItem notification={notification} />;
+  }
 
   if (notification.type !== 'group_invite') {
     return (

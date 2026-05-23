@@ -90,6 +90,8 @@ export const taskHandlers = [
       priority: (body.priority as MockTask['priority']) ?? 'media',
       completed: false,
       due_date: String(body.due_date ?? now),
+      reminder_minutes_before:
+        body.reminder_minutes_before !== undefined ? Number(body.reminder_minutes_before) : null,
       user_id: Number(body.user_id ?? user.id),
       assigned_by: body.user_id && body.user_id !== user.id ? user.id : 0,
       assigned_by_user: user,
@@ -121,6 +123,12 @@ export const taskHandlers = [
       priority: (body.priority as MockTask['priority']) ?? existing.priority,
       completed: Boolean(body.completed ?? existing.completed),
       due_date: String(body.due_date ?? existing.due_date),
+      reminder_minutes_before:
+        body.reminder_minutes_before !== undefined
+          ? body.reminder_minutes_before === null
+            ? null
+            : Number(body.reminder_minutes_before)
+          : existing.reminder_minutes_before,
       updated_at: new Date().toISOString(),
     };
     store.tasks[index] = updated;

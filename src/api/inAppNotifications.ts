@@ -16,6 +16,13 @@ export type GroupInvitePayload = {
   invited_by_username: string;
 };
 
+export type TaskReminderPayload = {
+  task_id: number;
+  title: string;
+  due_date: string;
+  minutes_before: number;
+};
+
 export type PaginatedNotificationsResponse = {
   notifications: UserNotification[];
   total: number;
@@ -51,6 +58,18 @@ export const markAllNotificationsRead = async (): Promise<void> => {
 export function parseGroupInvitePayload(payload: string): GroupInvitePayload | null {
   try {
     return JSON.parse(payload) as GroupInvitePayload;
+  } catch {
+    return null;
+  }
+}
+
+export function parseTaskReminderPayload(payload: string): TaskReminderPayload | null {
+  try {
+    const data = JSON.parse(payload) as TaskReminderPayload;
+    if (typeof data.task_id !== 'number' || !data.title) {
+      return null;
+    }
+    return data;
   } catch {
     return null;
   }

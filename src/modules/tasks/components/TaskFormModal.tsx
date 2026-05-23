@@ -23,6 +23,10 @@ export const TaskFormModal = () => {
         due_date: editingTask.due_date,
         completed: editingTask.completed,
         tag_ids: editingTask.tags?.map((tag) => tag.id) ?? [],
+        customReminderEnabled:
+          editingTask.reminder_minutes_before != null &&
+          editingTask.reminder_minutes_before !== undefined,
+        reminder_minutes_before: editingTask.reminder_minutes_before ?? undefined,
       }
     : undefined;
 

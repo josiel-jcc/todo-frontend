@@ -1,9 +1,18 @@
 import { z } from 'zod';
+import { REMINDER_MINUTES_OPTIONS } from '@/lib/reminderConstants';
 
 /**
  * Task type enum
  */
 export const taskTypeSchema = z.enum(['casa', 'trabalho', 'lazer', 'saude']);
+
+const reminderMinutesSchema = z.union([
+  z.literal(REMINDER_MINUTES_OPTIONS[0]),
+  z.literal(REMINDER_MINUTES_OPTIONS[1]),
+  z.literal(REMINDER_MINUTES_OPTIONS[2]),
+  z.literal(REMINDER_MINUTES_OPTIONS[3]),
+  z.literal(REMINDER_MINUTES_OPTIONS[4]),
+]);
 
 /**
  * Task priority enum
@@ -27,6 +36,8 @@ export const createTaskSchema = z.object({
   due_date: z.string().min(1, 'A data de vencimento é obrigatória'),
   tag_ids: z.array(z.number()).optional().default([]),
   user_id: z.number().optional(),
+  customReminderEnabled: z.boolean().optional().default(false),
+  reminder_minutes_before: reminderMinutesSchema.optional(),
 });
 
 export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
@@ -48,6 +59,8 @@ export const updateTaskSchema = z.object({
   due_date: z.string().min(1, 'A data de vencimento é obrigatória'),
   completed: z.boolean(),
   tag_ids: z.array(z.number()).optional().default([]),
+  customReminderEnabled: z.boolean().optional().default(false),
+  reminder_minutes_before: reminderMinutesSchema.optional(),
 });
 
 export type UpdateTaskFormData = z.infer<typeof updateTaskSchema>;

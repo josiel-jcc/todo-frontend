@@ -30,4 +30,5 @@ export type * from './types';
  * Re-export commonly used types for convenience
  */
 export type { components, paths } from './types';
+export * from './pushNotifications';
 export * from './users';

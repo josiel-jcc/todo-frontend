@@ -49,15 +49,25 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
           priority: 'media',
           due_date: getDefaultDueDateValue(),
           tag_ids: [],
+          customReminderEnabled: false,
         },
   });
 
   const onSubmitForm = (data: CreateTaskFormData | UpdateTaskFormData) => {
-    const formattedData = {
-      ...data,
+    const { customReminderEnabled, reminder_minutes_before, ...rest } = data;
+    const formattedData: CreateTaskFormData | UpdateTaskFormData = {
+      ...rest,
       due_date: new Date(data.due_date).toISOString(),
       user_id: isForAnotherUser ? data.user_id : undefined,
     };
+
+    if (customReminderEnabled && reminder_minutes_before != null) {
+      (formattedData as CreateTaskFormData).reminder_minutes_before = reminder_minutes_before;
+    } else if (isEditMode) {
+      (formattedData as UpdateTaskFormData & { reminder_minutes_before?: number | null })
+        .reminder_minutes_before = null;
+    }
+
     onSubmit(formattedData);
   };
 
@@ -79,6 +89,7 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
     errors,
     selectedTagIds,
     setValue,
+    watch,
     isForAnotherUser,
     availableUsers,
     isLoadingUsers,
