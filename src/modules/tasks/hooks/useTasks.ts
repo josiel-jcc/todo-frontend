@@ -14,6 +14,7 @@ export type TasksQueryParams = {
   limit?: number;
   type?: 'casa' | 'trabalho' | 'lazer' | 'saude';
   completed?: boolean;
+  hide_stale_completed?: boolean;
   search?: string;
   due_date_from?: string;
   due_date_to?: string;

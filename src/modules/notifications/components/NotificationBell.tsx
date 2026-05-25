@@ -15,9 +15,19 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
 import { useGroupInvitationMutations } from '@/modules/groups/hooks/useGroupInvitations';
-import { useInAppNotifications, useUnreadNotificationCount } from '../hooks/useInAppNotifications';
+import {
+  useInAppNotificationMutations,
+  useInAppNotifications,
+  useUnreadNotificationCount,
+} from '../hooks/useInAppNotifications';
 
-function TaskReminderNotificationItem({ notification }: { notification: UserNotification }) {
+function TaskReminderNotificationItem({
+  notification,
+  onMarkRead,
+}: {
+  notification: UserNotification;
+  onMarkRead: (id: number) => void;
+}) {
   const data = parseTaskReminderPayload(notification.payload);
   if (!data) return null;
 
@@ -26,7 +36,10 @@ function TaskReminderNotificationItem({ notification }: { notification: UserNoti
   return (
     <Link
       to={`/tasks/${data.task_id}`}
-      className="block border-b px-3 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors"
+      onClick={() => onMarkRead(notification.id)}
+      className={`block border-b px-3 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors ${
+        notification.read ? 'opacity-60' : ''
+      }`}
     >
       <p className="font-medium">Lembrete de tarefa</p>
       <p className="mt-1 text-muted-foreground">
@@ -36,12 +49,18 @@ function TaskReminderNotificationItem({ notification }: { notification: UserNoti
   );
 }
 
-function NotificationItem({ notification }: { notification: UserNotification }) {
+function NotificationItem({
+  notification,
+  onMarkRead,
+}: {
+  notification: UserNotification;
+  onMarkRead: (id: number) => void;
+}) {
   const queryClient = useQueryClient();
   const { acceptMutation, declineMutation } = useGroupInvitationMutations();
 
   if (notification.type === 'task_reminder') {
-    return <TaskReminderNotificationItem notification={notification} />;
+    return <TaskReminderNotificationItem notification={notification} onMarkRead={onMarkRead} />;
   }
 
   if (notification.type !== 'group_invite') {
@@ -110,8 +129,15 @@ function NotificationItem({ notification }: { notification: UserNotification }) 
 
 export const NotificationBell = () => {
   const { data: count = 0 } = useUnreadNotificationCount();
-  const { data, isLoading } = useInAppNotifications(true);
+  const { data, isLoading } = useInAppNotifications({ activeOnly: true });
+  const { markReadMutation, markAllReadMutation } = useInAppNotificationMutations();
   const notifications = data?.notifications ?? [];
+
+  const handleMarkRead = (id: number) => {
+    if (!markReadMutation.isPending) {
+      markReadMutation.mutate(id);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -132,13 +158,29 @@ export const NotificationBell = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 rounded-2xl p-0">
-        <div className="border-b px-3 py-2 font-semibold text-sm">Notificações</div>
+        <div className="flex items-center justify-between border-b px-3 py-2">
+          <span className="font-semibold text-sm">Notificações</span>
+          {count > 0 && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-auto px-2 py-1 text-xs"
+              disabled={markAllReadMutation.isPending}
+              onClick={() => markAllReadMutation.mutate()}
+            >
+              Marcar todas como lidas
+            </Button>
+          )}
+        </div>
         {isLoading ? (
           <p className="px-3 py-4 text-sm text-muted-foreground">Carregando…</p>
         ) : notifications.length === 0 ? (
           <p className="px-3 py-4 text-sm text-muted-foreground">Nenhuma notificação nova</p>
         ) : (
-          notifications.map((n) => <NotificationItem key={n.id} notification={n} />)
+          notifications.map((n) => (
+            <NotificationItem key={n.id} notification={n} onMarkRead={handleMarkRead} />
+          ))
         )}
       </DropdownMenuContent>
     </DropdownMenu>

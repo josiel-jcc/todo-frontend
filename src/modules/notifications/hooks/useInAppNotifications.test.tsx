@@ -29,6 +29,26 @@ describe('useInAppNotifications', () => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
+  it('fetches notifications with active_only', async () => {
+    vi.mocked(notificationsApi.getInAppNotifications).mockResolvedValue({
+      notifications: [],
+      total: 0,
+      page: 1,
+      limit: 50,
+      total_pages: 1,
+    } as never);
+
+    renderHook(() => useInAppNotifications({ activeOnly: true }), { wrapper });
+
+    await waitFor(() =>
+      expect(notificationsApi.getInAppNotifications).toHaveBeenCalledWith({
+        limit: 50,
+        unread_only: undefined,
+        active_only: true,
+      })
+    );
+  });
+
   it('fetches notifications', async () => {
     const mockResponse = {
       notifications: [
