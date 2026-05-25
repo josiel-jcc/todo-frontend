@@ -73,6 +73,14 @@ export const groupHandlers = [
     });
   }),
 
+  http.patch(`${api}/notifications/in-app/:id/read`, () => {
+    return HttpResponse.json({ message: 'Notification marked as read' });
+  }),
+
+  http.post(`${api}/notifications/in-app/read-all`, () => {
+    return HttpResponse.json({ message: 'All notifications marked as read' });
+  }),
+
   http.get(`${api}/groups/:id`, ({ params }) => {
     const id = Number(params.id);
     const store = getStore();

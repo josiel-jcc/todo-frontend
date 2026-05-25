@@ -6,10 +6,17 @@ import {
   markNotificationRead,
 } from '@/api/inAppNotifications';
 
-export const useInAppNotifications = (unreadOnly = false) => {
+export const useInAppNotifications = (options?: { unreadOnly?: boolean; activeOnly?: boolean }) => {
+  const unreadOnly = options?.unreadOnly ?? false;
+  const activeOnly = options?.activeOnly ?? false;
   return useQuery({
-    queryKey: ['notifications', 'in-app', { unreadOnly }],
-    queryFn: () => getInAppNotifications({ limit: 50, unread_only: unreadOnly }),
+    queryKey: ['notifications', 'in-app', { unreadOnly, activeOnly }],
+    queryFn: () =>
+      getInAppNotifications({
+        limit: 50,
+        unread_only: unreadOnly || undefined,
+        active_only: activeOnly || undefined,
+      }),
     refetchInterval: 60_000,
   });
 };
@@ -27,6 +34,7 @@ export const useInAppNotificationMutations = () => {
 
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ['notifications', 'in-app'] });
+    void queryClient.invalidateQueries({ queryKey: ['notifications', 'in-app', 'unread-count'] });
   };
 
   const markReadMutation = useMutation({

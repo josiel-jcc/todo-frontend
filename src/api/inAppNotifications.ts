@@ -6,6 +6,7 @@ export type UserNotification = {
   type: string;
   payload: string;
   read: boolean;
+  read_at?: string;
   created_at: string;
 };
 
@@ -35,6 +36,7 @@ export const getInAppNotifications = async (params?: {
   page?: number;
   limit?: number;
   unread_only?: boolean;
+  active_only?: boolean;
 }): Promise<PaginatedNotificationsResponse> => {
   const response = await apiClient.get<PaginatedNotificationsResponse>('/notifications/in-app', {
     params,

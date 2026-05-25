@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { render as renderWithProviders } from '@/test/utils';
 import { NotificationBell } from './NotificationBell';
 
+const markReadMutate = vi.fn();
+const markAllReadMutate = vi.fn();
+
 vi.mock('../hooks/useInAppNotifications', () => ({
   useInAppNotifications: () => ({
     data: {
@@ -26,6 +29,10 @@ vi.mock('../hooks/useInAppNotifications', () => ({
     isLoading: false,
   }),
   useUnreadNotificationCount: () => ({ data: 1 }),
+  useInAppNotificationMutations: () => ({
+    markReadMutation: { mutate: markReadMutate, isPending: false },
+    markAllReadMutation: { mutate: markAllReadMutate, isPending: false },
+  }),
 }));
 
 describe('NotificationBell', () => {

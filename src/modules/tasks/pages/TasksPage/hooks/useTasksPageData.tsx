@@ -41,6 +41,7 @@ export const useTasksPageData = () => {
 
   const { tasks: allTasks, isLoadingTasks: isLoadingAllTasks } = useTasks({
     limit: 1000,
+    hide_stale_completed: true,
   });
 
   const { tasks: inProgressTasks, isLoadingTasks: isLoadingInProgressTasks } = useTasks({

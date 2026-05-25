@@ -20,6 +20,7 @@ export const TodayTasksPage = () => {
     due_date_from: dateString,
     due_date_to: dateString,
     limit: 100,
+    hide_stale_completed: true,
   });
 
   // Filter tasks based on selected filter

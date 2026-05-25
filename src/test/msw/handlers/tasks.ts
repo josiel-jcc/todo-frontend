@@ -14,6 +14,16 @@ function filterTasks(tasks: MockTask[], url: URL): MockTask[] {
     result = result.filter((t) => !t.completed);
   }
 
+  if (url.searchParams.get('hide_stale_completed') === 'true') {
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    result = result.filter((t) => {
+      if (!t.completed) return true;
+      const completedAt = (t as { completed_at?: string }).completed_at;
+      if (!completedAt) return true;
+      return new Date(completedAt).getTime() >= cutoff;
+    });
+  }
+
   const search = url.searchParams.get('search');
   if (search) {
     const q = search.toLowerCase();
