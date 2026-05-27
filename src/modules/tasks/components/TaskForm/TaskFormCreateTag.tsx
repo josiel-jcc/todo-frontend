@@ -91,7 +91,7 @@ function CreateTagPanel({
   onCancel: () => void;
 }) {
   return (
-    <div className="space-y-3 rounded-2xl border border-dashed bg-muted/30 p-3">
+    <div className="space-y-4 rounded-2xl border border-dashed bg-muted/30 p-4">
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm font-medium">Criar tag personalizada</span>
         <Button

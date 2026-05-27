@@ -1,4 +1,5 @@
 import { Label } from '@/components/ui/label';
+import { spacing } from '@/lib/spacing';
 import { useTags } from '../../hooks/useTags';
 import { TagSelector } from '../TagSelector';
 import { TaskFormCreateTag } from './TaskFormCreateTag';
@@ -23,7 +24,7 @@ export const TaskFormTags = ({
   };
 
   return (
-    <div className="space-y-3">
+    <div className={spacing.stackForm}>
       <Label>Tags</Label>
 
       <TaskFormCreateTag onTagCreated={handleTagCreated} disabled={isLoading} />

@@ -50,7 +50,7 @@ export const DatePickerHorizontal = ({
   };
 
   return (
-    <div className={cn('flex gap-3 overflow-x-auto pb-2', className)}>
+    <div className={cn('flex gap-4 overflow-x-auto pb-4', className)}>
       {dates.map((date) => {
         const { day, month, weekday } = formatDate(date);
         const selected = isSelected(date);

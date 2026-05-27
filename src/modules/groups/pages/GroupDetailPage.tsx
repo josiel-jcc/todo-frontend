@@ -2,10 +2,12 @@ import { ArrowLeft, UserMinus, UserPlus } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { spacing } from '@/lib/spacing';
 import { useUsers } from '@/modules/tasks/hooks/useUsers';
 import { useGroup, useGroupMutations } from '../hooks/useGroups';
 
@@ -30,22 +32,22 @@ export const GroupDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto p-6">
+      <PageShell size="narrow">
         <p className="text-muted-foreground">Carregando…</p>
-      </div>
+      </PageShell>
     );
   }
 
   if (isError || !group) {
     return (
-      <div className="container mx-auto space-y-4 p-6">
+      <PageShell size="narrow" className={spacing.stackSection}>
         <p className="text-muted-foreground">
           {isError ? 'Você não tem acesso a este grupo ou ele não existe.' : 'Grupo não encontrado'}
         </p>
         <Link to="/groups" className="text-primary underline text-sm">
           Voltar aos grupos
         </Link>
-      </div>
+      </PageShell>
     );
   }
 
@@ -93,10 +95,10 @@ export const GroupDetailPage = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-2xl space-y-6 p-4 md:p-6">
+    <PageShell size="narrow">
       <Link
         to="/groups"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+        className={`inline-flex items-center text-sm text-muted-foreground hover:text-foreground ${spacing.gapInline}`}
       >
         <ArrowLeft className="h-4 w-4" />
         Voltar aos grupos
@@ -106,7 +108,7 @@ export const GroupDetailPage = () => {
         <CardHeader>
           <CardTitle>{group.name}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className={spacing.stackForm}>
           <div className="space-y-2">
             <Label htmlFor="edit-name">Renomear</Label>
             <div className="flex gap-2">
@@ -152,7 +154,7 @@ export const GroupDetailPage = () => {
             {group.members.map((m) => (
               <li
                 key={m.id}
-                className="flex items-center justify-between rounded-xl border px-3 py-2"
+                className={`flex items-center justify-between rounded-xl border ${spacing.listRow}`}
               >
                 <span className="text-sm">{m.username}</span>
                 <Button
@@ -190,7 +192,7 @@ export const GroupDetailPage = () => {
               {group.pending_invitations.map((inv) => (
                 <li
                   key={inv.id}
-                  className="flex items-center justify-between rounded-xl border px-3 py-2"
+                  className={`flex items-center justify-between rounded-xl border ${spacing.listRow}`}
                 >
                   <span className="text-sm">
                     {inv.invited_user?.username ?? `Usuário #${inv.invited_user_id}`}
@@ -223,7 +225,7 @@ export const GroupDetailPage = () => {
         <CardHeader>
           <CardTitle className="text-lg">Convidar usuário</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className={spacing.stackForm}>
           {isLoadingUsers ? (
             <p className="text-sm text-muted-foreground">Carregando usuários…</p>
           ) : eligibleUsers.length === 0 ? (
@@ -232,7 +234,7 @@ export const GroupDetailPage = () => {
             </p>
           ) : (
             <select
-              className="w-full rounded-xl border bg-background px-3 py-2 text-sm"
+              className="w-full rounded-xl border bg-background px-4 py-2 text-sm"
               value={selectedUserId ?? ''}
               onChange={(e) => setSelectedUserId(e.target.value ? Number(e.target.value) : null)}
             >
@@ -254,6 +256,6 @@ export const GroupDetailPage = () => {
           </Button>
         </CardContent>
       </Card>
-    </div>
+    </PageShell>
   );
 };

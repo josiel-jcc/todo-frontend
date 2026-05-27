@@ -81,7 +81,7 @@ export const ConfirmBottomSheet = ({
                   <p className="mt-1 text-sm text-muted-foreground">{description}</p>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4">
                 <Button
                   variant={variant === 'destructive' ? 'destructive' : 'default'}
                   onClick={handleConfirm}

@@ -6,6 +6,7 @@ import {
   isReminderMinutes,
   REMINDER_MINUTES_OPTIONS,
 } from '@/lib/reminderConstants';
+import { spacing } from '@/lib/spacing';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 
 interface TaskReminderFieldProps {
@@ -41,9 +42,9 @@ export const TaskReminderField = ({
   };
 
   return (
-    <div className="space-y-3 rounded-2xl border-2 border-input p-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="space-y-0.5">
+    <div className={`rounded-2xl border-2 border-input p-4 ${spacing.stackForm}`}>
+      <div className={`flex items-center justify-between ${spacing.gapInlineLoose}`}>
+        <div className={spacing.stackFieldHint}>
           <Label htmlFor="custom-reminder">Lembrete personalizado</Label>
           <p className="text-sm text-muted-foreground">
             {customEnabled
@@ -72,7 +73,7 @@ export const TaskReminderField = ({
       </div>
 
       {customEnabled ? (
-        <div className="space-y-2">
+        <div className={spacing.stackField}>
           <Label htmlFor="task-reminder-minutes">Antecedência do lembrete</Label>
           <select
             id="task-reminder-minutes"

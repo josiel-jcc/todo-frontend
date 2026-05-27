@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getVariants, slideDown } from '@/lib/animations';
+import { spacing } from '@/lib/spacing';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 import { useTaskFormLogic } from './hooks/useTaskFormLogic';
@@ -58,7 +59,7 @@ export const TaskForm = ({
         </CardHeader>
       )}
       <CardContent className={variant === 'bottom-sheet' ? 'p-0' : ''}>
-        <form onSubmit={handleSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit} className={spacing.stackForm}>
           <TaskFormFields register={register} control={control} errors={errors} />
 
           <TaskReminderField

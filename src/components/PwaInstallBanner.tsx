@@ -34,7 +34,7 @@ export const PwaInstallBanner = () => {
             aria-live="polite"
           >
             <div className="rounded-2xl border bg-card/95 p-4 shadow-lg backdrop-blur-sm">
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-4">
                 <div className="mt-0.5 shrink-0">
                   <Logo size={36} />
                 </div>
@@ -77,7 +77,7 @@ export const PwaInstallBanner = () => {
       <BottomSheet isOpen={showIosGuide} onClose={closeIosGuide} title="Instalar no iPhone">
         <div className="space-y-4 px-4 pb-6 text-sm text-muted-foreground">
           <p>Para instalar o App de Tarefas na tela inicial do iPhone:</p>
-          <ol className="list-decimal space-y-3 pl-5">
+          <ol className="list-decimal space-y-4 pl-5">
             <li>
               Toque no botão <Share className="mx-1 inline h-4 w-4 align-text-bottom" />{' '}
               <strong className="text-foreground">Compartilhar</strong> na barra do Safari.

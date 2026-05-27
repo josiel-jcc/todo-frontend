@@ -2,8 +2,10 @@ import { ArrowLeft, Bell } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DatePickerHorizontal, Loading } from '@/components';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { TaskCard } from '../components';
 import { useTasks } from '../hooks/useTasks';
 
@@ -47,7 +49,7 @@ export const TodayTasksPage = () => {
   const isLoading = isLoadingTasks || isTogglingCompletion;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
+    <PageShell size="wide">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -61,7 +63,7 @@ export const TodayTasksPage = () => {
           </Button>
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">Tarefas de hoje</h1>
-            <p className="text-muted-foreground text-sm mt-1">
+            <p className={`text-muted-foreground text-sm ${spacing.pageSubtitle}`}>
               {selectedDate.toLocaleDateString('pt-BR', {
                 weekday: 'long',
                 year: 'numeric',
@@ -84,8 +86,8 @@ export const TodayTasksPage = () => {
       {/* Filters */}
       <section>
         {/* Mobile: Horizontal scroll */}
-        <div className="md:hidden overflow-x-auto pb-2 -mx-4 px-4">
-          <div className="flex gap-2">
+        <div className={spacing.horizontalBleed}>
+          <div className={spacing.horizontalBleedInner}>
             {filters.map((f) => (
               <Button
                 key={f.value}
@@ -100,7 +102,7 @@ export const TodayTasksPage = () => {
           </div>
         </div>
         {/* Desktop: Inline */}
-        <div className="hidden md:flex gap-2">
+        <div className={`hidden md:flex ${spacing.gapInline}`}>
           {filters.map((f) => (
             <Button
               key={f.value}
@@ -123,7 +125,7 @@ export const TodayTasksPage = () => {
           </div>
         ) : filteredTasks.length === 0 ? (
           <Card className="rounded-3xl">
-            <CardContent className="p-8 text-center">
+            <CardContent className={spacing.emptyState}>
               <p className="text-muted-foreground">Nenhuma tarefa encontrada para esta data.</p>
             </CardContent>
           </Card>
@@ -140,6 +142,6 @@ export const TodayTasksPage = () => {
           </div>
         )}
       </section>
-    </div>
+    </PageShell>
   );
 };

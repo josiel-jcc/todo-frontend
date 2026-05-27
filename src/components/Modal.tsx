@@ -80,7 +80,7 @@ export const Modal = ({
             >
               {/* Header */}
               {(title || onClose) && (
-                <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-border/50">
+                <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-border/50">
                   {title ? <h2 className="text-lg font-semibold">{title}</h2> : <div />}
                   <Button
                     variant="ghost"

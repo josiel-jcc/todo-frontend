@@ -1,4 +1,5 @@
 import type { components } from '@/api';
+import { spacing } from '@/lib/spacing';
 import { InProgressCard } from '../../../components';
 
 type Task = components['schemas']['models.Task'];
@@ -22,10 +23,10 @@ export const InProgressSection = ({
 
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">Em andamento</h2>
+      <h2 className={`text-xl font-semibold ${spacing.sectionTitle}`}>Em andamento</h2>
       {/* Mobile: Horizontal scroll */}
-      <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
-        <div className="flex gap-4 items-stretch h-[140px]">
+      <div className={`md:hidden ${spacing.horizontalBleed}`}>
+        <div className={`${spacing.horizontalBleedInner} items-stretch h-[140px]`}>
           {tasks.slice(0, 5).map((task) => (
             <InProgressCard
               key={task.id}
@@ -38,7 +39,9 @@ export const InProgressSection = ({
         </div>
       </div>
       {/* Desktop: Grid */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-fr">
+      <div
+        className={`hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr ${spacing.gapGrid}`}
+      >
         {tasks.slice(0, 8).map((task) => (
           <InProgressCard
             key={task.id}

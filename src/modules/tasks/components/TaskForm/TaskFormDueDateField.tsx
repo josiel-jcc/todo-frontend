@@ -101,7 +101,7 @@ export const TaskFormDueDateField = ({
     <div className="space-y-2">
       <Label>Data de Vencimento *</Label>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button

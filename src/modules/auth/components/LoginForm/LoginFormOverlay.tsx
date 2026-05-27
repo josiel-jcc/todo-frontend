@@ -19,7 +19,7 @@ export const LoginFormOverlay = ({ isLoggingIn }: LoginFormOverlayProps) => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="flex flex-col items-center gap-3"
+            className="flex flex-col items-center gap-4"
           >
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="text-sm text-muted-foreground">Fazendo login...</p>

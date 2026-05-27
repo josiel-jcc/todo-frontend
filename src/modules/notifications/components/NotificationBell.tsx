@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { spacing } from '@/lib/spacing';
 import {
   useInAppNotificationMutations,
   useInAppNotifications,
@@ -36,7 +37,7 @@ function NotificationItem({
       return <GroupInviteNotificationItem notification={notification} onMarkRead={onMarkRead} />;
     default:
       return (
-        <div className="px-3 py-2 text-sm text-muted-foreground border-b last:border-0">
+        <div className={`border-b text-sm text-muted-foreground last:border-0 ${spacing.listRow}`}>
           Notificação
         </div>
       );
@@ -74,7 +75,7 @@ export const NotificationBell = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 rounded-2xl p-0">
-        <div className="flex items-center justify-between border-b px-3 py-2">
+        <div className={`flex items-center justify-between border-b ${spacing.listRow}`}>
           <span className="font-semibold text-sm">Notificações</span>
           {count > 0 && (
             <Button
@@ -90,9 +91,9 @@ export const NotificationBell = () => {
           )}
         </div>
         {isLoading ? (
-          <p className="px-3 py-4 text-sm text-muted-foreground">Carregando…</p>
+          <p className={`px-4 py-4 text-sm text-muted-foreground`}>Carregando…</p>
         ) : notifications.length === 0 ? (
-          <p className="px-3 py-4 text-sm text-muted-foreground">Nenhuma notificação nova</p>
+          <p className={`px-4 py-4 text-sm text-muted-foreground`}>Nenhuma notificação nova</p>
         ) : (
           notifications.map((n) => (
             <NotificationItem key={n.id} notification={n} onMarkRead={handleMarkRead} />

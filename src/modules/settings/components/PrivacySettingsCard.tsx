@@ -42,7 +42,7 @@ export const PrivacySettingsCard = () => {
             Excluir minha conta
           </Button>
         ) : (
-          <div className="space-y-3 rounded-lg border border-destructive/30 p-4">
+          <div className="space-y-4 rounded-lg border border-destructive/30 p-4">
             <p className="text-sm text-muted-foreground">
               Esta ação é irreversível. Digite <strong>EXCLUIR</strong> e sua senha para confirmar.
             </p>
