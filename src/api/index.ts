@@ -25,6 +25,7 @@ export * from './inAppNotifications';
 export * from './pushNotifications';
 export { setAuthToken } from './storage';
 export * from './tags';
+export * from './stats';
 export * from './tasks';
 export type * from './types';
 /**

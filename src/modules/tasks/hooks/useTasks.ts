@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { components } from '@/api';
 import { createTask, deleteTask, getTasks, updateTask } from '@/api/tasks';
+import { taskStatsQueryKey } from './useTaskStats';
 
 type Task = components['schemas']['models.Task'];
 type CreateTaskRequest = components['schemas']['handlers.CreateTaskRequest'];
@@ -51,6 +52,7 @@ export const useTasks = (params?: TasksQueryParams, options?: UseTasksOptions) =
     onSuccess: () => {
       // Invalidate and refetch tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: taskStatsQueryKey() });
     },
   });
 
@@ -60,6 +62,7 @@ export const useTasks = (params?: TasksQueryParams, options?: UseTasksOptions) =
     onSuccess: (data) => {
       // Invalidate tasks list and update single task cache
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: taskStatsQueryKey() });
       queryClient.setQueryData(['tasks', data.id], data);
     },
   });
@@ -70,6 +73,7 @@ export const useTasks = (params?: TasksQueryParams, options?: UseTasksOptions) =
     onSuccess: () => {
       // Invalidate and refetch tasks list
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: taskStatsQueryKey() });
     },
   });
 
@@ -89,6 +93,7 @@ export const useTasks = (params?: TasksQueryParams, options?: UseTasksOptions) =
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ['tasks'] });
+        queryClient.invalidateQueries({ queryKey: taskStatsQueryKey() });
         queryClient.setQueryData(['tasks', data.id], data);
       },
     }

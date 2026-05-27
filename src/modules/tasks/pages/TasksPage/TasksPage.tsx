@@ -1,4 +1,3 @@
-import type { components } from '@/api';
 import { useTaskForm } from '@/contexts/TaskFormContext';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import {
@@ -10,8 +9,6 @@ import {
 } from './components';
 import { useTasksPageData } from './hooks/useTasksPageData';
 
-type Task = components['schemas']['models.Task'];
-
 export const TasksPage = () => {
   const { user } = useAuth();
   const { openForm } = useTaskForm();
@@ -19,7 +16,7 @@ export const TasksPage = () => {
   const {
     todayStats,
     taskGroups,
-    allTasks,
+    previewTasks,
     inProgressTasks,
     taskTypeColors,
     isLoadingTasks,
@@ -57,7 +54,7 @@ export const TasksPage = () => {
       <TaskGroupsSection taskGroups={taskGroups} />
 
       <AllTasksSection
-        tasks={allTasks}
+        tasks={previewTasks}
         isLoading={isLoading}
         onToggleComplete={toggleTaskCompletion}
         onEdit={openForm}
