@@ -1,3 +1,4 @@
+import { buildUserTaskStats, visibleTasksForStats } from './statsMock';
 import type { MockStore, MockTask } from './store';
 import { getE2eUser } from './store';
 
@@ -22,6 +23,17 @@ function filterTasks(tasks: MockTask[], searchParams: URLSearchParams): MockTask
     result = result.filter(
       (t) => t.title.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)
     );
+  }
+
+  const hideStale = searchParams.get('hide_stale_completed');
+  if (hideStale === 'true') {
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    result = result.filter((t) => {
+      if (!t.completed) return true;
+      const completedAt = (t as { completed_at?: string }).completed_at;
+      if (!completedAt) return true;
+      return new Date(completedAt).getTime() >= cutoff;
+    });
   }
 
   const dueFrom = searchParams.get('due_date_from');
@@ -84,6 +96,12 @@ export function resolveApiRequest(
 
   if (method === 'POST' && pathname === '/api/v1/auth/logout') {
     return { status: 200, body: { message: 'ok' } };
+  }
+
+  if (method === 'GET' && pathname === '/api/v1/stats') {
+    const hideStale = searchParams.get('hide_stale_completed') !== 'false';
+    const visible = visibleTasksForStats(store.tasks, e2eUser.id, hideStale);
+    return { status: 200, body: buildUserTaskStats(visible) };
   }
 
   if (method === 'GET' && pathname === '/api/v1/tasks') {
