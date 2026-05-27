@@ -39,8 +39,7 @@ export function buildUserTaskStats(tasks: MockTask[]): UserTaskStats {
       total,
       completed,
       pending: total - completed,
-      overdue: tasks.filter((t) => !t.completed && t.due_date && new Date(t.due_date) < now)
-        .length,
+      overdue: tasks.filter((t) => !t.completed && t.due_date && new Date(t.due_date) < now).length,
       completion_rate: completionRate(completed, total),
     },
     today: {
