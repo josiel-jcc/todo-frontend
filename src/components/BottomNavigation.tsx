@@ -56,7 +56,7 @@ function NavButton({
       type="button"
       onClick={onClick}
       className={cn(
-        'flex min-w-0 flex-1 flex-col items-center gap-1 px-1 py-2 rounded-xl transition-colors',
+        'flex w-full min-w-0 flex-col items-center justify-center gap-1 py-2 rounded-xl transition-colors',
         isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
       )}
     >
@@ -110,30 +110,26 @@ export const BottomNavigation = () => {
           </motion.div>
 
           <motion.div className="rounded-t-3xl border-t bg-card/95 backdrop-blur-sm shadow-lg">
-            <div className="flex items-end px-1 pb-4 pt-3">
-              <div className="flex flex-1 justify-around">
-                {leftNavItems.map((item) => (
-                  <NavButton
-                    key={item.path}
-                    item={item}
-                    isActive={isNavActive(location.pathname, item.path)}
-                    onClick={() => handleNavClick(item.path)}
-                  />
-                ))}
-              </div>
+            <div className="grid grid-cols-7 items-end px-2 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+              {leftNavItems.map((item) => (
+                <NavButton
+                  key={item.path}
+                  item={item}
+                  isActive={isNavActive(location.pathname, item.path)}
+                  onClick={() => handleNavClick(item.path)}
+                />
+              ))}
 
-              <div className="w-14 shrink-0" aria-hidden="true" />
+              <div className="pointer-events-none" aria-hidden="true" />
 
-              <div className="flex flex-1 justify-around">
-                {rightNavItems.map((item) => (
-                  <NavButton
-                    key={item.path}
-                    item={item}
-                    isActive={isNavActive(location.pathname, item.path)}
-                    onClick={() => handleNavClick(item.path)}
-                  />
-                ))}
-              </div>
+              {rightNavItems.map((item) => (
+                <NavButton
+                  key={item.path}
+                  item={item}
+                  isActive={isNavActive(location.pathname, item.path)}
+                  onClick={() => handleNavClick(item.path)}
+                />
+              ))}
             </div>
           </motion.div>
         </motion.div>
