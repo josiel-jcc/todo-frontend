@@ -377,6 +377,8 @@ A aplicação é totalmente responsiva:
 
 ## 📚 Recursos e Documentação
 
+- [Roadmap de produto](docs/PRODUCT_ROADMAP.md) — funcionalidades e melhorias sugeridas (referência futura)
+
 ### Documentação Oficial
 
 - [Rsbuild Documentation](https://rsbuild.rs) - Build tool
