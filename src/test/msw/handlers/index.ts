@@ -2,8 +2,8 @@ import { authHandlers } from './auth';
 import { commentHandlers } from './comments';
 import { groupHandlers } from './groups';
 import { pushNotificationHandlers } from './pushNotifications';
-import { tagHandlers } from './tags';
 import { statsHandlers } from './stats';
+import { tagHandlers } from './tags';
 import { taskHandlers } from './tasks';
 import { userHandlers } from './users';
 
