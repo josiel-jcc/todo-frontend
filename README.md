@@ -4,7 +4,7 @@ Aplicação frontend moderna para gerenciamento de tarefas construída com React
 
 ## Conformidade (LGPD)
 
-Documentação legal e de segurança: [`docs/compliance/`](docs/compliance/). No app: `/privacidade` e `/termos`.
+Documentação legal e de segurança (fonte canônica): [`docs/compliance/`](docs/compliance/). No app: `/privacidade` e `/termos`. Exportação JSON e exclusão de conta em **Configurações → Privacidade e dados**.
 
 ## ✨ Features
 
@@ -13,7 +13,9 @@ Documentação legal e de segurança: [`docs/compliance/`](docs/compliance/). No
 - 🏷️ **Sistema de tags** - Organize tarefas com tags coloridas
 - 👥 **Atribuição de usuários** - Atribua tarefas a outros usuários do mesmo grupo
 - 🏠 **Grupos e convites** - Crie grupos, convide membros (aceite obrigatório) e colabore com segurança
-- 🔔 **Notificações in-app** - Sino no header para convites de grupo (aceitar/recusar)
+- 🔔 **Notificações in-app** - Sino no header para convites de grupo e lembretes de tarefa
+- 📲 **Web Push (PWA)** - Lembretes no navegador com consentimento explícito
+- ⏱️ **Lembretes por horário** - Antecedência configurável (padrão 10 min antes do vencimento)
 - 💬 **Comentários** - Adicione comentários às tarefas
 - 🔍 **Busca avançada** - Filtros por tipo, prioridade, data, status e mais
 - 📊 **Dashboard** - Visualize estatísticas e tarefas em progresso
