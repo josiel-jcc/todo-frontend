@@ -2,10 +2,12 @@ import { Users } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'sonner';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { spacing } from '@/lib/spacing';
 import { useGroupMutations, useGroups } from '../hooks/useGroups';
 
 export const GroupsPage = () => {
@@ -26,8 +28,8 @@ export const GroupsPage = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-2xl space-y-6 p-4 md:p-6">
-      <div className="flex items-center gap-2">
+    <PageShell size="narrow">
+      <div className={`flex items-center ${spacing.gapInline}`}>
         <Users className="h-6 w-6" />
         <h1 className="text-2xl font-bold">Grupos</h1>
       </div>
@@ -36,7 +38,7 @@ export const GroupsPage = () => {
         <CardHeader>
           <CardTitle className="text-lg">Criar grupo</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className={spacing.stackForm}>
           <div className="space-y-2">
             <Label htmlFor="group-name">Nome do grupo</Label>
             <Input
@@ -58,7 +60,7 @@ export const GroupsPage = () => {
         </CardContent>
       </Card>
 
-      <div className="space-y-3">
+      <div className={spacing.stackForm}>
         <h2 className="text-lg font-semibold">Meus grupos</h2>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Carregando…</p>
@@ -70,7 +72,7 @@ export const GroupsPage = () => {
               <li key={g.id}>
                 <Link
                   to={`/groups/${g.id}`}
-                  className="flex items-center justify-between rounded-2xl border px-4 py-3 transition-colors hover:bg-accent"
+                  className={`flex items-center justify-between rounded-2xl border transition-colors hover:bg-accent ${spacing.listRow}`}
                 >
                   <span className="font-medium">{g.name}</span>
                   <span className="text-sm text-muted-foreground">
@@ -83,6 +85,6 @@ export const GroupsPage = () => {
           </ul>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 };

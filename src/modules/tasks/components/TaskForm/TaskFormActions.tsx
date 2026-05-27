@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { spacing } from '@/lib/spacing';
 
 interface TaskFormActionsProps {
   onCancel?: () => void;
@@ -8,7 +9,7 @@ interface TaskFormActionsProps {
 
 export const TaskFormActions = ({ onCancel, isLoading, submitLabel }: TaskFormActionsProps) => {
   return (
-    <div className="flex gap-3 pt-4">
+    <div className={`flex pt-4 ${spacing.gapInline}`}>
       {onCancel && (
         <Button
           type="button"

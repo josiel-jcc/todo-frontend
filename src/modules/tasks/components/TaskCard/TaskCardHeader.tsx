@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, Circle } from 'lucide-react';
 import type { components } from '@/api';
 import { CardHeader, CardTitle } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { cn } from '@/lib/utils';
 import { typeBadgeColors, typeLabels } from './taskConstants';
 
@@ -22,9 +23,9 @@ export const TaskCardHeader = ({
 }: TaskCardHeaderProps) => {
   return (
     <CardHeader className="flex-shrink-0 pb-4">
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
+      <div className={`flex flex-col ${spacing.stackForm}`}>
+        <div className={`flex items-center justify-between ${spacing.gapInline}`}>
+          <div className={`flex items-center flex-1 min-w-0 ${spacing.gapInline}`}>
             <span
               className={cn(
                 'text-xs font-medium px-2.5 py-1 rounded-xl border shrink-0',

@@ -1,5 +1,7 @@
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { useTasks } from '../../hooks/useTasks';
 import {
   AdvancedFilters,
@@ -37,13 +39,13 @@ export const SearchPage = () => {
   const isLoading = isLoadingTasks || isTogglingCompletion;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
+    <PageShell size="wide">
       <SearchPageHeader />
 
       {/* Search Input */}
       <Card className="rounded-3xl">
         <CardContent className="p-6">
-          <div className="space-y-4">
+          <div className={spacing.stackForm}>
             <SearchInput
               value={filters.search ?? ''}
               onChange={(value) => handleFilterChange('search', value)}
@@ -93,6 +95,6 @@ export const SearchPage = () => {
           onPageChange={handlePageChange}
         />
       )}
-    </div>
+    </PageShell>
   );
 };

@@ -8,6 +8,7 @@ import { shareTask, unshareTask } from '@/api/tasks';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { spacing } from '@/lib/spacing';
 import { useUsers } from '../../hooks/useUsers';
 
 type Task = components['schemas']['models.Task'];
@@ -81,7 +82,7 @@ export const TaskDetailShareSection = ({ task }: TaskDetailShareSectionProps) =>
               {sharedWith.map((u) => (
                 <li
                   key={u.id}
-                  className="flex items-center justify-between rounded-xl border px-3 py-2"
+                  className={`flex items-center justify-between rounded-xl border ${spacing.listRow}`}
                 >
                   <span className="text-sm">{u.username}</span>
                   <Button
@@ -113,7 +114,7 @@ export const TaskDetailShareSection = ({ task }: TaskDetailShareSectionProps) =>
               </Link>
             </p>
           ) : (
-            <div className="flex flex-wrap gap-2 rounded-2xl border p-3">
+            <div className={`flex flex-wrap rounded-2xl border p-4 ${spacing.gapInline}`}>
               {users
                 .filter((u) => eligibleUserIds.includes(u.id))
                 .map((u) => {

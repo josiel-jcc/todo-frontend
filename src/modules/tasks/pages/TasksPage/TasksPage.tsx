@@ -1,3 +1,4 @@
+import { PageShell } from '@/components/PageShell';
 import { useTaskForm } from '@/contexts/TaskFormContext';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import {
@@ -29,7 +30,7 @@ export const TasksPage = () => {
   const isLoading = isLoadingTasks || isCreatingTask || isUpdatingTask;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
+    <PageShell size="wide">
       <TasksPageHeader
         username={user?.username}
         onAddTask={() => {
@@ -60,6 +61,6 @@ export const TasksPage = () => {
         onEdit={openForm}
         onDelete={deleteTask}
       />
-    </div>
+    </PageShell>
   );
 };

@@ -1,4 +1,5 @@
 import { TaskGroupCard } from '@/components';
+import { spacing } from '@/lib/spacing';
 import { typeLabels } from '../../../components/TaskCard/taskConstants';
 
 interface TaskGroup {
@@ -20,9 +21,9 @@ export const TaskGroupsSection = ({ taskGroups }: TaskGroupsSectionProps) => {
 
   return (
     <section>
-      <h2 className="text-xl font-semibold mb-4">Grupos de tarefas</h2>
+      <h2 className={`text-xl font-semibold ${spacing.sectionTitle}`}>Grupos de tarefas</h2>
       {/* Mobile: Vertical list */}
-      <div className="md:hidden grid grid-cols-1 gap-4">
+      <div className={`md:hidden grid grid-cols-1 ${spacing.gapGrid}`}>
         {taskGroups.map((group) => (
           <TaskGroupCard
             key={group.type}
@@ -35,7 +36,9 @@ export const TaskGroupsSection = ({ taskGroups }: TaskGroupsSectionProps) => {
         ))}
       </div>
       {/* Desktop: Grid */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div
+        className={`hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${spacing.gapGrid}`}
+      >
         {taskGroups.map((group) => (
           <TaskGroupCard
             key={group.type}

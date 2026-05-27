@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { spacing } from '@/lib/spacing';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { LegalFooterLinks } from '@/modules/legal/components/LegalFooterLinks';
 import { PrivacySettingsCard } from '../components/PrivacySettingsCard';
@@ -44,10 +46,12 @@ export const SettingsPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <PageShell size="wide">
       <div>
         <h1 className="text-3xl font-bold">Configurações</h1>
-        <p className="text-muted-foreground">Gerencie suas preferências e configurações de conta</p>
+        <p className={`text-muted-foreground ${spacing.pageSubtitle}`}>
+          Gerencie suas preferências e configurações de conta
+        </p>
       </div>
 
       <Card>
@@ -170,6 +174,6 @@ export const SettingsPage = () => {
 
       <PrivacySettingsCard />
       <LegalFooterLinks />
-    </div>
+    </PageShell>
   );
 };

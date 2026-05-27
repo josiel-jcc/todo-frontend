@@ -1,6 +1,8 @@
 import { Send } from 'lucide-react';
 import { useState } from 'react';
+import { PageShell } from '@/components/PageShell';
 import { Card, CardContent } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { useAssignedTasks } from '../hooks/useAssignedTasks';
 import { useTasks } from '../hooks/useTasks';
 import { SearchPagination, SearchResults } from './search/components';
@@ -16,8 +18,8 @@ export const AssignedTasksPage = () => {
   const isLoading = isLoadingTasks || isTogglingCompletion || isDeletingTask;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
-      <div className="flex items-center gap-3">
+    <PageShell size="wide">
+      <div className={`flex items-center ${spacing.gapInlineLoose}`}>
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
           <Send className="h-6 w-6" />
         </div>
@@ -54,6 +56,6 @@ export const AssignedTasksPage = () => {
           onPageChange={setPage}
         />
       )}
-    </div>
+    </PageShell>
   );
 };

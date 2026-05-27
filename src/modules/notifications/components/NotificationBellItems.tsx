@@ -10,6 +10,7 @@ import {
 } from '@/api/inAppNotifications';
 import { Button } from '@/components/ui/button';
 import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
+import { spacing } from '@/lib/spacing';
 import { useGroupInvitationMutations } from '@/modules/groups/hooks/useGroupInvitations';
 
 function NotificationLinkItem({
@@ -35,7 +36,7 @@ function NotificationLinkItem({
     <Link
       to={`/tasks/${taskId}`}
       onClick={() => onMarkRead(notification.id)}
-      className={`block border-b px-3 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors ${
+      className={`block border-b text-sm last:border-0 hover:bg-muted/50 transition-colors ${spacing.listRow} ${
         notification.read ? 'opacity-60' : ''
       }`}
     >
@@ -158,7 +159,7 @@ export function GroupInviteNotificationItem({
   };
 
   return (
-    <div className="space-y-2 border-b px-3 py-3 last:border-0">
+    <div className={`border-b last:border-0 ${spacing.stackList} ${spacing.listRow}`}>
       <p className="text-sm">
         <span className="font-medium">{data.invited_by_username}</span> convidou você para{' '}
         <span className="font-medium">{data.group_name}</span>

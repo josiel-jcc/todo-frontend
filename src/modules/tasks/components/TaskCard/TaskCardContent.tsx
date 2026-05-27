@@ -1,6 +1,7 @@
 import { Calendar, User } from 'lucide-react';
 import type { components } from '@/api';
 import { CardContent } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { cn } from '@/lib/utils';
 import { formatTaskDate, priorityColors, priorityLabels } from './taskConstants';
 
@@ -13,9 +14,9 @@ interface TaskCardContentProps {
 
 export const TaskCardContent = ({ task, isOverdue }: TaskCardContentProps) => {
   return (
-    <CardContent className="flex-1 flex flex-col gap-3 pt-0 px-6 pb-4 min-h-0">
+    <CardContent className="flex-1 flex flex-col pt-0 px-6 pb-4 min-h-0 gap-4">
       <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap flex-shrink-0">
-        <div className="flex items-center gap-1.5">
+        <div className={`flex items-center ${spacing.gapInline}`}>
           <Calendar className="h-3.5 w-3.5 shrink-0" />
           <span
             className={cn('font-medium', isOverdue && !task.completed && 'text-red-600')}
@@ -35,7 +36,7 @@ export const TaskCardContent = ({ task, isOverdue }: TaskCardContentProps) => {
           </span>
         )}
         {task.assigned_by_user && (
-          <div className="flex items-center gap-1.5 ml-auto">
+          <div className={`flex items-center ml-auto ${spacing.gapInline}`}>
             <User className="h-3.5 w-3.5 shrink-0" />
             <span
               className="font-medium truncate max-w-[120px]"
@@ -47,7 +48,7 @@ export const TaskCardContent = ({ task, isOverdue }: TaskCardContentProps) => {
         )}
       </div>
       {task.tags && task.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 flex-shrink-0">
+        <div className={`flex flex-wrap flex-shrink-0 ${spacing.gapInline}`}>
           {task.tags.slice(0, 3).map((tag) => (
             <span
               key={tag.id}

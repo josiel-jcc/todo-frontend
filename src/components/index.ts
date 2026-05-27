@@ -15,6 +15,7 @@ export * from './Input';
 export * from './Loading';
 export { Logo } from './Logo';
 export { Modal } from './Modal';
+export { PageShell } from './PageShell';
 export { PageTransition } from './PageTransition';
 export { ProtectedRoute } from './ProtectedRoute';
 export { PwaInstallBanner } from './PwaInstallBanner';

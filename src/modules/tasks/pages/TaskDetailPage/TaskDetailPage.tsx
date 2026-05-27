@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import { ConfirmDialog, Loading } from '@/components';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -45,37 +46,37 @@ export const TaskDetailPage = () => {
 
   if (!taskId) {
     return (
-      <div className="container mx-auto py-6">
+      <PageShell size="wide">
         <div className="text-center py-12">
           <p className="text-destructive">ID de tarefa inválido</p>
           <Button variant="outline" onClick={() => navigate('/tasks')} className="mt-4">
             Voltar para tarefas
           </Button>
         </div>
-      </div>
+      </PageShell>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-6">
+      <PageShell size="wide">
         <div className="flex justify-center py-12">
           <Loading />
         </div>
-      </div>
+      </PageShell>
     );
   }
 
   if (error || !task) {
     return (
-      <div className="container mx-auto py-6">
+      <PageShell size="wide">
         <div className="text-center py-12">
           <p className="text-destructive">Erro ao carregar a tarefa</p>
           <Button variant="outline" onClick={() => navigate('/tasks')} className="mt-4">
             Voltar para tarefas
           </Button>
         </div>
-      </div>
+      </PageShell>
     );
   }
 
@@ -83,7 +84,7 @@ export const TaskDetailPage = () => {
   const isTaskOwner = user?.id === task.user_id;
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
+    <PageShell size="wide">
       {/* Dialog de confirmação de exclusão de tarefa */}
       <ConfirmDialog
         isOpen={showDeleteConfirm}
@@ -159,6 +160,6 @@ export const TaskDetailPage = () => {
         isDeletingCommentById={isDeletingCommentById}
         comments={comments}
       />
-    </div>
+    </PageShell>
   );
 };

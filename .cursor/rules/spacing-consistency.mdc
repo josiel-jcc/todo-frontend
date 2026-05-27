@@ -1,0 +1,56 @@
+---
+description: Espaçamento consistente no todo-frontend (Tailwind)
+globs: todo-frontend/src/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Espaçamento no frontend
+
+Use o sistema centralizado em `src/lib/spacing.ts` e `PageShell` em vez de classes ad hoc.
+
+## Páginas
+
+- Listagens e dashboards: `<PageShell size="wide">` (equivale a `spacing.pageWide`).
+- Grupos e fluxos estreitos: `<PageShell size="narrow">`.
+- Documentos legais: `<PageShell size="legal">`.
+- Padding de página: sempre `px-4 py-6`. Não misturar `p-6`, `py-6` sem `px-4`, ou `p-4 md:p-6`.
+
+## Pilhas verticais
+
+| Contexto | Classe / token |
+|----------|----------------|
+| Seções da página | `space-y-6` (`stackPage`) |
+| Blocos dentro de card / formulário | `space-y-4` (`stackForm`) |
+| Label + input | `space-y-2` (`stackField`) |
+| Label + hint curto (toggles) | `space-y-0.5` (`stackFieldHint`) |
+| Itens de lista | `space-y-2` (`stackList`) |
+
+Evitar `space-y-3` salvo exceção documentada.
+
+## Gaps horizontais
+
+| Contexto | Token |
+|----------|--------|
+| Ícone + texto, chips, botões inline | `gap-2` (`gapInline`) |
+| Cabeçalhos de página, blocos com ícone grande | `gap-4` (`gapInlineLoose`) |
+| Grids de cards | `gap-4` (`gapGrid`) |
+
+## Outros padrões
+
+- Título de seção (`h2`): `mb-4` (`sectionTitle`).
+- Subtítulo abaixo de `h1`: `mt-1` (`pageSubtitle`).
+- Estado vazio em card: `p-8 text-center` (`emptyState`).
+- Linha clicável de lista: `px-4 py-3` (`listRow`).
+- Carrossel horizontal com bleed: `horizontalBleed` + `horizontalBleedInner`.
+- Card padrão: usar `Card` / `CardHeader` / `CardContent` do shadcn (`p-6`); não sobrescrever padding sem motivo.
+
+## Formulários
+
+- Formulário completo: `space-y-4` entre grupos de campos.
+- Painel com borda (ex.: lembrete): `space-y-4 p-4` no container.
+
+## O que não fazer
+
+- Não usar `gap-3`, `space-y-3`, `mb-1` em novos componentes.
+- Não duplicar `container mx-auto px-4 py-6` — use `PageShell` ou `spacing.pageWide`.
+- Não misturar `px-3` e `px-4` em itens de lista/menu do mesmo tipo.

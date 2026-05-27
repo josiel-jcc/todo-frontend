@@ -54,7 +54,7 @@ export const InProgressCard = ({
         onClick={handleCardClick}
       >
         <CardContent className="p-4 flex flex-col flex-1 min-h-0">
-          <div className="flex items-start justify-between gap-3 mb-2 flex-shrink-0">
+          <div className="flex items-start justify-between gap-4 mb-2 flex-shrink-0">
             <h4
               className={cn(
                 'font-semibold text-sm flex-1 min-w-0 line-clamp-2',

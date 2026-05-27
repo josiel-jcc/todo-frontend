@@ -3,6 +3,7 @@ import type { components } from '@/api';
 import { Loading } from '@/components';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 import { TaskCard } from '../../../components';
 
 type Task = components['schemas']['models.Task'];
@@ -39,7 +40,7 @@ export const SearchResults = ({
   if (tasks.length === 0) {
     return (
       <Card className="rounded-3xl">
-        <CardContent className="p-8 text-center">
+        <CardContent className={spacing.emptyState}>
           <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">
             Nenhuma tarefa encontrada com os filtros selecionados.
@@ -56,7 +57,7 @@ export const SearchResults = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className={`flex items-center justify-between ${spacing.sectionTitle}`}>
         <h2 className="text-xl font-semibold">
           Resultados
           {pagination && (
@@ -67,7 +68,7 @@ export const SearchResults = ({
         </h2>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className={`grid md:grid-cols-2 lg:grid-cols-3 ${spacing.gapGrid}`}>
         {tasks.map((task) => (
           <TaskCard
             key={task.id}

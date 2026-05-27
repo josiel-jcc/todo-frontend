@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
+import { PageShell } from '@/components/PageShell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { spacing } from '@/lib/spacing';
 
 type LegalDocumentPageProps = {
   title: string;
@@ -126,9 +128,9 @@ const renderMarkdown = (markdown: string): ReactNode[] => {
 };
 
 export const LegalDocumentPage = ({ title, markdown }: LegalDocumentPageProps) => (
-  <div className="min-h-dvh bg-background p-4">
-    <div className="container mx-auto max-w-3xl py-6">
-      <Button variant="ghost" asChild className="mb-4">
+  <div className="min-h-dvh bg-background">
+    <PageShell size="legal">
+      <Button variant="ghost" asChild className={spacing.sectionTitle}>
         <Link to="/login">← Voltar</Link>
       </Button>
       <Card>
@@ -137,6 +139,6 @@ export const LegalDocumentPage = ({ title, markdown }: LegalDocumentPageProps) =
         </CardHeader>
         <CardContent>{renderMarkdown(markdown)}</CardContent>
       </Card>
-    </div>
+    </PageShell>
   </div>
 );
