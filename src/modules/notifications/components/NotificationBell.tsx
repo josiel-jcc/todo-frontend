@@ -1,53 +1,22 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { Bell } from 'lucide-react';
-import { Link } from 'react-router';
-import { toast } from 'sonner';
-import {
-  parseGroupInvitePayload,
-  parseTaskReminderPayload,
-  type UserNotification,
-} from '@/api/inAppNotifications';
+import type { UserNotification } from '@/api/inAppNotifications';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { formatReminderMinutesLabel } from '@/lib/reminderConstants';
-import { useGroupInvitationMutations } from '@/modules/groups/hooks/useGroupInvitations';
 import {
   useInAppNotificationMutations,
   useInAppNotifications,
   useUnreadNotificationCount,
 } from '../hooks/useInAppNotifications';
-
-function TaskReminderNotificationItem({
-  notification,
-  onMarkRead,
-}: {
-  notification: UserNotification;
-  onMarkRead: (id: number) => void;
-}) {
-  const data = parseTaskReminderPayload(notification.payload);
-  if (!data) return null;
-
-  const minutesLabel = formatReminderMinutesLabel(data.minutes_before);
-
-  return (
-    <Link
-      to={`/tasks/${data.task_id}`}
-      onClick={() => onMarkRead(notification.id)}
-      className={`block border-b px-3 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors ${
-        notification.read ? 'opacity-60' : ''
-      }`}
-    >
-      <p className="font-medium">Lembrete de tarefa</p>
-      <p className="mt-1 text-muted-foreground">
-        <span className="text-foreground">{data.title}</span> vence em {minutesLabel}
-      </p>
-    </Link>
-  );
-}
+import {
+  GroupInviteNotificationItem,
+  TaskCommentNotificationItem,
+  TaskCompletedNotificationItem,
+  TaskReminderNotificationItem,
+} from './NotificationBellItems';
 
 function NotificationItem({
   notification,
@@ -56,75 +25,22 @@ function NotificationItem({
   notification: UserNotification;
   onMarkRead: (id: number) => void;
 }) {
-  const queryClient = useQueryClient();
-  const { acceptMutation, declineMutation } = useGroupInvitationMutations();
-
-  if (notification.type === 'task_reminder') {
-    return <TaskReminderNotificationItem notification={notification} onMarkRead={onMarkRead} />;
+  switch (notification.type) {
+    case 'task_reminder':
+      return <TaskReminderNotificationItem notification={notification} onMarkRead={onMarkRead} />;
+    case 'task_comment':
+      return <TaskCommentNotificationItem notification={notification} onMarkRead={onMarkRead} />;
+    case 'task_completed':
+      return <TaskCompletedNotificationItem notification={notification} onMarkRead={onMarkRead} />;
+    case 'group_invite':
+      return <GroupInviteNotificationItem notification={notification} onMarkRead={onMarkRead} />;
+    default:
+      return (
+        <div className="px-3 py-2 text-sm text-muted-foreground border-b last:border-0">
+          Notificação
+        </div>
+      );
   }
-
-  if (notification.type !== 'group_invite') {
-    return (
-      <div className="px-3 py-2 text-sm text-muted-foreground border-b last:border-0">
-        Notificação
-      </div>
-    );
-  }
-
-  const data = parseGroupInvitePayload(notification.payload);
-  if (!data) return null;
-
-  const handleAccept = () => {
-    acceptMutation.mutate(data.invitation_id, {
-      onSuccess: () => {
-        toast.success('Convite aceito');
-        void queryClient.invalidateQueries({ queryKey: ['notifications', 'in-app'] });
-        void queryClient.invalidateQueries({ queryKey: ['groups'] });
-        void queryClient.invalidateQueries({ queryKey: ['users'] });
-      },
-      onError: () => toast.error('Não foi possível aceitar o convite'),
-    });
-  };
-
-  const handleDecline = () => {
-    declineMutation.mutate(data.invitation_id, {
-      onSuccess: () => {
-        toast.success('Convite recusado');
-        void queryClient.invalidateQueries({ queryKey: ['notifications', 'in-app'] });
-      },
-      onError: () => toast.error('Não foi possível recusar o convite'),
-    });
-  };
-
-  return (
-    <div className="space-y-2 border-b px-3 py-3 last:border-0">
-      <p className="text-sm">
-        <span className="font-medium">{data.invited_by_username}</span> convidou você para{' '}
-        <span className="font-medium">{data.group_name}</span>
-      </p>
-      <div className="flex gap-2">
-        <Button
-          type="button"
-          size="sm"
-          className="flex-1 rounded-lg"
-          disabled={acceptMutation.isPending}
-          onClick={handleAccept}
-        >
-          Aceitar
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          className="flex-1 rounded-lg"
-          disabled={declineMutation.isPending}
-          onClick={handleDecline}
-        >
-          Recusar
-        </Button>
-      </div>
-    </div>
-  );
 }
 
 export const NotificationBell = () => {

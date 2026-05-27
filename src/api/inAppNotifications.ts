@@ -24,6 +24,21 @@ export type TaskReminderPayload = {
   minutes_before: number;
 };
 
+export type TaskCommentPayload = {
+  task_id: number;
+  task_title: string;
+  comment_id: number;
+  comment_preview: string;
+  author_username: string;
+};
+
+export type TaskCompletedPayload = {
+  task_id: number;
+  task_title: string;
+  completed_by_username: string;
+  completed_by_user_id?: number;
+};
+
 export type PaginatedNotificationsResponse = {
   notifications: UserNotification[];
   total: number;
@@ -69,6 +84,30 @@ export function parseTaskReminderPayload(payload: string): TaskReminderPayload |
   try {
     const data = JSON.parse(payload) as TaskReminderPayload;
     if (typeof data.task_id !== 'number' || !data.title) {
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+export function parseTaskCommentPayload(payload: string): TaskCommentPayload | null {
+  try {
+    const data = JSON.parse(payload) as TaskCommentPayload;
+    if (typeof data.task_id !== 'number' || !data.task_title || !data.author_username) {
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+export function parseTaskCompletedPayload(payload: string): TaskCompletedPayload | null {
+  try {
+    const data = JSON.parse(payload) as TaskCompletedPayload;
+    if (typeof data.task_id !== 'number' || !data.task_title || !data.completed_by_username) {
       return null;
     }
     return data;
