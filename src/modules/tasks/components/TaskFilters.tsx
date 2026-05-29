@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import type { TaskFilters as TaskFiltersType } from '../schemas/taskSchemas';
 
 interface TaskFiltersProps {
@@ -42,7 +43,7 @@ export const TaskFilters = ({ filters, onFiltersChange, onReset }: TaskFiltersPr
               <Label htmlFor="type">Tipo</Label>
               <select
                 id="type"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className={formSelectClassName}
                 value={filters.type ?? ''}
                 onChange={(e) =>
                   handleFilterChange(
@@ -63,7 +64,7 @@ export const TaskFilters = ({ filters, onFiltersChange, onReset }: TaskFiltersPr
               <Label htmlFor="completed">Status</Label>
               <select
                 id="completed"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className={formSelectClassName}
                 value={filters.completed === undefined ? '' : filters.completed ? 'true' : 'false'}
                 onChange={(e) =>
                   handleFilterChange(
@@ -84,7 +85,7 @@ export const TaskFilters = ({ filters, onFiltersChange, onReset }: TaskFiltersPr
               <Label htmlFor="period">Período</Label>
               <select
                 id="period"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className={formSelectClassName}
                 value={filters.period ?? ''}
                 onChange={(e) =>
                   handleFilterChange(
@@ -105,7 +106,7 @@ export const TaskFilters = ({ filters, onFiltersChange, onReset }: TaskFiltersPr
               <Label htmlFor="sort_by">Ordenar por</Label>
               <select
                 id="sort_by"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className={formSelectClassName}
                 value={filters.sort_by ?? ''}
                 onChange={(e) =>
                   handleFilterChange(

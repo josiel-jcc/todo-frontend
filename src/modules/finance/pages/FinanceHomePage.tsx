@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { formSelectClassName } from '@/lib/formSelect';
 import { spacing } from '@/lib/spacing';
 import { useGroups } from '@/modules/groups/hooks/useGroups';
 import { FinanceBudgetEditor } from '../components/FinanceBudgetEditor';
@@ -142,7 +143,7 @@ export const FinanceHomePage = () => {
             </Label>
             <select
               id="finance-group"
-              className="mt-1 flex h-10 min-w-[10rem] rounded-xl border border-input bg-background px-3 text-sm"
+              className={`${formSelectClassName} mt-1 min-w-[10rem]`}
               value={groupId ?? ''}
               onChange={(e) => setGroupId(Number(e.target.value))}
             >

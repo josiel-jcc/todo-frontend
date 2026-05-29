@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { FinanceCategory, FinanceCategoryBudget } from '@/api/finance';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { spacing } from '@/lib/spacing';
 import { centsToAmountInput, parseAmountToCents } from '../lib/parseAmount';
+import { FinanceAmountInput } from './FinanceAmountInput';
 
 type Props = {
   categories: FinanceCategory[];
@@ -49,14 +49,10 @@ export const FinanceBudgetEditor = ({ categories, budgets, isPending, onSave }: 
             <Label htmlFor={`budget-${cat.id}`} className="text-sm">
               {cat.name}
             </Label>
-            <Input
+            <FinanceAmountInput
               id={`budget-${cat.id}`}
-              type="text"
-              inputMode="decimal"
-              placeholder="0,00"
-              className="rounded-xl"
               value={limits[cat.id] ?? ''}
-              onChange={(e) => setLimits((prev) => ({ ...prev, [cat.id]: e.target.value }))}
+              onChange={(value) => setLimits((prev) => ({ ...prev, [cat.id]: value }))}
             />
           </li>
         ))}

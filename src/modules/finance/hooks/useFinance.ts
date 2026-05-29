@@ -15,6 +15,7 @@ import {
   updateFinanceGoal,
   updateFinanceTransaction,
 } from '@/api/finance';
+import { uniqueFinanceCategories } from '../lib/uniqueCategories';
 
 const keys = {
   dashboard: (groupId: number, month: string) => ['finance', 'dashboard', groupId, month] as const,
@@ -43,6 +44,7 @@ export const useFinanceCategories = (groupId: number | null, kind: 'income' | 'e
   useQuery({
     queryKey: groupId ? keys.categories(groupId, kind) : ['finance', 'categories', 'none'],
     queryFn: () => getFinanceCategories(groupId!, kind),
+    select: uniqueFinanceCategories,
     enabled: groupId != null && groupId > 0,
   });
 

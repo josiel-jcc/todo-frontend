@@ -1,5 +1,6 @@
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import {
   DEFAULT_REMINDER_MINUTES,
   formatReminderMinutesLabel,
@@ -77,7 +78,7 @@ export const TaskReminderField = ({
           <Label htmlFor="task-reminder-minutes">Antecedência do lembrete</Label>
           <select
             id="task-reminder-minutes"
-            className="flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all"
+            className={formSelectClassName}
             {...register('reminder_minutes_before', { valueAsNumber: true })}
             aria-invalid={errors.reminder_minutes_before ? 'true' : 'false'}
           >

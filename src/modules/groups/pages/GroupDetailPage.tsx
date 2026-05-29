@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import { spacing } from '@/lib/spacing';
 import { useUsers } from '@/modules/tasks/hooks/useUsers';
 import { useGroup, useGroupMutations } from '../hooks/useGroups';
@@ -234,7 +235,7 @@ export const GroupDetailPage = () => {
             </p>
           ) : (
             <select
-              className="w-full rounded-xl border bg-background px-4 py-2 text-sm"
+              className={formSelectClassName}
               value={selectedUserId ?? ''}
               onChange={(e) => setSelectedUserId(e.target.value ? Number(e.target.value) : null)}
             >

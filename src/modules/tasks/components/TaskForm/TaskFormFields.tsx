@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getVariants, shake } from '@/lib/animations';
+import { formSelectClassName } from '@/lib/formSelect';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 import { TaskFormDueDateField } from './TaskFormDueDateField';
 
@@ -66,7 +67,7 @@ export const TaskFormFields = ({ register, control, errors }: TaskFormFieldsProp
           <Label htmlFor="type">Tipo *</Label>
           <select
             id="type"
-            className="flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+            className={formSelectClassName}
             {...register('type')}
             aria-invalid={errors.type ? 'true' : 'false'}
           >
@@ -86,7 +87,7 @@ export const TaskFormFields = ({ register, control, errors }: TaskFormFieldsProp
           <Label htmlFor="priority">Prioridade</Label>
           <select
             id="priority"
-            className="flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+            className={formSelectClassName}
             {...register('priority')}
             aria-invalid={errors.priority ? 'true' : 'false'}
           >

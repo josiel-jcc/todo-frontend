@@ -1,5 +1,6 @@
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import {
   RECURRENCE_RULE_OPTIONS,
   type RecurrenceRule,
@@ -68,7 +69,7 @@ export const TaskRecurrenceField = ({
           <Label htmlFor="recurrence-rule">Frequência</Label>
           <select
             id="recurrence-rule"
-            className="flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all"
+            className={formSelectClassName}
             value={recurrenceRule ?? 'weekly'}
             onChange={(e) =>
               setValue('recurrence_rule', e.target.value as RecurrenceRule, { shouldDirty: true })

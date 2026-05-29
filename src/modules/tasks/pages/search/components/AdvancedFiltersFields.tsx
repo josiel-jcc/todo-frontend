@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import type { TasksQueryParams } from '../../../hooks/useTasks';
 import { useUsers } from '../../../hooks/useUsers';
 import { PriorityTagFilters } from './PriorityTagFilters';
@@ -8,9 +9,6 @@ interface AdvancedFiltersFieldsProps {
   filters: TasksQueryParams;
   onFilterChange: (key: keyof TasksQueryParams, value: unknown) => void;
 }
-
-const selectClassName =
-  'flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all';
 
 export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFiltersFieldsProps) => {
   const { users } = useUsers({ limit: 100 });
@@ -22,7 +20,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         <Label htmlFor="type">Tipo</Label>
         <select
           id="type"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.type ?? ''}
           onChange={(e) =>
             onFilterChange(
@@ -44,7 +42,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         <Label htmlFor="period">Período</Label>
         <select
           id="period"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.period ?? ''}
           onChange={(e) =>
             onFilterChange(
@@ -91,7 +89,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         <Label htmlFor="assigned_by">Criado por</Label>
         <select
           id="assigned_by"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.assigned_by ?? ''}
           onChange={(e) =>
             onFilterChange(
@@ -114,7 +112,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         <Label htmlFor="sort_by">Ordenar por</Label>
         <select
           id="sort_by"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.sort_by ?? ''}
           onChange={(e) =>
             onFilterChange(
@@ -136,7 +134,7 @@ export const AdvancedFiltersFields = ({ filters, onFilterChange }: AdvancedFilte
         <Label htmlFor="order">Ordem</Label>
         <select
           id="order"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.order ?? 'desc'}
           onChange={(e) => onFilterChange('order', e.target.value as TasksQueryParams['order'])}
         >
