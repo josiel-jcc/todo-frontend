@@ -45,13 +45,28 @@ export type FinanceDashboard = {
     expense_cents: number;
     net_cents: number;
   };
-  by_category: {
-    category_id: number;
-    name: string;
-    kind: string;
-    total_cents: number;
-  }[];
+  by_category: FinanceCategoryBreakdown[];
   accounts: FinanceAccount[];
+};
+
+export type FinanceCategoryBreakdown = {
+  category_id: number;
+  name: string;
+  kind: string;
+  total_cents: number;
+  budget_cents?: number;
+  percent_used?: number;
+};
+
+export type FinanceCategoryBudget = {
+  category_id: number;
+  category_name: string;
+  limit_cents: number;
+};
+
+export type SetFinanceBudgetItem = {
+  category_id: number;
+  limit_cents: number;
 };
 
 export const getFinanceDashboard = async (
@@ -148,4 +163,27 @@ export const deleteFinanceTransaction = async (
   transactionId: number
 ): Promise<void> => {
   await apiClient.delete(`${financeBase(groupId)}/transactions/${transactionId}`);
+};
+
+export const getFinanceCategoryBudgets = async (
+  groupId: number,
+  month: string
+): Promise<FinanceCategoryBudget[]> => {
+  const response = await apiClient.get<FinanceCategoryBudget[]>(`${financeBase(groupId)}/budgets`, {
+    params: { month },
+  });
+  return response.data;
+};
+
+export const setFinanceCategoryBudgets = async (
+  groupId: number,
+  month: string,
+  items: SetFinanceBudgetItem[]
+): Promise<FinanceCategoryBudget[]> => {
+  const response = await apiClient.put(
+    `${financeBase(groupId)}/budgets`,
+    { items },
+    { params: { month } }
+  );
+  return response.data;
 };

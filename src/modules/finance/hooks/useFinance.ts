@@ -5,8 +5,10 @@ import {
   deleteFinanceTransaction,
   getFinanceAccounts,
   getFinanceCategories,
+  getFinanceCategoryBudgets,
   getFinanceDashboard,
   getFinanceTransactions,
+  setFinanceCategoryBudgets,
   updateFinanceTransaction,
 } from '@/api/finance';
 
@@ -15,6 +17,7 @@ const keys = {
   accounts: (groupId: number) => ['finance', 'accounts', groupId] as const,
   categories: (groupId: number, kind: string) => ['finance', 'categories', groupId, kind] as const,
   transactions: (groupId: number) => ['finance', 'transactions', groupId] as const,
+  budgets: (groupId: number, month: string) => ['finance', 'budgets', groupId, month] as const,
 };
 
 export const useFinanceDashboard = (groupId: number | null, month: string) =>
@@ -98,5 +101,24 @@ export const useDeleteFinanceTransaction = (groupId: number, month?: string) => 
   return useMutation({
     mutationFn: (transactionId: number) => deleteFinanceTransaction(groupId, transactionId),
     onSuccess: () => invalidateFinanceData(qc, groupId, month),
+  });
+};
+
+export const useFinanceCategoryBudgets = (groupId: number | null, month: string) =>
+  useQuery({
+    queryKey: groupId ? keys.budgets(groupId, month) : ['finance', 'budgets', 'none'],
+    queryFn: () => getFinanceCategoryBudgets(groupId!, month),
+    enabled: groupId != null && groupId > 0,
+  });
+
+export const useSetFinanceCategoryBudgets = (groupId: number, month: string) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (items: Parameters<typeof setFinanceCategoryBudgets>[2]) =>
+      setFinanceCategoryBudgets(groupId, month, items),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: keys.budgets(groupId, month) });
+      qc.invalidateQueries({ queryKey: keys.dashboard(groupId, month) });
+    },
   });
 };
