@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Home, Plus, Search, Send, Settings, Users } from 'lucide-react';
+import { Calendar, Home, Plus, Search, Send, Settings, Users, Wallet } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTaskForm } from '@/contexts/TaskFormContext';
 import { cn } from '@/lib/utils';
@@ -29,7 +29,7 @@ const leftNavItems: NavItem[] = [
 ];
 
 const rightNavItems: NavItem[] = [
-  { icon: Send, label: 'Deleguei', path: '/tasks/assigned' },
+  { icon: Wallet, label: 'Finanças', path: '/finance' },
   { icon: Users, label: 'Grupos', path: '/groups' },
   { icon: Settings, label: 'Configurações', path: '/settings' },
 ];
@@ -37,6 +37,9 @@ const rightNavItems: NavItem[] = [
 function isNavActive(pathname: string, itemPath: string): boolean {
   if (itemPath === '/groups') {
     return pathname.startsWith('/groups');
+  }
+  if (itemPath === '/finance') {
+    return pathname.startsWith('/finance');
   }
   return pathname === itemPath;
 }
