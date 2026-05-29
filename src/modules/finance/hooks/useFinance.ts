@@ -1,14 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createFinanceAccount,
+  createFinanceGoal,
   createFinanceTransaction,
+  deleteFinanceGoal,
   deleteFinanceTransaction,
   getFinanceAccounts,
   getFinanceCategories,
   getFinanceCategoryBudgets,
   getFinanceDashboard,
+  getFinanceGoals,
   getFinanceTransactions,
   setFinanceCategoryBudgets,
+  updateFinanceGoal,
   updateFinanceTransaction,
 } from '@/api/finance';
 
@@ -18,6 +22,7 @@ const keys = {
   categories: (groupId: number, kind: string) => ['finance', 'categories', groupId, kind] as const,
   transactions: (groupId: number) => ['finance', 'transactions', groupId] as const,
   budgets: (groupId: number, month: string) => ['finance', 'budgets', groupId, month] as const,
+  goals: (groupId: number) => ['finance', 'goals', groupId] as const,
 };
 
 export const useFinanceDashboard = (groupId: number | null, month: string) =>
@@ -120,5 +125,42 @@ export const useSetFinanceCategoryBudgets = (groupId: number, month: string) => 
       qc.invalidateQueries({ queryKey: keys.budgets(groupId, month) });
       qc.invalidateQueries({ queryKey: keys.dashboard(groupId, month) });
     },
+  });
+};
+
+export const useFinanceGoals = (groupId: number | null) =>
+  useQuery({
+    queryKey: groupId ? keys.goals(groupId) : ['finance', 'goals', 'none'],
+    queryFn: () => getFinanceGoals(groupId!),
+    enabled: groupId != null && groupId > 0,
+  });
+
+export const useCreateFinanceGoal = (groupId: number) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: Parameters<typeof createFinanceGoal>[1]) => createFinanceGoal(groupId, body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: keys.goals(groupId) }),
+  });
+};
+
+export const useUpdateFinanceGoal = (groupId: number) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      goalId,
+      body,
+    }: {
+      goalId: number;
+      body: Parameters<typeof updateFinanceGoal>[2];
+    }) => updateFinanceGoal(groupId, goalId, body),
+    onSuccess: () => qc.invalidateQueries({ queryKey: keys.goals(groupId) }),
+  });
+};
+
+export const useDeleteFinanceGoal = (groupId: number) => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (goalId: number) => deleteFinanceGoal(groupId, goalId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: keys.goals(groupId) }),
   });
 };
