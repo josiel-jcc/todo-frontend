@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { spacing } from '@/lib/spacing';
 import { useGroups } from '@/modules/groups/hooks/useGroups';
+import { FinanceBudgetEditor } from '../components/FinanceBudgetEditor';
+import { FinanceCategoryBreakdown } from '../components/FinanceCategoryBreakdown';
 import { FinanceTransactionForm } from '../components/FinanceTransactionForm';
 import { FinanceTransactionsList } from '../components/FinanceTransactionsList';
 import {
@@ -19,8 +21,10 @@ import {
   useDeleteFinanceTransaction,
   useFinanceAccounts,
   useFinanceCategories,
+  useFinanceCategoryBudgets,
   useFinanceDashboard,
   useFinanceTransactions,
+  useSetFinanceCategoryBudgets,
   useUpdateFinanceTransaction,
 } from '../hooks/useFinance';
 import { formatMoneyFromCents } from '../lib/formatMoney';
@@ -51,7 +55,9 @@ export const FinanceHomePage = () => {
   const { data: transactions, isLoading: loadingTx } = useFinanceTransactions(groupId);
   const { data: expenseCategories } = useFinanceCategories(groupId, 'expense');
   const { data: incomeCategories } = useFinanceCategories(groupId, 'income');
+  const { data: categoryBudgets } = useFinanceCategoryBudgets(groupId, month);
   const createAccount = useCreateFinanceAccount(gid);
+  const setBudgets = useSetFinanceCategoryBudgets(gid, month);
   const createTx = useCreateFinanceTransaction(gid, month);
   const updateTx = useUpdateFinanceTransaction(gid, month);
   const deleteTx = useDeleteFinanceTransaction(gid, month);
@@ -172,6 +178,18 @@ export const FinanceHomePage = () => {
         </div>
       ) : null}
 
+      {dashboard?.by_category?.length ? (
+        <Card className="rounded-3xl">
+          <CardHeader>
+            <CardTitle className="text-lg">Despesas por categoria</CardTitle>
+            <CardDescription>Comparado ao orçamento do mês selecionado</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FinanceCategoryBreakdown rows={dashboard.by_category} />
+          </CardContent>
+        </Card>
+      ) : null}
+
       <div className={`grid gap-6 lg:grid-cols-2 ${spacing.sectionGap}`}>
         <Card className="rounded-3xl">
           <CardHeader>
@@ -206,6 +224,28 @@ export const FinanceHomePage = () => {
         </Card>
 
         <Card className="rounded-3xl">
+          <CardHeader>
+            <CardTitle className="text-lg">Orçamento mensal</CardTitle>
+            <CardDescription>Limites por categoria de despesa</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FinanceBudgetEditor
+              categories={expenseCategories ?? []}
+              budgets={categoryBudgets}
+              isPending={setBudgets.isPending}
+              onSave={async (items) => {
+                try {
+                  await setBudgets.mutateAsync(items);
+                  toast.success('Orçamentos salvos');
+                } catch (e) {
+                  handleApiError(e);
+                }
+              }}
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-3xl lg:col-span-2">
           <CardHeader>
             <CardTitle className="text-lg">Novo lançamento</CardTitle>
           </CardHeader>
