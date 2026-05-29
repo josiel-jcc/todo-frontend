@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { usePwaInstall } from '@/hooks/usePwaInstall';
 import { cn } from '@/lib/utils';
 
-const routesWithBottomNav = ['/tasks', '/search', '/settings'];
+const routesWithBottomNav = ['/tasks', '/search', '/finance', '/settings'];
 
 export const PwaInstallBanner = () => {
   const location = useLocation();
