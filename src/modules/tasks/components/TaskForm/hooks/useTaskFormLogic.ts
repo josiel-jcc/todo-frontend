@@ -50,26 +50,37 @@ export const useTaskFormLogic = ({ initialData, onSubmit }: UseTaskFormLogicProp
           due_date: getDefaultDueDateValue(),
           tag_ids: [],
           customReminderEnabled: false,
+          recurrence_enabled: false,
         },
   });
 
   const onSubmitForm = (data: CreateTaskFormData | UpdateTaskFormData) => {
-    const { customReminderEnabled, reminder_minutes_before, ...rest } = data;
-    const formattedData: CreateTaskFormData | UpdateTaskFormData = {
+    const {
+      customReminderEnabled,
+      reminder_minutes_before,
+      recurrence_enabled,
+      recurrence_rule,
+      ...rest
+    } = data;
+    const formattedData: Record<string, unknown> = {
       ...rest,
       due_date: new Date(data.due_date).toISOString(),
       user_id: isForAnotherUser ? data.user_id : undefined,
     };
 
     if (customReminderEnabled && reminder_minutes_before != null) {
-      (formattedData as CreateTaskFormData).reminder_minutes_before = reminder_minutes_before;
+      formattedData.reminder_minutes_before = reminder_minutes_before;
     } else if (isEditMode) {
-      (
-        formattedData as UpdateTaskFormData & { reminder_minutes_before?: number | null }
-      ).reminder_minutes_before = null;
+      formattedData.reminder_minutes_before = null;
     }
 
-    onSubmit(formattedData);
+    if (recurrence_enabled && recurrence_rule) {
+      formattedData.recurrence_rule = recurrence_rule;
+    } else if (isEditMode) {
+      formattedData.recurrence_rule = null;
+    }
+
+    onSubmit(formattedData as CreateTaskFormData | UpdateTaskFormData);
   };
 
   const selectedTagIds = watch('tag_ids') || [];

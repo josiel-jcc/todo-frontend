@@ -2911,6 +2911,11 @@ export interface components {
        * @example 10
        */
       reminder_minutes_before?: number;
+      /**
+       * @description Optional: daily, weekly, or monthly repetition
+       * @example weekly
+       */
+      recurrence_rule?: 'daily' | 'weekly' | 'monthly';
       /** @description Optional: IDs of tags to associate */
       tag_ids: number[];
       /** @example Clean the house */
@@ -3028,6 +3033,11 @@ export interface components {
        * @example 15
        */
       reminder_minutes_before?: number | null;
+      /**
+       * @description Optional: daily, weekly, monthly; null removes recurrence
+       * @example daily
+       */
+      recurrence_rule?: 'daily' | 'weekly' | 'monthly' | null;
       /** @description Optional: nil = no change, [] = remove all, [1,2] = set tags */
       tag_ids: number[];
       /** @example Updated title */
@@ -3103,6 +3113,8 @@ export interface components {
     'models.GroupInvitationStatus': 'pending' | 'accepted' | 'declined' | 'cancelled';
     /** @enum {string} */
     'models.Priority': 'baixa' | 'media' | 'alta' | 'urgente';
+    /** @enum {string} */
+    'models.RecurrenceRule': 'daily' | 'weekly' | 'monthly';
     'models.Tag': {
       /** @description Hex color code (e.g., #FF5733) */
       color: string;
@@ -3134,6 +3146,9 @@ export interface components {
        * @example 10
        */
       reminder_minutes_before?: number | null;
+      recurrence_rule?: components['schemas']['models.RecurrenceRule'];
+      /** @description Next scheduled occurrence for recurring tasks */
+      recurrence_next_due?: string;
       /** @description Users with whom the task is shared (no limit) */
       shared_with: components['schemas']['models.User'][];
       /** @description Tags associated with the task */

@@ -19,6 +19,8 @@ const reminderMinutesSchema = z.union([
  */
 export const taskPrioritySchema = z.enum(['baixa', 'media', 'alta', 'urgente']);
 
+export const recurrenceRuleSchema = z.enum(['daily', 'weekly', 'monthly']);
+
 /**
  * Create task form validation schema
  */
@@ -38,6 +40,8 @@ export const createTaskSchema = z.object({
   user_id: z.number().optional(),
   customReminderEnabled: z.boolean().optional().default(false),
   reminder_minutes_before: reminderMinutesSchema.optional(),
+  recurrence_enabled: z.boolean().optional().default(false),
+  recurrence_rule: recurrenceRuleSchema.optional(),
 });
 
 export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
@@ -61,6 +65,8 @@ export const updateTaskSchema = z.object({
   tag_ids: z.array(z.number()).optional().default([]),
   customReminderEnabled: z.boolean().optional().default(false),
   reminder_minutes_before: reminderMinutesSchema.optional(),
+  recurrence_enabled: z.boolean().optional().default(false),
+  recurrence_rule: recurrenceRuleSchema.optional(),
 });
 
 export type UpdateTaskFormData = z.infer<typeof updateTaskSchema>;
