@@ -2,6 +2,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import type { FinanceAccount, FinanceCategory, FinanceTransaction } from '@/api/finance';
 import { ConfirmDialog } from '@/components';
+import { FormDateField } from '@/components/FormDateField';
 import { Loading } from '@/components/Loading';
 import { Modal } from '@/components/Modal';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { spacing } from '@/lib/spacing';
 import { formatMoneyFromCents } from '../lib/formatMoney';
 import { centsToAmountInput, parseAmountToCents } from '../lib/parseAmount';
+import { FinanceAmountInput } from './FinanceAmountInput';
 import { financeSelectClassName } from './financeSelectClass';
 
 type Props = {
@@ -152,35 +154,30 @@ export const FinanceTransactionsList = ({
         {editing && (
           <div className={spacing.stackForm}>
             <p className="text-sm text-muted-foreground">{typeLabel[editing.type]}</p>
-            <div>
-              <Label>Valor (R$)</Label>
-              <Input
-                className="rounded-xl mt-1"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
+            <div className={spacing.stackField}>
+              <Label htmlFor="edit-tx-amount">Valor (R$)</Label>
+              <FinanceAmountInput id="edit-tx-amount" value={amount} onChange={setAmount} />
             </div>
-            <div>
-              <Label>Descrição</Label>
+            <div className={spacing.stackField}>
+              <Label htmlFor="edit-tx-desc">Descrição</Label>
               <Input
-                className="rounded-xl mt-1"
+                id="edit-tx-desc"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div>
-              <Label>Data</Label>
-              <Input
-                type="date"
-                className="rounded-xl mt-1"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
+            <FormDateField
+              id="edit-tx-date"
+              label="Data"
+              value={date}
+              onChange={setDate}
+              required
+            />
             {editing.type !== 'transfer' && (
-              <div>
-                <Label>Categoria</Label>
+              <div className={spacing.stackField}>
+                <Label htmlFor="edit-tx-category">Categoria</Label>
                 <select
+                  id="edit-tx-category"
                   className={financeSelectClassName}
                   value={categoryId}
                   onChange={(e) => setCategoryId(Number(e.target.value))}
@@ -194,9 +191,10 @@ export const FinanceTransactionsList = ({
                 </select>
               </div>
             )}
-            <div>
-              <Label>Visibilidade</Label>
+            <div className={spacing.stackField}>
+              <Label htmlFor="edit-tx-vis">Visibilidade</Label>
               <select
+                id="edit-tx-vis"
                 className={financeSelectClassName}
                 value={visibility}
                 onChange={(e) => setVisibility(e.target.value as 'household' | 'private')}

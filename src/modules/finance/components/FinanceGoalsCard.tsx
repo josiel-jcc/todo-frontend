@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import type { FinanceGoal } from '@/api/finance';
+import { FormDateField } from '@/components/FormDateField';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { spacing } from '@/lib/spacing';
 import { formatMoneyFromCents } from '../lib/formatMoney';
 import { centsToAmountInput, parseAmountToCents } from '../lib/parseAmount';
+import { FinanceAmountInput } from './FinanceAmountInput';
 
 type Props = {
   goals: FinanceGoal[] | undefined;
@@ -101,10 +103,10 @@ export const FinanceGoalsCard = ({
               </p>
               {editingId === goal.id ? (
                 <div className={`flex gap-2 ${spacing.gapInline}`}>
-                  <Input
-                    className="rounded-xl flex-1"
+                  <FinanceAmountInput
+                    className="flex-1"
                     value={editCurrent}
-                    onChange={(e) => setEditCurrent(e.target.value)}
+                    onChange={setEditCurrent}
                     placeholder="Valor atual"
                   />
                   <Button
@@ -162,35 +164,19 @@ export const FinanceGoalsCard = ({
         <div className={`grid gap-3 sm:grid-cols-2 ${spacing.gapInline}`}>
           <div className={spacing.stackField}>
             <Label htmlFor="goal-target">Meta (R$)</Label>
-            <Input
-              id="goal-target"
-              className="rounded-xl"
-              value={target}
-              onChange={(e) => setTarget(e.target.value)}
-              placeholder="0,00"
-            />
+            <FinanceAmountInput id="goal-target" value={target} onChange={setTarget} />
           </div>
           <div className={spacing.stackField}>
             <Label htmlFor="goal-current">Já guardado (R$)</Label>
-            <Input
-              id="goal-current"
-              className="rounded-xl"
-              value={current}
-              onChange={(e) => setCurrent(e.target.value)}
-              placeholder="0,00"
-            />
+            <FinanceAmountInput id="goal-current" value={current} onChange={setCurrent} />
           </div>
         </div>
-        <div className={spacing.stackField}>
-          <Label htmlFor="goal-date">Data alvo (opcional)</Label>
-          <Input
-            id="goal-date"
-            type="date"
-            className="rounded-xl"
-            value={targetDate}
-            onChange={(e) => setTargetDate(e.target.value)}
-          />
-        </div>
+        <FormDateField
+          id="goal-date"
+          label="Data alvo (opcional)"
+          value={targetDate}
+          onChange={setTargetDate}
+        />
         <Button
           type="button"
           className="w-full rounded-xl"

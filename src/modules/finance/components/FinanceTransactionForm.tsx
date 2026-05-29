@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import type { FinanceAccount, FinanceCategory } from '@/api/finance';
+import { FormDateField } from '@/components/FormDateField';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { spacing } from '@/lib/spacing';
 import { parseAmountToCents } from '../lib/parseAmount';
+import { FinanceAmountInput } from './FinanceAmountInput';
 import { financeSelectClassName } from './financeSelectClass';
 
 export type TransactionFormType = 'expense' | 'income' | 'transfer';
@@ -89,7 +91,7 @@ export const FinanceTransactionForm = ({
 
   return (
     <div className={spacing.stackForm}>
-      <div className="flex gap-2">
+      <div className={`flex ${spacing.gapInline}`}>
         {(['expense', 'income', 'transfer'] as const).map((type) => (
           <Button
             key={type}
@@ -103,18 +105,9 @@ export const FinanceTransactionForm = ({
         ))}
       </div>
 
-      <div>
-        <Label htmlFor="tx-date">Data</Label>
-        <Input
-          id="tx-date"
-          type="date"
-          className="rounded-xl mt-1"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
+      <FormDateField id="tx-date" label="Data" value={date} onChange={setDate} required />
 
-      <div>
+      <div className={spacing.stackField}>
         <Label htmlFor="tx-account">{txType === 'transfer' ? 'Conta origem' : 'Conta'}</Label>
         <select
           id="tx-account"
@@ -132,7 +125,7 @@ export const FinanceTransactionForm = ({
       </div>
 
       {txType === 'transfer' && (
-        <div>
+        <div className={spacing.stackField}>
           <Label htmlFor="tx-transfer">Conta destino</Label>
           <select
             id="tx-transfer"
@@ -153,7 +146,7 @@ export const FinanceTransactionForm = ({
       )}
 
       {txType !== 'transfer' && (
-        <div>
+        <div className={spacing.stackField}>
           <Label htmlFor="tx-category">Categoria</Label>
           <select
             id="tx-category"
@@ -171,30 +164,17 @@ export const FinanceTransactionForm = ({
         </div>
       )}
 
-      <div>
+      <div className={spacing.stackField}>
         <Label htmlFor="tx-amount">Valor (R$)</Label>
-        <Input
-          id="tx-amount"
-          type="text"
-          inputMode="decimal"
-          placeholder="0,00"
-          className="rounded-xl mt-1"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
+        <FinanceAmountInput id="tx-amount" value={amount} onChange={setAmount} />
       </div>
 
-      <div>
+      <div className={spacing.stackField}>
         <Label htmlFor="tx-desc">Descrição</Label>
-        <Input
-          id="tx-desc"
-          className="rounded-xl mt-1"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <Input id="tx-desc" value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
 
-      <div>
+      <div className={spacing.stackField}>
         <Label htmlFor="tx-vis">Visibilidade</Label>
         <select
           id="tx-vis"

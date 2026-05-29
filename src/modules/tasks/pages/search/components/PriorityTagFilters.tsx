@@ -1,9 +1,7 @@
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import { useTags } from '../../../hooks/useTags';
 import type { TasksQueryParams } from '../../../hooks/useTasks';
-
-const selectClassName =
-  'flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all';
 
 type Priority = NonNullable<TasksQueryParams['priority']>;
 
@@ -30,7 +28,7 @@ export const PriorityTagFilters = ({ filters, onFilterChange }: PriorityTagFilte
         <Label htmlFor="priority">Prioridade</Label>
         <select
           id="priority"
-          className={selectClassName}
+          className={formSelectClassName}
           value={filters.priority ?? ''}
           onChange={(e) =>
             onFilterChange('priority', e.target.value ? (e.target.value as Priority) : undefined)

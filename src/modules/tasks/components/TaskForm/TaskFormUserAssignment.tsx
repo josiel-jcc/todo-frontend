@@ -3,6 +3,7 @@ import type { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-f
 import { Link } from 'react-router';
 import type { components } from '@/api';
 import { Label } from '@/components/ui/label';
+import { formSelectClassName } from '@/lib/formSelect';
 import type { CreateTaskFormData, UpdateTaskFormData } from '../../schemas/taskSchemas';
 
 type User = components['schemas']['models.User'];
@@ -81,7 +82,7 @@ export const TaskFormUserAssignment = ({
             ) : (
               <select
                 id="user_id"
-                className="flex h-10 w-full rounded-2xl border-2 border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                className={formSelectClassName}
                 {...register('user_id', {
                   required: isForAnotherUser ? 'Selecione um usuário' : false,
                   valueAsNumber: true,
