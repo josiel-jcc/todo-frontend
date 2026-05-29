@@ -50,6 +50,12 @@ export const TaskFormBottomSheet = () => {
                 due_date: editingTask.due_date,
                 completed: editingTask.completed,
                 tag_ids: editingTask.tags?.map((tag) => tag.id) ?? [],
+                customReminderEnabled:
+                  editingTask.reminder_minutes_before != null &&
+                  editingTask.reminder_minutes_before !== undefined,
+                reminder_minutes_before: editingTask.reminder_minutes_before ?? undefined,
+                recurrence_enabled: !!editingTask.recurrence_rule,
+                recurrence_rule: editingTask.recurrence_rule ?? undefined,
               }
             : undefined
         }

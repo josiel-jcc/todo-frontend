@@ -16,6 +16,7 @@ Documentação legal e de segurança (fonte canônica): [`docs/compliance/`](doc
 - 🔔 **Notificações in-app** - Sino no header para convites de grupo e lembretes de tarefa
 - 📲 **Web Push (PWA)** - Lembretes no navegador com consentimento explícito
 - ⏱️ **Lembretes por horário** - Antecedência configurável (padrão 10 min antes do vencimento)
+- 🔁 **Recorrência** - Tarefas diárias, semanais ou mensais; ao concluir, reabrem com a próxima data
 - 💬 **Comentários** - Adicione comentários às tarefas
 - 🔍 **Busca avançada** - Filtros por tipo, prioridade, data, status e mais
 - 📊 **Dashboard** - Visualize estatísticas e tarefas em progresso

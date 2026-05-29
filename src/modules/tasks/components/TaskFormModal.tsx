@@ -25,6 +25,8 @@ export const TaskFormModal = () => {
           editingTask.reminder_minutes_before != null &&
           editingTask.reminder_minutes_before !== undefined,
         reminder_minutes_before: editingTask.reminder_minutes_before ?? undefined,
+        recurrence_enabled: !!editingTask.recurrence_rule,
+        recurrence_rule: editingTask.recurrence_rule ?? undefined,
       }
     : undefined;
 

@@ -9,6 +9,7 @@ import { TaskFormActions } from './TaskFormActions';
 import { TaskFormFields } from './TaskFormFields';
 import { TaskFormTags } from './TaskFormTags';
 import { TaskFormUserAssignment } from './TaskFormUserAssignment';
+import { TaskRecurrenceField } from './TaskRecurrenceField';
 import { TaskReminderField } from './TaskReminderField';
 
 interface TaskFormProps {
@@ -68,6 +69,13 @@ export const TaskForm = ({
             setValue={setValue}
             errors={errors}
             userDefaultMinutes={user?.reminder_minutes_before}
+          />
+
+          <TaskRecurrenceField
+            register={register}
+            watch={watch}
+            setValue={setValue}
+            errors={errors}
           />
 
           <TaskFormTags

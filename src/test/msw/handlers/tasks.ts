@@ -1,6 +1,30 @@
 import { HttpResponse, http } from 'msw';
+import type { components } from '@/api';
 import type { MockTask } from '../store';
 import { getE2eUser, getStore } from '../store';
+
+type RecurrenceRule = components['schemas']['models.RecurrenceRule'];
+
+function addRecurrenceInterval(base: Date, rule: RecurrenceRule): Date {
+  const next = new Date(base);
+  if (rule === 'daily') {
+    next.setDate(next.getDate() + 1);
+  } else if (rule === 'weekly') {
+    next.setDate(next.getDate() + 7);
+  } else {
+    next.setMonth(next.getMonth() + 1);
+  }
+  return next;
+}
+
+function advanceRecurringDue(base: Date, rule: RecurrenceRule): Date {
+  const now = new Date();
+  let next = addRecurrenceInterval(base, rule);
+  while (next <= now) {
+    next = addRecurrenceInterval(next, rule);
+  }
+  return next;
+}
 
 const api = '/api/v1';
 
@@ -92,6 +116,8 @@ export const taskHandlers = [
     const store = getStore();
     const user = getE2eUser();
     const now = new Date().toISOString();
+    const dueDate = String(body.due_date ?? now);
+    const recurrenceRule = body.recurrence_rule as RecurrenceRule | undefined;
     const task: MockTask = {
       id: store.nextTaskId++,
       title: String(body.title ?? 'Nova tarefa'),
@@ -99,7 +125,9 @@ export const taskHandlers = [
       type: (body.type as MockTask['type']) ?? 'casa',
       priority: (body.priority as MockTask['priority']) ?? 'media',
       completed: false,
-      due_date: String(body.due_date ?? now),
+      due_date: dueDate,
+      recurrence_rule: recurrenceRule,
+      recurrence_next_due: recurrenceRule ? dueDate : undefined,
       reminder_minutes_before:
         body.reminder_minutes_before !== undefined ? Number(body.reminder_minutes_before) : null,
       user_id: Number(body.user_id ?? user.id),
@@ -125,14 +153,40 @@ export const taskHandlers = [
     }
     const body = (await request.json()) as Record<string, unknown>;
     const existing = store.tasks[index];
+    const completingRecurring =
+      existing.recurrence_rule && body.completed === true && !existing.completed;
+    let completed = Boolean(body.completed ?? existing.completed);
+    let dueDate = String(body.due_date ?? existing.due_date);
+    let recurrenceRule = existing.recurrence_rule;
+    let recurrenceNextDue = existing.recurrence_next_due;
+
+    if (body.recurrence_rule !== undefined) {
+      if (body.recurrence_rule === null) {
+        recurrenceRule = undefined;
+        recurrenceNextDue = undefined;
+      } else {
+        recurrenceRule = body.recurrence_rule as RecurrenceRule;
+        recurrenceNextDue = dueDate;
+      }
+    }
+
+    if (completingRecurring && existing.recurrence_rule) {
+      const next = advanceRecurringDue(new Date(existing.due_date), existing.recurrence_rule);
+      dueDate = next.toISOString();
+      recurrenceNextDue = dueDate;
+      completed = false;
+    }
+
     const updated: MockTask = {
       ...existing,
       title: String(body.title ?? existing.title),
       description: String(body.description ?? existing.description),
       type: (body.type as MockTask['type']) ?? existing.type,
       priority: (body.priority as MockTask['priority']) ?? existing.priority,
-      completed: Boolean(body.completed ?? existing.completed),
-      due_date: String(body.due_date ?? existing.due_date),
+      completed,
+      due_date: dueDate,
+      recurrence_rule: recurrenceRule,
+      recurrence_next_due: recurrenceNextDue,
       reminder_minutes_before:
         body.reminder_minutes_before !== undefined
           ? body.reminder_minutes_before === null

@@ -1,7 +1,8 @@
-import { Calendar, Tag, User } from 'lucide-react';
+import { Calendar, Repeat, Tag, User } from 'lucide-react';
 import type { components } from '@/api';
 import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
+import { recurrenceRuleLabels } from '@/lib/recurrenceConstants';
 import { cn } from '@/lib/utils';
 import { priorityLabels, typeLabels } from '../../components/TaskCard/taskConstants';
 
@@ -65,6 +66,21 @@ export const TaskDetailInfo = ({
             {typeLabels[task.type]}
           </span>
         </div>
+
+        {task.recurrence_rule && (
+          <div>
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+              <Repeat className="h-4 w-4" />
+              Recorrência
+            </h3>
+            <p className="text-muted-foreground">{recurrenceRuleLabels[task.recurrence_rule]}</p>
+            {task.recurrence_next_due && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Próxima: {formatDate(task.recurrence_next_due)}
+              </p>
+            )}
+          </div>
+        )}
 
         {task.priority && (
           <div>
