@@ -13,18 +13,23 @@ import { spacing } from '@/lib/spacing';
 import { useGroups } from '@/modules/groups/hooks/useGroups';
 import { FinanceBudgetEditor } from '../components/FinanceBudgetEditor';
 import { FinanceCategoryBreakdown } from '../components/FinanceCategoryBreakdown';
+import { FinanceGoalsCard } from '../components/FinanceGoalsCard';
 import { FinanceTransactionForm } from '../components/FinanceTransactionForm';
 import { FinanceTransactionsList } from '../components/FinanceTransactionsList';
 import {
   useCreateFinanceAccount,
+  useCreateFinanceGoal,
   useCreateFinanceTransaction,
+  useDeleteFinanceGoal,
   useDeleteFinanceTransaction,
   useFinanceAccounts,
   useFinanceCategories,
   useFinanceCategoryBudgets,
   useFinanceDashboard,
+  useFinanceGoals,
   useFinanceTransactions,
   useSetFinanceCategoryBudgets,
+  useUpdateFinanceGoal,
   useUpdateFinanceTransaction,
 } from '../hooks/useFinance';
 import { formatMoneyFromCents } from '../lib/formatMoney';
@@ -56,8 +61,12 @@ export const FinanceHomePage = () => {
   const { data: expenseCategories } = useFinanceCategories(groupId, 'expense');
   const { data: incomeCategories } = useFinanceCategories(groupId, 'income');
   const { data: categoryBudgets } = useFinanceCategoryBudgets(groupId, month);
+  const { data: goals, isLoading: loadingGoals } = useFinanceGoals(groupId);
   const createAccount = useCreateFinanceAccount(gid);
   const setBudgets = useSetFinanceCategoryBudgets(gid, month);
+  const createGoal = useCreateFinanceGoal(gid);
+  const updateGoal = useUpdateFinanceGoal(gid);
+  const deleteGoal = useDeleteFinanceGoal(gid);
   const createTx = useCreateFinanceTransaction(gid, month);
   const updateTx = useUpdateFinanceTransaction(gid, month);
   const deleteTx = useDeleteFinanceTransaction(gid, month);
@@ -220,6 +229,44 @@ export const FinanceHomePage = () => {
                 Adicionar
               </Button>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-3xl">
+          <CardHeader>
+            <CardTitle className="text-lg">Metas de economia</CardTitle>
+            <CardDescription>Acompanhe quanto já guardou para cada objetivo</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FinanceGoalsCard
+              goals={goals}
+              isLoading={loadingGoals}
+              isPending={createGoal.isPending || updateGoal.isPending || deleteGoal.isPending}
+              onCreate={async (body) => {
+                try {
+                  await createGoal.mutateAsync(body);
+                  toast.success('Meta criada');
+                } catch (e) {
+                  handleApiError(e);
+                }
+              }}
+              onUpdate={async (goalId, body) => {
+                try {
+                  await updateGoal.mutateAsync({ goalId, body });
+                  toast.success('Meta atualizada');
+                } catch (e) {
+                  handleApiError(e);
+                }
+              }}
+              onDelete={async (goalId) => {
+                try {
+                  await deleteGoal.mutateAsync(goalId);
+                  toast.success('Meta excluída');
+                } catch (e) {
+                  handleApiError(e);
+                }
+              }}
+            />
           </CardContent>
         </Card>
 

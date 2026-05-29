@@ -187,3 +187,57 @@ export const setFinanceCategoryBudgets = async (
   );
   return response.data;
 };
+
+export type FinanceGoal = {
+  id: number;
+  group_id: number;
+  name: string;
+  target_cents: number;
+  current_cents: number;
+  target_date?: string;
+  is_archived: boolean;
+  created_by: number;
+  percent_complete: number;
+  is_completed: boolean;
+};
+
+export type CreateFinanceGoalBody = {
+  name: string;
+  target_cents: number;
+  current_cents?: number;
+  target_date?: string;
+};
+
+export type UpdateFinanceGoalBody = {
+  name?: string;
+  target_cents?: number;
+  current_cents?: number;
+  target_date?: string;
+  is_archived?: boolean;
+};
+
+export const getFinanceGoals = async (groupId: number): Promise<FinanceGoal[]> => {
+  const response = await apiClient.get<FinanceGoal[]>(`${financeBase(groupId)}/goals`);
+  return response.data;
+};
+
+export const createFinanceGoal = async (
+  groupId: number,
+  body: CreateFinanceGoalBody
+): Promise<FinanceGoal> => {
+  const response = await apiClient.post(`${financeBase(groupId)}/goals`, body);
+  return response.data;
+};
+
+export const updateFinanceGoal = async (
+  groupId: number,
+  goalId: number,
+  body: UpdateFinanceGoalBody
+): Promise<FinanceGoal> => {
+  const response = await apiClient.put(`${financeBase(groupId)}/goals/${goalId}`, body);
+  return response.data;
+};
+
+export const deleteFinanceGoal = async (groupId: number, goalId: number): Promise<void> => {
+  await apiClient.delete(`${financeBase(groupId)}/goals/${goalId}`);
+};
