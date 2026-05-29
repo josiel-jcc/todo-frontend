@@ -44,7 +44,7 @@ describe('BottomNavigation', () => {
     expect(screen.getByText('Início')).toBeInTheDocument();
     expect(screen.getByText('Buscar')).toBeInTheDocument();
     expect(screen.getByText('Hoje')).toBeInTheDocument();
-    expect(screen.getByText('Deleguei')).toBeInTheDocument();
+    expect(screen.getByText('Finanças')).toBeInTheDocument();
     expect(screen.getByText('Grupos')).toBeInTheDocument();
     expect(screen.getByText('Configurações')).toBeInTheDocument();
   });

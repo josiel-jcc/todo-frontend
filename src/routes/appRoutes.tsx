@@ -62,6 +62,11 @@ const GroupDetailPage = lazy(() =>
     default: module.GroupDetailPage,
   }))
 );
+const FinanceHomePage = lazy(() =>
+  import('../modules/finance/pages/FinanceHomePage').then((module) => ({
+    default: module.FinanceHomePage,
+  }))
+);
 
 export function AppRoutes() {
   const location = useLocation();
@@ -205,6 +210,20 @@ export function AppRoutes() {
                 <Suspense fallback={<Loading />}>
                   <PageTransition>
                     <SettingsPage />
+                  </PageTransition>
+                </Suspense>
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/finance"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <Suspense fallback={<Loading />}>
+                  <PageTransition>
+                    <FinanceHomePage />
                   </PageTransition>
                 </Suspense>
               </AppLayout>
