@@ -102,19 +102,50 @@ export const getFinanceTransactions = async (
   return response.data;
 };
 
+export type CreateFinanceTransactionBody = {
+  type: FinanceTransaction['type'];
+  account_id: number;
+  transfer_account_id?: number;
+  category_id?: number;
+  amount_cents: number;
+  description?: string;
+  date: string;
+  visibility?: FinanceTransaction['visibility'];
+};
+
+export type UpdateFinanceTransactionBody = {
+  account_id?: number;
+  transfer_account_id?: number;
+  category_id?: number;
+  amount_cents?: number;
+  description?: string;
+  date?: string;
+  visibility?: FinanceTransaction['visibility'];
+};
+
 export const createFinanceTransaction = async (
   groupId: number,
-  body: {
-    type: FinanceTransaction['type'];
-    account_id: number;
-    transfer_account_id?: number;
-    category_id?: number;
-    amount_cents: number;
-    description?: string;
-    date: string;
-    visibility?: FinanceTransaction['visibility'];
-  }
+  body: CreateFinanceTransactionBody
 ): Promise<FinanceTransaction> => {
   const response = await apiClient.post(`${financeBase(groupId)}/transactions`, body);
   return response.data;
+};
+
+export const updateFinanceTransaction = async (
+  groupId: number,
+  transactionId: number,
+  body: UpdateFinanceTransactionBody
+): Promise<FinanceTransaction> => {
+  const response = await apiClient.put(
+    `${financeBase(groupId)}/transactions/${transactionId}`,
+    body
+  );
+  return response.data;
+};
+
+export const deleteFinanceTransaction = async (
+  groupId: number,
+  transactionId: number
+): Promise<void> => {
+  await apiClient.delete(`${financeBase(groupId)}/transactions/${transactionId}`);
 };
