@@ -19,6 +19,7 @@ export {
  */
 export * from './auth';
 export * from './comments';
+export * from './finance';
 export * from './groupInvitations';
 export * from './groups';
 export * from './inAppNotifications';
